@@ -24,7 +24,7 @@ def displayMessage(msg, color, dest, display):
     screen_text = font.render(msg, True, color)
     display.blit(screen_text, dest)
 
-# game loop -------------------------
+# main ----------------------------
 
 if __name__ == '__main__':
     run = True
@@ -47,6 +47,8 @@ if __name__ == '__main__':
     # buttons
     menu_button = Button.Button(grey, [100, 100], [100, 35], button_font, "Test", grey)
 
+    #  game loop -------------------------
+    
     while run:
         for event in pygame.event.get(): 
             # ----------- ongoing checks (controls, updates, etc) ----------
