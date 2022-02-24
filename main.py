@@ -1,5 +1,4 @@
 import Ruleset, Game, Deck, Button, pygame
-from Utilities import *
 
 # changable constants -----
 
@@ -45,10 +44,10 @@ if __name__ == '__main__':
     button_font = pygame.font.Font('Resources/Font/OpenSans-Regular.ttf', 22)
 
     # buttons
-    menu_button = Button.Button(grey, [100, 100], [100, 35], button_font, "Test", grey)
+    menu_button = Button.Button(grey, [100, 100], [100, 35], button_font, "Test", grey, (37,186,176))
 
     #  game loop -------------------------
-    
+
     while run:
         for event in pygame.event.get(): 
             # ----------- ongoing checks (controls, updates, etc) ----------
@@ -56,8 +55,10 @@ if __name__ == '__main__':
             if event.type == pygame.QUIT:
                 run = False
                 pygame.quit()
-            if event.type == pygame.MOUSEBUTTONDOWN and menu_button.buttonHover(mouse_pos):
+            if menu_button.updateButton(mouse_pos, window) and event.type == pygame.MOUSEBUTTONDOWN:
+                menu_button.buttonClicked(True)
                 print('Pressed')
+
                 
         
         # ---------- renders --------------
