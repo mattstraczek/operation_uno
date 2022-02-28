@@ -1,25 +1,16 @@
 import Ruleset, Game, Deck, Button, pygame
-<<<<<<< HEAD
-=======
-#from Utilities import *
->>>>>>> 563805ac307eafc39ccf8df3f5aed343ad645282
 
 # changable constants -----
 
 screen_x = 800
 screen_y = 600
 background_size = (screen_x, screen_y)
-<<<<<<< HEAD
-=======
-background_color = (38, 38, 38)
->>>>>>> 563805ac307eafc39ccf8df3f5aed343ad645282
 
 white = (255, 255, 255)
 grey = (230, 230, 230)
 green = (0,255,0)
 blue = (0,0,255)
 red = (255,0,0)
-<<<<<<< HEAD
 dark_red = (139,0,0)
 crimson = (246,26,26)
 black = (0, 0, 0)
@@ -27,9 +18,6 @@ purple = (48, 25, 52)
 yellow = (255, 255, 0)
 
 background_color = purple
-=======
-black = (0, 0, 0)
->>>>>>> 563805ac307eafc39ccf8df3f5aed343ad645282
 
 # functions -------------------------
 
@@ -45,30 +33,18 @@ def displayMessage(msg, color, dest, display):
 if __name__ == '__main__':
     run = True
     # instantiate our needed classes here
-<<<<<<< HEAD
     d = Deck.Deck()
     d.init_deck()
     d.print()
     d.shuffle()
     d.print()
     
-=======
-    '''d = Deck.Deck()
-    d.init_deck()
-    d.print()
-    d.shuffle()
-    d.print()'''
-    g = Game.Game(2, 1)
-    
-    '''
->>>>>>> 563805ac307eafc39ccf8df3f5aed343ad645282
     # window set up
     pygame.init()
     window = pygame.display.set_mode(background_size)
     pygame.display.set_caption('Operation-Uno')
 
     # text and font
-<<<<<<< HEAD
     font = pygame.font.Font('Resources/Font/OpenSans-ExtraBold.ttf', 60)
     button_font = pygame.font.Font('Resources/Font/OpenSans-Regular.ttf', 22)
 
@@ -80,16 +56,6 @@ if __name__ == '__main__':
 
     #  game loop -------------------------
 
-=======
-    font = pygame.font.Font('Resources/Font/OpenSans-ExtraBold.ttf', 48)
-    button_font = pygame.font.Font('Resources/Font/OpenSans-Regular.ttf', 22)
-
-    # buttons
-    menu_button = Button.Button(grey, [100, 100], [100, 35], button_font, "Test", grey)
-
-    #  game loop -------------------------
-    
->>>>>>> 563805ac307eafc39ccf8df3f5aed343ad645282
     while run:
         for event in pygame.event.get(): 
             # ----------- ongoing checks (controls, updates, etc) ----------
@@ -97,7 +63,6 @@ if __name__ == '__main__':
             if event.type == pygame.QUIT:
                 run = False
                 pygame.quit()
-<<<<<<< HEAD
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if play_button.updateButton(mouse_pos, window):
                     play_button.buttonClicked(True)
@@ -112,15 +77,10 @@ if __name__ == '__main__':
                     sound_button.buttonClicked(True)
                     print('Pressed Sound Button')
 
-=======
-            if event.type == pygame.MOUSEBUTTONDOWN and menu_button.buttonHover(mouse_pos):
-                print('Pressed')
->>>>>>> 563805ac307eafc39ccf8df3f5aed343ad645282
                 
         
         # ---------- renders --------------
         displayWindow(window)
-<<<<<<< HEAD
         displayMessage("OPERATION UNO", white, [150, 25], window)
         play_button.displayButton(window)
         diff_button.displayButton(window)
@@ -129,14 +89,5 @@ if __name__ == '__main__':
         
         # ----------- update --------------
         pygame.display.update()
-=======
-        displayMessage("Operation-Uno", white, [200, 25], window)
-        menu_button.displayButton(window)
-        
-        # ----------- update --------------
-        pygame.display.update()
-        '''
->>>>>>> 563805ac307eafc39ccf8df3f5aed343ad645282
 
 # run main
-
