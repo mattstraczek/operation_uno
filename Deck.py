@@ -13,7 +13,7 @@ class Deck():
 
     def shuffle(self):
         np.random.shuffle(self.cards)
-    
+        
     def remove_card(self, card):
         self.cards.remove(card)
 
