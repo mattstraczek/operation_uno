@@ -1,26 +1,12 @@
-<<<<<<< HEAD
-import Ruleset, Deck, Player, pygame
-
-players = []
-=======
 import Ruleset, Deck, Player, AI, pygame
 
 players = []
 num_players = 0
 num_ai = 0
->>>>>>> 563805ac307eafc39ccf8df3f5aed343ad645282
 
 class Game:
     def __init__(self, num_players, num_ai):
         print("Initializing Game")
-<<<<<<< HEAD
-        self.num_players = num_players
-
-    def deal():
-        print()
-
-    
-=======
         self.players = []
         self.num_players = num_players
         self.num_ai = num_ai
@@ -50,4 +36,3 @@ class Game:
         
     def playGame():
         return
->>>>>>> 563805ac307eafc39ccf8df3f5aed343ad645282
