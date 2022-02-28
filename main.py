@@ -1,5 +1,6 @@
 from Game import Game
-import Button, pygame
+from Button import Button
+import pygame
 
 # changable constants -----
 
@@ -34,7 +35,7 @@ def displayMessage(msg, color, dest, display):
 if __name__ == '__main__':
     run = True
     # instantiate our needed classes here
-    game = Game(2, 1) # initializes a game with 2 players and 1 AI
+    game_instance = Game(2, 1) # initializes a default game with 2 players and 1 AI
     
     # window set up
     pygame.init()
@@ -46,33 +47,41 @@ if __name__ == '__main__':
     button_font = pygame.font.Font('Resources/Font/OpenSans-Regular.ttf', 22)
 
     # buttons
-    play_button = Button.Button(green, [100, 125], [100, 50], button_font, "Play", green, (37,186,176))
-    diff_button = Button.Button(red, [100, 200], [200, 50], button_font, "Difficulty Mode", red, (37,186,176))
-    num_players_button = Button.Button(blue, [100, 275], [200, 50], button_font, "Number Players", blue, (37,186,176))
-    sound_button = Button.Button(yellow, [100, 350], [200, 50], button_font, "Sound Effects", yellow, (37,186,176))
+    play_button = Button(green, [100, 125], [100, 50], button_font, "Play", green, (37,186,176))
+    diff_button = Button(red, [100, 200], [200, 50], button_font, "Difficulty Mode", red, (37,186,176))
+    num_players_button = Button(blue, [100, 275], [200, 50], button_font, "Number Players", blue, (37,186,176))
+    sound_button = Button(yellow, [100, 350], [200, 50], button_font, "Sound Effects", yellow, (37,186,176))
 
     #  game loop -------------------------
 
     while run:
+        mouse_pos = pygame.mouse.get_pos()
+
+        # ---------------- updates -----------------
+        play_button.updateButton(mouse_pos, window)
+        diff_button.updateButton(mouse_pos, window)
+        num_players_button.updateButton(mouse_pos, window)
+        sound_button.updateButton(mouse_pos, window)
+
         for event in pygame.event.get(): 
             # ----------- ongoing checks (controls, updates, etc) ----------
-            mouse_pos = pygame.mouse.get_pos()
+            
             if event.type == pygame.QUIT:
                 run = False
                 pygame.quit()
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if play_button.updateButton(mouse_pos, window):
-                    play_button.buttonClicked(True)
+                if play_button.isHovered():
                     print('Pressed Play Button')
-                if diff_button.updateButton(mouse_pos, window):
-                    diff_button.buttonClicked(True)
+                    game_instance.playGame()
+                if diff_button.isHovered():
                     print('Pressed Difficulty Button')
-                if num_players_button.updateButton(mouse_pos, window):
-                    num_players_button.buttonClicked(True)
+                    #game_instance.changeDifficulty()
+                if num_players_button.isHovered():
                     print('Pressed Num Players Button')
-                if sound_button.updateButton(mouse_pos, window):
-                    sound_button.buttonClicked(True)
+                    #game_instance.changeNumPlayers()
+                if sound_button.isHovered():
                     print('Pressed Sound Button')
+                    #game_instance.changeSoundEffects()
 
                 
         
@@ -84,7 +93,7 @@ if __name__ == '__main__':
         num_players_button.displayButton(window)
         sound_button.displayButton(window)
         
-        # ----------- update --------------
+        # ----------- final update --------------
         pygame.display.update()
 
 # run main

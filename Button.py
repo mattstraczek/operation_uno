@@ -30,21 +30,14 @@ class Button:
             self.text_rect = self.screen_text.get_rect(center=[self.pos[0] + self.size[0]//2, self.pos[1] + self.size[1]//2])
             #change state
             self.state = "hover"
-            return True
-        # render
-        self.screen_text = self.font.render(self.msg, True, self.msg_color)
-        self.text_rect = self.screen_text.get_rect(center=[self.pos[0] + self.size[0]//2, self.pos[1] + self.size[1]//2])
-        #change state
-        self.state = "idle"
-        return False
-    
-    def highlightButton(self, window, highlight_color):
-        # render
-        self.screen_text = self.font.render(self.msg, True, highlight_color)
-        self.text_rect = self.screen_text.get_rect(center=[self.pos[0] + self.size[0]//2, self.pos[1] + self.size[1]//2])
-        #draw
-        pygame.draw.rect(window, highlight_color, pygame.Rect(self.pos[0], self.pos[1], self.size[0], self.size[1]),  2, 3)
-        window.blit(self.screen_text, self.text_rect)
+        else:
+            # render
+            self.screen_text = self.font.render(self.msg, True, self.msg_color)
+            self.text_rect = self.screen_text.get_rect(center=[self.pos[0] + self.size[0]//2, self.pos[1] + self.size[1]//2])
+            #change state
+            self.state = "idle"
 
-    def buttonClicked(self, clicked):
-        self.clicked = clicked
+    def isHovered(self):
+        if self.state == 'hover':
+            return True
+        return False
