@@ -8,11 +8,6 @@ class Card:
     def print(self):
         return str(self.color) + " " + str(self.number) + "\n"
     
-    def cardInfo(self):
-        return str(self.color) + " " + str(self.number)
-    
-    def __str__(self):
-        return self.cardInfo()
 
     # import numpy.random as r
 
