@@ -1,14 +1,12 @@
 import Deck
 
-<<<<<<< HEAD
-
 class Player():
     def __init__(self):
         self.hand = []
     
     def draw(self):
         self.hand.append(Deck.draw())
-=======
+        
 class Player():
     def __init__(self, name):
         self.name = str(name)
@@ -30,4 +28,3 @@ class Player():
        
     def playCard():
         return
->>>>>>> 563805ac307eafc39ccf8df3f5aed343ad645282
