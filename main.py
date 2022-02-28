@@ -1,4 +1,5 @@
-import Ruleset, Game, Deck, Button, pygame
+from Game import Game
+import Button, pygame
 
 # changable constants -----
 
@@ -33,11 +34,7 @@ def displayMessage(msg, color, dest, display):
 if __name__ == '__main__':
     run = True
     # instantiate our needed classes here
-    d = Deck.Deck()
-    d.init_deck()
-    d.print()
-    d.shuffle()
-    d.print()
+    game = Game(2, 1) # initializes a game with 2 players and 1 AI
     
     # window set up
     pygame.init()

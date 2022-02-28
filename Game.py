@@ -1,38 +1,39 @@
-import Ruleset, Deck, Player, AI, pygame
-
-players = []
-num_players = 0
-num_ai = 0
+#from Ruleset import Ruleset
+from Deck import Deck
+from Player import Player
+from AI import AI 
+import pygame
 
 class Game:
+
     def __init__(self, num_players, num_ai):
+        """ Constructs a Game object with players and AI, deals cards, and starts a game. """
         print("Initializing Game")
         self.players = []
         self.num_players = num_players
         self.num_ai = num_ai
-        deck = Deck.Deck()
-        deck.init_deck()
-        deck.shuffle()
-        self.deck = deck
-        self.init_players()
+        self.deck = Deck()
+        print(self.deck, "\n") # Testing
+        self.initializePlayers()
         self.deal()
+        print(self.deck, "\n") # Testing
 
-    def init_players(self):
+    def initializePlayers(self):
+        """ Initializes player and AI objects for the game. """
         for i in range(self.num_players):
-            self.players.append(Player.Player("Player " + str(i)))
+            self.players.append(Player("Player " + str(i)))
         for i in range(self.num_ai):
-            self.players.append(AI.AI("AI " + str(i)))
-    
+            self.players.append(AI("AI " + str(i)))
+
     def deal(self):
-        for i in range(7):
+        """ Deals cards to each player (including AI). """
+        for i in range(7): # Deals 7 cards, but Ruleset will override this number later on
             for player in self.players:
-                player.addCard(self.deck.draw()) # remove card from deck and add to player's hand
+                player.addCard(self.deck.draw())
 
-        for player in self.players:
-            print(player)
-
-    def initial_deal():
-        return
+        for player in self.players: 
+            print(player) # Testing
         
     def playGame():
+        """ Begins a game of UNO. """
         return

@@ -1,26 +1,28 @@
-import Deck
-
-name = ""
+from Card import Card
 
 class AI():
     def __init__(self, name):
-        print("Creating", name)
+        """ Constructs a AI object with a name and an empty hand. """
+        print("Creating", name) # Testing
         self.name = name
         self.hand = []
     
     def addCard(self, card):
-        print("Adding", card, "to", self.name, "'s hand")
+        """ Adds a card to the AI's hand. """
+        print("Adding", card, "to", self.name, "'s hand") # Testing
         self.hand.append(card)
 
+    def playCard():
+        """ Play's the card and removes from AI's hand. """
+        return
+        
     def displayHand(self):
-        handCards = ""
+        """ Returns a string containing all cards in the player's hand. """
+        cards = ""
         for card in self.hand:
-            handCards += (card.cardInfo() + ", ")
-        return handCards
+            cards += str(card) + ', '
+        return cards
 
     def __str__(self):
+        """ Overridden toString() method displays AI's name and hand. """
         return str(self.name) + "'s hand: " + str(self.displayHand())
-       
-
-    def playCard():
-        return
