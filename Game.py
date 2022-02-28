@@ -52,18 +52,20 @@ class Game:
         screen_y = 600
         background_size = (screen_x, screen_y)
 
-        white = (255, 255, 255)
-        grey = (230, 230, 230)
-        green = (0,255,0)
-        blue = (0,0,255)
-        red = (255,0,0)
-        dark_red = (139,0,0)
-        crimson = (246,26,26)
-        black = (0, 0, 0)
-        purple = (48, 25, 52)
-        yellow = (255, 255, 0)
+        colors = {
+            "white": (255, 255, 255),
+            "grey": (230, 230, 230),
+            "green": (0,255,0),
+            "blue": (0,0,255),
+            "red": (255,0,0),
+            "dark_red": (139,0,0),
+            "crimson": (246,26,26),
+            "black": (0, 0, 0),
+            "purple": (48, 25, 52),
+            "yellow": (255, 255, 0)
+        }
 
-        background_color = purple
+        background_color = colors["purple"]
 
         # functions -------------------------
 
@@ -83,7 +85,7 @@ class Game:
         font = pygame.font.Font('Resources/Font/OpenSans-ExtraBold.ttf', 60)
         button_font = pygame.font.Font('Resources/Font/OpenSans-Regular.ttf', 22)
 
-        exit_button = Button(green, [100, 125], [100, 50], button_font, "Back", green, (37,186,176))
+        exit_button = Button(colors["green"], [100, 125], [100, 50], button_font, "Back", green, (37,186,176))
 
         run = True
         while run:
@@ -106,7 +108,7 @@ class Game:
             
             # ---------- renders --------------
             displayWindow(window)
-            displayMessage("OPERATION UNO", white, [150, 25], window)
+            displayMessage("OPERATION UNO", colors["white"], [150, 25], window)
             exit_button.displayButton(window)
             
             # ----------- final update --------------
