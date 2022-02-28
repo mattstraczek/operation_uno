@@ -48,10 +48,3 @@ class Button:
 
     def buttonClicked(self, clicked):
         self.clicked = clicked
-        pygame.draw.rect(window, self.color, pygame.Rect(self.pos[0], self.pos[1], self.size[0], self.size[1]),  2, 3)
-        window.blit(self.screen_text, self.text_rect)
-    
-    def buttonHover(self, mouse_pos):
-        if self.pos[0] <= mouse_pos[0] <= self.pos[0] + self.size[0] and self.pos[1] <= mouse_pos[1] <= self.pos[1] + self.size[1]:
-            return True
-        return False
