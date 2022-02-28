@@ -3,6 +3,7 @@ from Deck import Deck
 from Player import Player
 from AI import AI 
 import pygame
+import numpy as np
 
 class Game:
 
@@ -36,4 +37,12 @@ class Game:
         
     def playGame():
         """ Begins a game of UNO. """
+        topCard = deck.deal()
+        print("Current card is", str(topCard))
+        np.random.shuffle(self.players)
+        turn = 0
+        playersLength = len(players)
+        winner = false
+        while(~winner):
+            self.players[turn%playersLength].playCard()
         return
