@@ -11,6 +11,7 @@ class Card:
         return str(self.color) + " " + str(self.number)
         
     def print(self):
+        # prints the color and number that is generated -> mainly for testing purposes
         return str(self.color) + " " + str(self.number) + "\n"
 
     def cardInfo(self):
