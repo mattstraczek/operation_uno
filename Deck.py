@@ -13,12 +13,9 @@ class Deck():
 
     def shuffle(self):
         np.random.shuffle(self.cards)
-<<<<<<< HEAD
-        
+    
     def remove_card(self, card):
         self.cards.remove(card)
-=======
->>>>>>> 563805ac307eafc39ccf8df3f5aed343ad645282
 
     def print(self):
         print("------ deck ------\n")
@@ -27,10 +24,6 @@ class Deck():
         print()
 
     def draw(self):
-<<<<<<< HEAD
         card = self.cards.pop(0)
         self.remove_card(card)
         return card
-=======
-        return self.cards.pop(0)
->>>>>>> 563805ac307eafc39ccf8df3f5aed343ad645282
