@@ -1,21 +1,29 @@
 import pygame
 
 class Button:
+<<<<<<< HEAD
     def __init__(self, color, pos, size, font, msg, msg_color, highlight_color):
+=======
+    def __init__(self, color, pos, size, font, msg, msg_color):
+>>>>>>> 563805ac307eafc39ccf8df3f5aed343ad645282
         self.color = color
         self.pos = pos
         self.size = size
         self.font = font
+<<<<<<< HEAD
         self.msg = msg
         self.msg_color = msg_color
         self.highlight_color = highlight_color
         self.state = "idle"
         self.clicked = False
+=======
+>>>>>>> 563805ac307eafc39ccf8df3f5aed343ad645282
         # render
         self.screen_text = self.font.render(msg, True, msg_color)
         self.text_rect = self.screen_text.get_rect(center=[self.pos[0] + self.size[0]//2, self.pos[1] + self.size[1]//2])
 
     def displayButton(self, window):
+<<<<<<< HEAD
         if self.state == "idle":
             pygame.draw.rect(window, self.color, pygame.Rect(self.pos[0], self.pos[1], self.size[0], self.size[1]),  2, 3)
             window.blit(self.screen_text, self.text_rect)
@@ -48,3 +56,12 @@ class Button:
 
     def buttonClicked(self, clicked):
         self.clicked = clicked
+=======
+        pygame.draw.rect(window, self.color, pygame.Rect(self.pos[0], self.pos[1], self.size[0], self.size[1]),  2, 3)
+        window.blit(self.screen_text, self.text_rect)
+    
+    def buttonHover(self, mouse_pos):
+        if self.pos[0] <= mouse_pos[0] <= self.pos[0] + self.size[0] and self.pos[1] <= mouse_pos[1] <= self.pos[1] + self.size[1]:
+            return True
+        return False
+>>>>>>> 563805ac307eafc39ccf8df3f5aed343ad645282

@@ -1,18 +1,11 @@
 import Deck
 
-<<<<<<< HEAD
+name = ""
 
-class Player():
-    def __init__(self):
-        self.hand = []
-    
-    def draw(self):
-        self.hand.append(Deck.draw())
-=======
-class Player():
+class AI():
     def __init__(self, name):
-        self.name = str(name)
         print("Creating", name)
+        self.name = name
         self.hand = []
     
     def addCard(self, card):
@@ -28,6 +21,6 @@ class Player():
     def __str__(self):
         return str(self.name) + "'s hand: " + str(self.displayHand())
        
+
     def playCard():
         return
->>>>>>> 563805ac307eafc39ccf8df3f5aed343ad645282

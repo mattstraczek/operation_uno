@@ -5,9 +5,17 @@ class Card:
         self.color = color
         self.number = number
 
+<<<<<<< HEAD
     def print(self):
         return str(self.color) + " " + str(self.number) + "\n"
     
+=======
+    def cardInfo(self):
+        return str(self.color) + " " + str(self.number)
+    
+    def __str__(self):
+        return self.cardInfo()
+>>>>>>> 563805ac307eafc39ccf8df3f5aed343ad645282
 
     # import numpy.random as r
 
