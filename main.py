@@ -66,7 +66,7 @@ if __name__ == '__main__':
         mouse_pos = pygame.mouse.get_pos()
 
         # Have the background fanfare playing while the menu is running
-        msound.load("Fanfare-sound.mp3")
+        msound.load("Resources/Sounds/Fanfare-sound.mp3")
         msound.play(-1)
 
         # ---------------- updates -----------------
