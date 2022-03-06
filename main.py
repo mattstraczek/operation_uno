@@ -103,7 +103,7 @@ if __name__ == '__main__':
         num_players_button.displayButton(window)
         sound_button.displayButton(window)
         display.blit(png, (500, 300))
-        pygame.display.flip()
+        # pygame.display.flip() # Do we need this? I feel like this will change the layout of the window
         
         # ----------- final update --------------
         pygame.display.update()
