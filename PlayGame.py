@@ -8,7 +8,7 @@ import pygame
 
 class PlayGame:
     # This will serve as additional menu functionality
-    def playGameMenu(self):
+    def playGameMenu():
         # changeable constants -----
         screen_x = 800
         screen_y = 600
@@ -52,6 +52,10 @@ class PlayGame:
         run = True
         while run:
             mouse_pos = pygame.mouse.get_pos()
+
+            # Have the background fanfare playing while the menu is running
+            msound.load("Fanfare-sound.mp3")
+            msound.play(-1)
 
             # ---------------- updates -----------------
             exit_button.updateButton(mouse_pos, window)
