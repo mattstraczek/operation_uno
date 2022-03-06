@@ -1,4 +1,5 @@
 from Game import Game
+from PlayGame import PlayGame
 from Button import Button
 import pygame
 import os
@@ -40,7 +41,7 @@ def displayMessage(msg, color, dest, display):
 if __name__ == '__main__':
     run = True
     # instantiate our needed classes here
-    game_instance = Game(2, 1) # initializes a default game with 2 players and 1 AI
+    game_instance = PlayGame(2, 1) # initializes a default game with 2 players (1 AI)
     
     # window set up
     pygame.init()
@@ -82,16 +83,16 @@ if __name__ == '__main__':
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if play_button.isHovered():
                     print('Pressed Play Button')
-                    game_instance.playGame()
+                    game_instance.playGameMenu()
                 if diff_button.isHovered():
                     print('Pressed Difficulty Button')
-                    #game_instance.changeDifficulty()
+                    # game_instance.changeDifficulty()
                 if num_players_button.isHovered():
                     print('Pressed Num Players Button')
-                    #game_instance.changeNumPlayers()
+                    # game_instance.changeNumPlayers()
                 if sound_button.isHovered():
                     print('Pressed Sound Button')
-                    #game_instance.changeSoundEffects()
+                    # game_instance.changeSoundEffects()
 
                 
         
