@@ -3,7 +3,7 @@ from Button import Button
 import pygame
 import os
 
-# changable constants -----
+# changeable constants -----
 
 screen_x = 800
 screen_y = 600
