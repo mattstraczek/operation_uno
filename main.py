@@ -1,6 +1,7 @@
 from Game import Game
 from PlayGame import PlayGame
 from Button import Button
+from Difficulty import Difficulty
 import pygame
 import os
 import pygame.mixer as mixer
@@ -41,7 +42,7 @@ def displayMessage(msg, color, dest, display):
 if __name__ == '__main__':
     run = True
     # instantiate our needed classes here
-    game_instance = PlayGame(2, 1) # initializes a default game with 2 players (1 AI)
+    game_instance = Game(2, 1) # initializes a default game with 2 players (1 AI)
     
     # window set up
     pygame.init()
@@ -83,17 +84,16 @@ if __name__ == '__main__':
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if play_button.isHovered():
                     print('Pressed Play Button')
-                    game_instance.playGameMenu()
+                    playGameMenu()
                 if diff_button.isHovered():
                     print('Pressed Difficulty Button')
-                    # game_instance.changeDifficulty()
+                    changeDifficulty()
                 if num_players_button.isHovered():
                     print('Pressed Num Players Button')
-                    # game_instance.changeNumPlayers()
+                    # changeNumPlayers()
                 if sound_button.isHovered():
                     print('Pressed Sound Button')
-                    # game_instance.changeSoundEffects()
-
+                    # changeSoundEffects()
                 
         
         # ---------- renders --------------
