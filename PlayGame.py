@@ -46,15 +46,16 @@ class PlayGame:
         # text and font
         font = pygame.font.Font('Resources/Font/OpenSans-ExtraBold.ttf', 60)
         button_font = pygame.font.Font('Resources/Font/OpenSans-Regular.ttf', 22)
+        png = pygame.image.load('Resources/Images/uno.png')
 
-        exit_button = Button(colors["green"], [100, 125], [100, 50], button_font, "Back", green, (37,186,176))
+        exit_button = Button(colors["green"], [100, 125], [100, 50], button_font, "Back", colors["green"], (37,186,176))
 
         run = True
         while run:
             mouse_pos = pygame.mouse.get_pos()
 
             # Have the background fanfare playing while the menu is running
-            msound.load("Fanfare-sound.mp3")
+            msound.load("Resources/Sounds/Fanfare-sound.mp3")
             msound.play(-1)
 
             # ---------------- updates -----------------
@@ -76,6 +77,8 @@ class PlayGame:
             displayWindow(window)
             displayMessage("OPERATION UNO", colors["white"], [150, 25], window)
             exit_button.displayButton(window)
-            
+            display.blit(png, (500, 300))
+            # pygame.display.flip() # Do we need this? I feel like this will change the layout of the window
+
             # ----------- final update --------------
             pygame.display.update()
