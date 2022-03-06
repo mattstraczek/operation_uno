@@ -2,6 +2,7 @@ from Game import Game
 from PlayGame import PlayGame
 from Button import Button
 from Difficulty import Difficulty
+from NumPlayers import NumPlayers
 import pygame
 import os
 import pygame.mixer as mixer
@@ -90,7 +91,7 @@ if __name__ == '__main__':
                     changeDifficulty()
                 if num_players_button.isHovered():
                     print('Pressed Num Players Button')
-                    # changeNumPlayers()
+                    changeNumPlayers()
                 if sound_button.isHovered():
                     print('Pressed Sound Button')
                     # changeSoundEffects()
