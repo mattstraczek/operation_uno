@@ -1,6 +1,7 @@
 from Game import Game
 from Button import Button
 import pygame
+import os
 
 # changable constants -----
 
@@ -19,7 +20,6 @@ colors = {
     "black": (0, 0, 0),
     "purple": (48, 25, 52),
     "yellow": (255, 255, 0)
-
 }
 
 background_color = colors["purple"]
@@ -48,6 +48,7 @@ if __name__ == '__main__':
     # text and font
     font = pygame.font.Font('Resources/Font/OpenSans-ExtraBold.ttf', 60)
     button_font = pygame.font.Font('Resources/Font/OpenSans-Regular.ttf', 22)
+    png = pygame.image.load('Resources/Images/uno.png') # Loading the image into the program from the Resources folder
 
     # buttons
     play_button = Button(colors["green"], [100, 125], [100, 50], button_font, "Play", colors["green"], (37,186,176))
@@ -95,8 +96,8 @@ if __name__ == '__main__':
         diff_button.displayButton(window)
         num_players_button.displayButton(window)
         sound_button.displayButton(window)
+        display.blit(png, (500, 300)) # Renders the image to the display
+        pygame.display.flip() # Updates the screen to reflect the image's 
         
         # ----------- final update --------------
         pygame.display.update()
-
-
