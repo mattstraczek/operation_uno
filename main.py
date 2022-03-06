@@ -3,6 +3,7 @@ from PlayGame import PlayGame
 from Button import Button
 from Difficulty import Difficulty
 from NumPlayers import NumPlayers
+from SoundEffects import SoundEffects
 import pygame
 import os
 import pygame.mixer as mixer
@@ -94,7 +95,7 @@ if __name__ == '__main__':
                     changeNumPlayers()
                 if sound_button.isHovered():
                     print('Pressed Sound Button')
-                    # changeSoundEffects()
+                    changeSoundEffects()
                 
         
         # ---------- renders --------------
