@@ -35,9 +35,6 @@ class Game:
 
         for player in self.players: 
             print(player) # Testing
-
-    def changeDifficulty():
-        
         
     def changeNumPlayers(self, num_players):
         self.num_players = num_players
