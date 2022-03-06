@@ -2,6 +2,8 @@ from Game import Game
 from Button import Button
 import pygame
 import os
+import pygame.mixer as mixer
+import pygame.mixer.music as msound
 
 # changeable constants -----
 
@@ -48,7 +50,7 @@ if __name__ == '__main__':
     # text and font
     font = pygame.font.Font('Resources/Font/OpenSans-ExtraBold.ttf', 60)
     button_font = pygame.font.Font('Resources/Font/OpenSans-Regular.ttf', 22)
-    png = pygame.image.load('Resources/Images/uno.png') # Loading the image into the program from the Resources folder
+    png = pygame.image.load('Resources/Images/uno.png')
 
     # buttons
     play_button = Button(colors["green"], [100, 125], [100, 50], button_font, "Play", colors["green"], (37,186,176))
@@ -60,6 +62,10 @@ if __name__ == '__main__':
 
     while run:
         mouse_pos = pygame.mouse.get_pos()
+
+        # Have the background fanfare playing while the menu is running
+        msound.load("Fanfare-sound.mp3")
+        msound.play(-1)
 
         # ---------------- updates -----------------
         play_button.updateButton(mouse_pos, window)
@@ -96,8 +102,8 @@ if __name__ == '__main__':
         diff_button.displayButton(window)
         num_players_button.displayButton(window)
         sound_button.displayButton(window)
-        display.blit(png, (500, 300)) # Renders the image to the display
-        pygame.display.flip() # Updates the screen to reflect the image's 
+        display.blit(png, (500, 300))
+        pygame.display.flip()
         
         # ----------- final update --------------
         pygame.display.update()
