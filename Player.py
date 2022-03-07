@@ -27,3 +27,8 @@ class Player():
     def __str__(self):
         """ Overridden toString() method displays player's name and hand. """
         return str(self.name) + "'s hand: " + str(self.displayHand())
+    
+    def draw(self):
+        self.hand.append(Deck.draw())
+
+
