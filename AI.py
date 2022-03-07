@@ -1,4 +1,5 @@
 from Card import Card
+from Ruleset import Ruleset
 
 class AI():
     def __init__(self, name):
@@ -9,14 +10,14 @@ class AI():
     
     def addCard(self, card):
         """ Adds a card to the AI's hand. """
-        print("Adding", card, "to", self.name, "'s hand") # Testing
+        # print("Adding", card, "to", self.name, "'s hand") # Testing
         self.hand.append(card)
 
     def playCard(self, topCard):
         """ Play's the card and removes from player's hand. """
         print(self)
         for card in self.hand:
-            if card.color == topCard.color or card.number == topCard.number:
+            if Ruleset.isValid(card, topCard):
                 self.hand.remove(card)
                 print(self.name, "is placing", card)
                 return card

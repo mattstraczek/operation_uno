@@ -16,6 +16,7 @@ from pygame.mixer import music as msound
 screen_x = 800
 screen_y = 600
 background_size = (screen_x, screen_y)
+num_players = 1
 
 colors = {
     "white": (255, 255, 255),
@@ -46,7 +47,7 @@ def displayMessage(msg, color, dest, display):
 if __name__ == '__main__':
     run = True
     # instantiate our needed classes here
-    game_instance = Game(0, 2) # initializes a default game with 2 players (1 AI)
+    game_instance = Game() # initializes a game instance
     # todo: change Game to accept no params and have a setparams method
     #game_instance.startGame()
     
@@ -97,7 +98,8 @@ if __name__ == '__main__':
                 if play_button.isHovered():
                     print('Pressed Play Button')
                     game_instance.printGameState()
-                    game_instance.startGame()
+                    print(num_players)
+                    game_instance.startGame(num_players, 2)
                     PlayGame.playGameMenu(game_instance)
                 if diff_button.isHovered():
                     print('Pressed Difficulty Button')
@@ -108,7 +110,7 @@ if __name__ == '__main__':
                     Difficulty.changeDifficulty(game_instance)
                 if num_players_button.isHovered():
                     print('Pressed Num Players Button')
-                    NumPlayers.changeNumPlayers(game_instance)
+                    num_players = NumPlayers.changeNumPlayers(game_instance)
                 if sound_button.isHovered():
                     print('Pressed Sound Button')
                     SoundEffects.changeSoundEffects(game_instance)

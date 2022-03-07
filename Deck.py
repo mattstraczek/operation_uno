@@ -10,13 +10,12 @@ class Deck():
 
     def inititializeDeck(self): # will pass in Ruleset class to receive parameters for a specialized deck
         """ Initializes a standard deck of UNO cards (will be overriden with ruleset). """
-        colors = ['red', 'blue', 'green', 'yellow']
-        numbers = range(0,10,1)
-        for color in colors:
-            for number in numbers:
-                if number!=0:
-                    self.deck.append(Card(color, number))
-                self.deck.append(Card(color, number))
+        colors = ["RED","BLUE","GREEN","YELLOW"]
+        cards_zero   = [Card(c,0) for c in colors]
+        cards_number    = [Card(c,v) for c in colors for v in range (1,10)]*2
+        #cards_action = [Card(c,v) for c in colors for v in ["SKIP","REVERSE","DRAW 2"]]*2
+        #cards_wild   = [Card("WILD",v) for v in ["COLOR","DRAW 4"]]*4
+        self.deck = cards_zero + cards_number# + cards_action + cards_wild
 
     def shuffle(self):
         """ Shuffles the deck using numpy's random shuffle method. """

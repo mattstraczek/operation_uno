@@ -80,11 +80,11 @@ class NumPlayers:
                     if one_button.isHovered():
                         game_instance.changeNumPlayers(1)
                         print('Pressed One Player Button')
-                        return
+                        return 1
                     if two_button.isHovered():
                         game_instance.changeNumPlayers(2)
                         print('Pressed Two Player Button')
-                        return
+                        return 2
             
             # ---------- renders --------------
             displayWindow(window)
