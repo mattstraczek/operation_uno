@@ -1,8 +1,17 @@
 from Game import Game
+from PlayGame import PlayGame
 from Button import Button
+from Difficulty import Difficulty
+from NumPlayers import NumPlayers
+from SoundEffects import SoundEffects
 import pygame
+# from pygame import mixer
+# from mixer import music
+import os
+import pygame.mixer as mixer
+from pygame.mixer import music as msound
 
-# changable constants -----
+# changeable constants -----
 
 screen_x = 800
 screen_y = 600
@@ -19,7 +28,6 @@ colors = {
     "black": (0, 0, 0),
     "purple": (48, 25, 52),
     "yellow": (255, 255, 0)
-
 }
 
 background_color = colors["purple"]
@@ -38,7 +46,9 @@ def displayMessage(msg, color, dest, display):
 if __name__ == '__main__':
     run = True
     # instantiate our needed classes here
-    game_instance = Game(2, 1) # initializes a default game with 2 players and 1 AI
+    game_instance = Game(0, 2) # initializes a default game with 2 players (1 AI)
+    # todo: change Game to accept no params and have a setparams method
+    #game_instance.startGame()
     
     # window set up
     pygame.init()
@@ -48,17 +58,28 @@ if __name__ == '__main__':
     # text and font
     font = pygame.font.Font('Resources/Font/OpenSans-ExtraBold.ttf', 60)
     button_font = pygame.font.Font('Resources/Font/OpenSans-Regular.ttf', 22)
+    png = pygame.image.load('Resources/Images/uno.png')
 
     # buttons
-    play_button = Button(colors["green"], [100, 125], [100, 50], button_font, "Play", colors["green"], (37,186,176))
-    diff_button = Button(colors["red"], [100, 200], [200, 50], button_font, "Difficulty Mode", colors["red"], (37,186,176))
-    num_players_button = Button(colors["blue"], [100, 275], [200, 50], button_font, "Number Players", colors["blue"], (37,186,176))
-    sound_button = Button(colors["yellow"], [100, 350], [200, 50], button_font, "Sound Effects", colors["yellow"], (37,186,176))
-
+    play_button = Button(colors["green"], [15, 175], [100, 50], button_font, "Play", colors["green"], (37,186,176))
+    diff_button = Button(colors["red"], [15, 250], [200, 50], button_font, "Difficulty Mode", colors["red"], (37,186,176))
+    num_players_button = Button(colors["blue"], [15, 325], [200, 50], button_font, "Number Players", colors["blue"], (37,186,176))
+    sound_button = Button(colors["yellow"], [15, 400], [200, 50], button_font, "Sound Effects", colors["yellow"], (37,186,176))
+    pygame.mixer.init()
+    
     #  game loop -------------------------
+    msound.load("Resources/Sounds/Fanfare-sound.wav")
+    msound.play(-1)
+    if (game_instance.getSoundEffects() == "off"):
+            msound.pause()
+    else:
+        msound.play(-1)
 
     while run:
         mouse_pos = pygame.mouse.get_pos()
+
+        # Have the background fanfare playing while the menu is running
+        
 
         # ---------------- updates -----------------
         play_button.updateButton(mouse_pos, window)
@@ -75,17 +96,26 @@ if __name__ == '__main__':
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if play_button.isHovered():
                     print('Pressed Play Button')
-                    game_instance.playGame()
+                    game_instance.printGameState()
+                    game_instance.startGame()
+                    PlayGame.playGameMenu(game_instance)
                 if diff_button.isHovered():
                     print('Pressed Difficulty Button')
-                    #game_instance.changeDifficulty()
+                    # msound.load("Resources/Sounds/Dealing-cards.wav")
+                    # msound.play(1)
+                    # explosionSound = mixer.Sound("Resources/Sounds/Dealing-cards.wav")
+                    # explosionSound.play()
+                    Difficulty.changeDifficulty(game_instance)
                 if num_players_button.isHovered():
                     print('Pressed Num Players Button')
-                    #game_instance.changeNumPlayers()
+                    NumPlayers.changeNumPlayers(game_instance)
                 if sound_button.isHovered():
                     print('Pressed Sound Button')
-                    #game_instance.changeSoundEffects()
-
+                    SoundEffects.changeSoundEffects(game_instance)
+                    if (game_instance.getSoundEffects() == "off"):
+                        msound.pause()
+                    else:
+                        msound.play(-1)
                 
         
         # ---------- renders --------------
@@ -95,8 +125,8 @@ if __name__ == '__main__':
         diff_button.displayButton(window)
         num_players_button.displayButton(window)
         sound_button.displayButton(window)
+        window.blit(png, (225, 150))
+        # pygame.display.flip() # Do we need this? I feel like this will change the layout of the window
         
         # ----------- final update --------------
         pygame.display.update()
-
-

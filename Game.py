@@ -15,11 +15,12 @@ class Game:
         self.num_players = num_players
         self.num_ai = num_ai
         self.deck = Deck()
-        print(self.deck, "\n") # Testing
+        # print(self.deck, "\n") # Testing
         self.initializePlayers()
         self.deal()
-        print(self.deck, "\n") # Testing
+        # print(self.deck, "\n") # Testing
         self.difficulty = "easy"
+        self.sound = "on"
 
     def initializePlayers(self):
         """ Initializes player and AI objects for the game. """
@@ -32,96 +33,61 @@ class Game:
         """ Deals cards to each player (including AI). """
         for i in range(7): # Deals 7 cards, but Ruleset will override this number later on
             for player in self.players:
-                player.addCard(self.deck.draw())
+                self.draw(player)
 
-        for player in self.players: 
-            print(player) # Testing
+        # for player in self.players: 
+            # print(player) # Testing
+    
+    def draw(self, player):
+        player.addCard(self.deck.draw())
 
-    def changeDifficulty(self, difficulty):
-        self.difficulty = difficulty
-        
-    '''def playGame():
+
+    def startGame(self):
         """ Begins a game of UNO. """
-        topCard = deck.deal()
-        print("Current card is", str(topCard))
+        topCard = self.deck.draw()
         np.random.shuffle(self.players)
-        turn = 0
-        playersLength = len(players)
-        winner = false
-        while(~winner):
-            self.players[turn%playersLength].playCard()'''
+        turn = 1
+        total_players = self.num_players + self.num_ai
+        winner = False
+        while(not winner):
+            print("Turn", turn)
+            print("Top Card is", topCard)
+            currPlayer = self.players[(turn-1) % total_players]
+            playedCard = currPlayer.playCard(topCard)
+            if not playedCard:
+                self.draw(currPlayer)
+            else:
+                topCard = playedCard
+            if currPlayer.isWin():
+                winner = True
+            print()
+            turn+=1
+        
+        print(currPlayer.name, "is the winner!")
 
     def changeNumPlayers(self, num_players):
+        """ Changes number of players """
         self.num_players = num_players
 
-    def changeSoundEffects(self, sound):   #TODO
-        return
+    def changeSoundEffects(self, sound):
+        """ Changes if sound effects are on/off """
+        self.sound = sound
 
-    def playGame(self):
-        # changable constants -----
+    def changeDifficulty(self, difficulty):
+        """ Changes difficulty of game instance """
+        self.difficulty = difficulty
 
-        screen_x = 800
-        screen_y = 600
-        background_size = (screen_x, screen_y)
+    def getNumPlayers(self):
+        """ Returns number of players """
+        return self.num_players
 
-        colors = {
-            "white": (255, 255, 255),
-            "grey": (230, 230, 230),
-            "green": (0,255,0),
-            "blue": (0,0,255),
-            "red": (255,0,0),
-            "dark_red": (139,0,0),
-            "crimson": (246,26,26),
-            "black": (0, 0, 0),
-            "purple": (48, 25, 52),
-            "yellow": (255, 255, 0)
-        }
+    def getSoundEffects(self):
+        """ Returns sound (on/off) state """
+        return self.sound
 
-        background_color = colors["purple"]
+    def getDifficulty(self):
+        """ Returns difficulty of game instance """
+        return self.difficulty
 
-        # functions -------------------------
-
-        def displayWindow(window):
-            window.fill(background_color) # change color if you want
-
-        def displayMessage(msg, color, dest, display):
-            screen_text = font.render(msg, True, color)
-            display.blit(screen_text, dest)
-
-        # window set up
-        pygame.init()
-        window = pygame.display.set_mode(background_size)
-        pygame.display.set_caption('Operation-Uno')
-
-        # text and font
-        font = pygame.font.Font('Resources/Font/OpenSans-ExtraBold.ttf', 60)
-        button_font = pygame.font.Font('Resources/Font/OpenSans-Regular.ttf', 22)
-
-        exit_button = Button(colors["green"], [100, 125], [100, 50], button_font, "Back", green, (37,186,176))
-
-        run = True
-        while run:
-            mouse_pos = pygame.mouse.get_pos()
-
-            # ---------------- updates -----------------
-            exit_button.updateButton(mouse_pos, window)
-
-            for event in pygame.event.get(): 
-                # ----------- ongoing checks (controls, updates, etc) ----------
-                
-                if event.type == pygame.QUIT:
-                    run = False
-                    pygame.quit()
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    if exit_button.isHovered():
-                        print('Pressed Exit Button')
-                        return
-                        
-            
-            # ---------- renders --------------
-            displayWindow(window)
-            displayMessage("OPERATION UNO", colors["white"], [150, 25], window)
-            exit_button.displayButton(window)
-            
-            # ----------- final update --------------
-            pygame.display.update()
+    def printGameState(self):
+        print('NumPlayers: ', self.num_players, '\nSound: ', self.sound, '\nDifficulty: ', self.difficulty)
