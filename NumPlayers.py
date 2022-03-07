@@ -5,10 +5,12 @@ from AI import AI
 from Button import Button
 from Game import Game
 import pygame
+import pygame.mixer as mixer
+from pygame.mixer import music as msound
 
 class NumPlayers:
     # This wil be additional menu functionality for num players
-    def changeNumPlayers():
+    def changeNumPlayers(game_instance):
         # changeable constants -----
         screen_x = 800
         screen_y = 600
@@ -48,16 +50,21 @@ class NumPlayers:
         button_font = pygame.font.Font('Resources/Font/OpenSans-Regular.ttf', 22)
         png = pygame.image.load('Resources/Images/uno.png')
 
-        one_button = Button(colors["black"], [150, 200], [100, 50], button_font, "1", colors["black"], (37,186,176))
-        two_button = Button(colors["black"], [200, 200], [100, 50], button_font, "2", colors["black"], (37,186,176))
+        one_button = Button(colors["black"], [15, 175], [100, 50], button_font, "1", colors["black"], (37,186,176))
+        two_button = Button(colors["black"], [15, 250], [100, 50], button_font, "2", colors["black"], (37,186,176))
+
+        # Have the background fanfare playing while the menu is running
+        msound.load("Resources/Sounds/Fanfare-sound.wav")
+        msound.play(-1)
+        if (game_instance.getSoundEffects() == "off"):
+            msound.pause()
+        else:
+            msound.play(-1)
+    
 
         run = True
         while run:
             mouse_pos = pygame.mouse.get_pos()
-
-            # Have the background fanfare playing while the menu is running
-            msound.load("Resources/Sounds/Fanfare-sound.mp3")
-            msound.play(-1)
 
             # ---------------- updates -----------------
             one_button.updateButton(mouse_pos, window)
@@ -71,16 +78,20 @@ class NumPlayers:
                     pygame.quit()
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if one_button.isHovered():
+                        game_instance.changeNumPlayers(1)
                         print('Pressed One Player Button')
+                        return
                     if two_button.isHovered():
+                        game_instance.changeNumPlayers(2)
                         print('Pressed Two Player Button')
+                        return
             
             # ---------- renders --------------
             displayWindow(window)
             displayMessage("OPERATION UNO", colors["white"], [150, 25], window)
             one_button.displayButton(window)
             two_button.displayButton(window)
-            display.blit(png, (500, 300))
+            window.blit(png, (225, 150))
             # pygame.display.flip() # Do we need this? I feel like this will change the layout of the window
 
             # ----------- final update --------------

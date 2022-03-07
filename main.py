@@ -5,9 +5,11 @@ from Difficulty import Difficulty
 from NumPlayers import NumPlayers
 from SoundEffects import SoundEffects
 import pygame
+# from pygame import mixer
+# from mixer import music
 import os
 import pygame.mixer as mixer
-import pygame.mixer.music as msound
+from pygame.mixer import music as msound
 
 # changeable constants -----
 
@@ -57,19 +59,25 @@ if __name__ == '__main__':
     png = pygame.image.load('Resources/Images/uno.png')
 
     # buttons
-    play_button = Button(colors["green"], [100, 125], [100, 50], button_font, "Play", colors["green"], (37,186,176))
-    diff_button = Button(colors["red"], [100, 200], [200, 50], button_font, "Difficulty Mode", colors["red"], (37,186,176))
-    num_players_button = Button(colors["blue"], [100, 275], [200, 50], button_font, "Number Players", colors["blue"], (37,186,176))
-    sound_button = Button(colors["yellow"], [100, 350], [200, 50], button_font, "Sound Effects", colors["yellow"], (37,186,176))
-
+    play_button = Button(colors["green"], [15, 175], [100, 50], button_font, "Play", colors["green"], (37,186,176))
+    diff_button = Button(colors["red"], [15, 250], [200, 50], button_font, "Difficulty Mode", colors["red"], (37,186,176))
+    num_players_button = Button(colors["blue"], [15, 325], [200, 50], button_font, "Number Players", colors["blue"], (37,186,176))
+    sound_button = Button(colors["yellow"], [15, 400], [200, 50], button_font, "Sound Effects", colors["yellow"], (37,186,176))
+    pygame.mixer.init()
+    
     #  game loop -------------------------
+    msound.load("Resources/Sounds/Fanfare-sound.wav")
+    msound.play(-1)
+    if (game_instance.getSoundEffects() == "off"):
+            msound.pause()
+    else:
+        msound.play(-1)
 
     while run:
         mouse_pos = pygame.mouse.get_pos()
 
         # Have the background fanfare playing while the menu is running
-        msound.load("Resources/Sounds/Fanfare-sound.mp3")
-        msound.play(-1)
+        
 
         # ---------------- updates -----------------
         play_button.updateButton(mouse_pos, window)
@@ -86,16 +94,25 @@ if __name__ == '__main__':
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if play_button.isHovered():
                     print('Pressed Play Button')
-                    playGameMenu()
+                    game_instance.printGameState()
+                    PlayGame.playGameMenu(game_instance)
                 if diff_button.isHovered():
                     print('Pressed Difficulty Button')
-                    changeDifficulty()
+                    # msound.load("Resources/Sounds/Dealing-cards.wav")
+                    # msound.play(1)
+                    # explosionSound = mixer.Sound("Resources/Sounds/Dealing-cards.wav")
+                    # explosionSound.play()
+                    Difficulty.changeDifficulty(game_instance)
                 if num_players_button.isHovered():
                     print('Pressed Num Players Button')
-                    changeNumPlayers()
+                    NumPlayers.changeNumPlayers(game_instance)
                 if sound_button.isHovered():
                     print('Pressed Sound Button')
-                    changeSoundEffects()
+                    SoundEffects.changeSoundEffects(game_instance)
+                    if (game_instance.getSoundEffects() == "off"):
+                        msound.pause()
+                    else:
+                        msound.play(-1)
                 
         
         # ---------- renders --------------
@@ -105,7 +122,7 @@ if __name__ == '__main__':
         diff_button.displayButton(window)
         num_players_button.displayButton(window)
         sound_button.displayButton(window)
-        display.blit(png, (500, 300))
+        window.blit(png, (225, 150))
         # pygame.display.flip() # Do we need this? I feel like this will change the layout of the window
         
         # ----------- final update --------------

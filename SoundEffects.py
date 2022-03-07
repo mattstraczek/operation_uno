@@ -5,10 +5,12 @@ from AI import AI
 from Button import Button
 from Game import Game
 import pygame
+import pygame.mixer as mixer
+from pygame.mixer import music as msound
 
 class SoundEffects:
     # This wil be additional menu functionality for sound effects
-    def changeSoundEffects():
+    def changeSoundEffects(game_instance):
         # changeable constants -----
         screen_x = 800
         screen_y = 600
@@ -48,16 +50,22 @@ class SoundEffects:
         button_font = pygame.font.Font('Resources/Font/OpenSans-Regular.ttf', 22)
         png = pygame.image.load('Resources/Images/uno.png')
 
-        on_button = Button(colors["black"], [150, 200], [100, 50], button_font, "ON", colors["black"], (37,186,176))
-        off_button = Button(colors["black"], [200, 200], [100, 50], button_font, "OFF", colors["black"], (37,186,176))
+        on_button = Button(colors["black"], [15, 175], [100, 50], button_font, "ON", colors["black"], (37,186,176))
+        off_button = Button(colors["black"], [15, 250], [100, 50], button_font, "OFF", colors["black"], (37,186,176))
+
+        # Have the background fanfare playing while the menu is running
+        msound.load("Resources/Sounds/Fanfare-sound.wav")
+        msound.play(-1)
+        if (game_instance.getSoundEffects() == "off"):
+            msound.pause()
+        else:
+            msound.play(-1)
 
         run = True
         while run:
             mouse_pos = pygame.mouse.get_pos()
 
-            # Have the background fanfare playing while the menu is running
-            msound.load("Resources/Sounds/Fanfare-sound.mp3")
-            msound.play(-1)
+            
 
             # ---------------- updates -----------------
             on_button.updateButton(mouse_pos, window)
@@ -70,17 +78,21 @@ class SoundEffects:
                     run = False
                     pygame.quit()
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    if one_button.isHovered():
+                    if on_button.isHovered():
+                        game_instance.changeSoundEffects("on")
                         print('Pressed On Button')
-                    if two_button.isHovered():
+                        return
+                    if off_button.isHovered():
+                        game_instance.changeSoundEffects("off")
                         print('Pressed Off Button')
+                        return
             
             # ---------- renders --------------
             displayWindow(window)
             displayMessage("OPERATION UNO", colors["white"], [150, 25], window)
             on_button.displayButton(window)
             off_button.displayButton(window)
-            display.blit(png, (500, 300))
+            window.blit(png, (225, 150))
             # pygame.display.flip() # Do we need this? I feel like this will change the layout of the window
 
             # ----------- final update --------------

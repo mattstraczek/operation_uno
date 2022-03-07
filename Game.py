@@ -19,6 +19,7 @@ class Game:
         self.deal()
         print(self.deck, "\n") # Testing
         self.difficulty = "easy"
+        self.sound = "on"
 
     def initializePlayers(self):
         """ Initializes player and AI objects for the game. """
@@ -37,7 +38,28 @@ class Game:
             print(player) # Testing
         
     def changeNumPlayers(self, num_players):
+        """ Changes number of players """
         self.num_players = num_players
 
-    def changeSoundEffects(self, sound):   #TODO
-        return
+    def changeSoundEffects(self, sound):
+        """ Changes if sound effects are on/off """
+        self.sound = sound
+
+    def changeDifficulty(self, difficulty):
+        """ Changes difficulty of game instance """
+        self.difficulty = difficulty
+
+    def getNumPlayers(self):
+        """ Returns number of players """
+        return self.num_players
+
+    def getSoundEffects(self):
+        """ Returns sound (on/off) state """
+        return self.sound
+
+    def getDifficulty(self):
+        """ Returns difficulty of game instance """
+        return self.difficulty
+
+    def printGameState(self):
+        print('NumPlayers: ', self.num_players, '\nSound: ', self.sound, '\nDifficulty: ', self.difficulty)

@@ -5,10 +5,12 @@ from AI import AI
 from Button import Button
 from Game import Game
 import pygame
+import pygame.mixer as mixer
+from pygame.mixer import music as msound
 
 class PlayGame:
     # This will serve as additional menu functionality
-    def playGameMenu():
+    def playGameMenu(game_instance):
         # changeable constants -----
         screen_x = 800
         screen_y = 600
@@ -48,15 +50,21 @@ class PlayGame:
         button_font = pygame.font.Font('Resources/Font/OpenSans-Regular.ttf', 22)
         png = pygame.image.load('Resources/Images/uno.png')
 
-        exit_button = Button(colors["green"], [100, 125], [100, 50], button_font, "Back", colors["green"], (37,186,176))
+        exit_button = Button(colors["green"], [15, 175], [100, 50], button_font, "Back", colors["green"], (37,186,176))
+
+        # Have the background fanfare playing while the menu is running
+        msound.load("Resources/Sounds/Fanfare-sound.wav")
+        msound.play(-1)
+        if (game_instance.getSoundEffects() == "off"):
+            msound.pause()
+        else:
+            msound.play(-1)
 
         run = True
         while run:
             mouse_pos = pygame.mouse.get_pos()
 
-            # Have the background fanfare playing while the menu is running
-            msound.load("Resources/Sounds/Fanfare-sound.mp3")
-            msound.play(-1)
+            
 
             # ---------------- updates -----------------
             exit_button.updateButton(mouse_pos, window)
@@ -77,7 +85,7 @@ class PlayGame:
             displayWindow(window)
             displayMessage("OPERATION UNO", colors["white"], [150, 25], window)
             exit_button.displayButton(window)
-            display.blit(png, (500, 300))
+            window.blit(png, (225, 150))
             # pygame.display.flip() # Do we need this? I feel like this will change the layout of the window
 
             # ----------- final update --------------
