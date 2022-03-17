@@ -42,7 +42,7 @@ class Button:
         self.hover_color = hover_color
         self.text = self.font.render(msg, True, base_color)
         self.text_rect = self.text.get_rect(center=pos, size=size)
-        self.button_rect = self.text.get_rect(topleft=[self.pos[0]-self.size[0]//2, self.pos[1]-self.size[1]//2])
+        self.button_rect = self.text.get_rect(topleft=[self.pos[0]-self.size[0]//2, self.pos[1]-self.size[1]//2], size=size)
 
     def displayButton(self, mouse_pos, window):
         if self.isHovered(mouse_pos):
