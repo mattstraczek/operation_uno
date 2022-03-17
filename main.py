@@ -4,6 +4,7 @@ from Button import Button
 from Difficulty import Difficulty
 from NumPlayers import NumPlayers
 from SoundEffects import SoundEffects
+from MainScreen import MainScreen
 import pygame
 # from pygame import mixer
 # from mixer import music
@@ -45,15 +46,23 @@ def displayMessage(msg, color, dest, display):
 # main ----------------------------
 
 if __name__ == '__main__':
+    pygame.init()
+    info = pygame.display.Info()
+    main_screen = MainScreen(title="Main Screen", bg_color=colors["purple"])
+    main_screen.display()
+    
+    '''
     run = True
     # instantiate our needed classes here
-    game_instance = Game() # initializes a game instance
     # todo: change Game to accept no params and have a setparams method
-    #game_instance.startGame()
-    
+    #Game.startGame()
+    game_instance = Game()
     # window set up
     pygame.init()
-    window = pygame.display.set_mode(background_size)
+    # Retrieve monitor info
+    info = pygame.display.Info()
+    window = pygame.display.set_mode((info.current_w, info.current_h))
+    
     pygame.display.set_caption('Operation-Uno')
 
     # text and font
@@ -132,3 +141,4 @@ if __name__ == '__main__':
         
         # ----------- final update --------------
         pygame.display.update()
+'''

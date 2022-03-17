@@ -1,45 +1,58 @@
 import pygame
 
 class Button:
-    def __init__(self, color, pos, size, font, msg, msg_color, highlight_color):
+    '''
+    def __init__(self, image, pos, msg, text_color, font, base_color, hover_color):
+        self.image = image
+        self.pos = pos
+        self.msg = msg
+        self.text_color = text_color
+        self.font = font
+        self.base_color = base_color
+        self.hover_color = hover_color
+        self.text = self.font.render(self.msg, True, self.base_color)
+        if self.image is None:
+            self.image = self.text
+        self.rect = self.image.get_rect(center=pos)
+        self.text_rect = self.text.get_rect(center=pos)
+
+    def update(self, screen):
+        if self.image is not None:
+            screen.blit(self.image, self.rect)
+        screen.blit(self.text, self.text_rect)
+    
+    def checkForInput(self, position):
+        return position[0] in range(self.rect.left, self.rect.right) and position[1] in range(self.rect.top, self.rect.bottom)        
+             
+    def changeColor(self, position):
+        if self.checkForInput(position):
+            self.text = self.font.render(self.msg, True, self.hovering_color)
+        else:
+            self.text = self.font.render(self.msg, True, self.base_color)
+    '''
+    
+    def __init__(self, color, pos, size, font, msg, base_color, hover_color):
         # initializes the Button, sets each element of Button
         self.color = color
         self.pos = pos
         self.size = size
         self.font = font
         self.msg = msg
-        self.msg_color = msg_color
-        self.highlight_color = highlight_color
-        self.state = "idle"
-        self.clicked = False
-        # render
-        self.screen_text = self.font.render(msg, True, msg_color)
-        self.text_rect = self.screen_text.get_rect(center=[self.pos[0] + self.size[0]//2, self.pos[1] + self.size[1]//2])
+        self.base_color = base_color
+        self.hover_color = hover_color
+        self.text = self.font.render(msg, True, base_color)
+        self.text_rect = self.text.get_rect(center=pos, size=size)
+        self.button_rect = self.text.get_rect(topleft=[self.pos[0]-self.size[0]//2, self.pos[1]-self.size[1]//2])
 
-    def displayButton(self, window):
-        # Displays the button
-        if self.state == "idle": # if the button is not in contact by the user
-            pygame.draw.rect(window, self.color, pygame.Rect(self.pos[0], self.pos[1], self.size[0], self.size[1]),  2, 3)
-            window.blit(self.screen_text, self.text_rect)
-        elif self.state == "hover": # if the button is hovered over by the user
-            pygame.draw.rect(window, self.highlight_color, pygame.Rect(self.pos[0], self.pos[1], self.size[0], self.size[1]),  2, 3)
-            window.blit(self.screen_text, self.text_rect)
-    
-    def updateButton(self, mouse_pos, window): 
-        if self.pos[0] <= mouse_pos[0] <= self.pos[0] + self.size[0] and self.pos[1] <= mouse_pos[1] <= self.pos[1] + self.size[1]:
-            # render
-            self.screen_text = self.font.render(self.msg, True, self.highlight_color)
-            self.text_rect = self.screen_text.get_rect(center=[self.pos[0] + self.size[0]//2, self.pos[1] + self.size[1]//2])
-            #change state
-            self.state = "hover"
+    def displayButton(self, mouse_pos, window):
+        if self.isHovered(mouse_pos):
+            self.text = self.font.render(self.msg, True, self.hover_color)
+            pygame.draw.rect(window, self.hover_color, self.button_rect, 2)
         else:
-            # render
-            self.screen_text = self.font.render(self.msg, True, self.msg_color)
-            self.text_rect = self.screen_text.get_rect(center=[self.pos[0] + self.size[0]//2, self.pos[1] + self.size[1]//2])
-            #change state
-            self.state = "idle"
+            self.text = self.font.render(self.msg, True, self.base_color)
+            pygame.draw.rect(window, self.base_color, self.button_rect, 2)
+        
+        window.blit(self.text, self.text_rect)
 
-    def isHovered(self):
-        if self.state == 'hover':
-            return True
-        return False
+    def isHovered(self, mouse_pos):
+        return mouse_pos[0] in range(self.button_rect.left, self.button_rect.right) and mouse_pos[1] in range(self.button_rect.top, self.button_rect.bottom)        

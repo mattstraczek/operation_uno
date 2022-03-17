@@ -4,4 +4,11 @@ class Ruleset():
         return
 
     def isValid(card, topCard):
-        return card.color == topCard.color or card.value == topCard.value
+        if card.color=="WILD":
+            return True
+        elif card.value == topCard.value:
+            return True
+        return card.color == topCard.color
+
+    def StandardGame(self):
+        return

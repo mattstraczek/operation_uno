@@ -30,7 +30,7 @@ class Player():
         """ Returns a string containing all cards in the player's hand. """
         cards = ""
         for card in self.hand:
-            cards += str(card) + ', '
+            cards += str(card)
         return cards
 
     def __str__(self):

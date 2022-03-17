@@ -1,4 +1,3 @@
-#from Ruleset import Ruleset
 from Deck import Deck
 from Player import Player
 from AI import AI 
@@ -13,22 +12,10 @@ class Game:
         """ Constructs a Game object with players and AI, deals cards, and starts a game. """
         self.difficulty = "easy"
         self.sound = "on"
-        '''print("Initializing Game")
-        self.players = []
-        self.num_players = num_players
-        self.num_ai = num_ai
-        self.deck = Deck()
-        # print(self.deck, "\n") # Testing
-        self.initializePlayers()
-        self.deal()
-        # print(self.deck, "\n") # Testing
-        self.difficulty = "easy"
-        self.sound = "on"'''
         self.players = []
         self.num_players = 0
         self.num_ai = 0
         self.deck = []
-        self.ruleset = Ruleset()
 
     def initializeGame(self, num_players, num_ai):
         """ Initializes a Game object with players and AI, deals cards, and starts a game. """
@@ -50,19 +37,22 @@ class Game:
         for i in range(self.num_ai):
             self.players.append(AI("AI " + str(i)))
         np.random.shuffle(self.players)
-        print("Turn order:", self.players)
+        print("Turn order:")
+        for player in self.players:
+            print(player.name, end=" ")  
+        print()
 
     def deal(self):
         """ Deals cards to each player (including AI). """
-        for i in range(7): # Deals 7 cards, but Ruleset will override this number later on
-            for player in self.players:
-                self.draw(player)
+        for player in self.players:
+            self.draw(player, 7) # Deals 7 cards, but Ruleset will override this number later on
 
         # for player in self.players: 
             # print(player) # Testing
     
-    def draw(self, player):
-        player.addCard(self.deck.draw())
+    def draw(self, player, num_times):
+        for i in range(num_times):
+            player.addCard(self.deck.draw())
 
 
     def startGame(self, num_players, num_ai):
@@ -78,9 +68,35 @@ class Game:
             currPlayer = self.players[(turn-1) % total_players]
             playedCard = currPlayer.playCard(topCard)
             if not playedCard:
-                self.draw(currPlayer)
+                self.draw(currPlayer, 1)
+                # play card or keep it?
+
+            elif playedCard.color=="WILD":
+                # ask player for card color
+                if playedCard.value=="DRAW 4":
+                    self.draw(self.players[(turn) % total_players], 4)
+                    print("Added 4 cards to", self.players[(turn) % total_players].name)
+                    turn+=1
+                topCard.color = playedCard.value
+                topCard.value = "ANY"
+
             else:
+                if playedCard.value=="REVERSE":
+                    self.players.reverse()
+                    print("Reverse")
+                    turn-=1
+
+                elif playedCard.value=="SKIP":
+                    print("Skipped", self.players[(turn) % total_players].name, "turn")
+                    turn+=1
+
+                elif playedCard.value=="DRAW 2":
+                    self.draw(self.players[(turn) % total_players], 2)
+                    print("Added 2 cards to", self.players[(turn) % total_players].name)
+                    turn+=1
+
                 topCard = playedCard
+
             if currPlayer.isWin():
                 winner = True
             print()

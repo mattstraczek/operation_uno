@@ -12,7 +12,9 @@ class Card:
 
     def __str__(self):
         """ Overridden toString() method displays the card. """
-        return str(self.color) + " " + str(self.value)
+        #return str(self.color) + " " + str(self.value)
+        return '\n{0:<6} {1:<6}'.format(str(self.color), str(self.value))
+
         
     # import numpy.random as r
 
