@@ -12,28 +12,6 @@ import os
 import pygame.mixer as mixer
 from pygame.mixer import music as msound
 
-# changeable constants -----
-
-screen_x = 800
-screen_y = 600
-background_size = (screen_x, screen_y)
-num_players = 1
-
-colors = {
-    "white": (255, 255, 255),
-    "grey": (230, 230, 230),
-    "green": (0,255,0),
-    "blue": (0,0,255),
-    "red": (255,0,0),
-    "dark_red": (139,0,0),
-    "crimson": (246,26,26),
-    "black": (0, 0, 0),
-    "purple": (48, 25, 52),
-    "yellow": (255, 255, 0)
-}
-
-background_color = colors["purple"]
-
 # functions -------------------------
 
 def displayWindow(window):
@@ -48,7 +26,7 @@ def displayMessage(msg, color, dest, display):
 if __name__ == '__main__':
     pygame.init()
     info = pygame.display.Info()
-    main_screen = MainScreen(width=info.current_w, height=info.current_h, bg_color=colors["black"])
+    main_screen = MainScreen(width=info.current_w, height=info.current_h, bg_color=pygame.Color("Black"))
     main_screen.display()
     '''
     run = True
