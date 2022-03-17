@@ -48,7 +48,7 @@ def displayMessage(msg, color, dest, display):
 if __name__ == '__main__':
     pygame.init()
     info = pygame.display.Info()
-    main_screen = MainScreen(title="Main Screen", width=info.current_w, height=info.current_h, bg_color=colors["black"])
+    main_screen = MainScreen(width=info.current_w, height=info.current_h, bg_color=colors["black"])
     main_screen.display()
     '''
     run = True
