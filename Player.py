@@ -16,13 +16,6 @@ class Player():
         # print("Adding", card, "to", self.name, "'s hand") # Testing
         self.hand.append(card)
 
-    def playCard(self, topCard):
-        if self.isAI:
-            return self.playCardAI(topCard)
-        else:
-            return self.playCardAI(topCard) # change to human later
-        
-
     def playCardAI(self, topCard):
         """ AI plays a card depending on difficulty level """
         # Add different difficulties
@@ -34,9 +27,47 @@ class Player():
                 print(self.name, "is placing", card)
                 return card
 
-    def playCardHuman(self, topCard):
-        return
-        
+    def playCardHuman(self, topCard, firstAction):
+        while firstAction:
+            choice = input("DRAW OR PLACE (d/p): ")
+            if choice=="d":
+                return None
+            elif choice=='p':
+                card = self.placeCard(topCard)
+                if card:
+                    return card
+                print("Card does not exist or is not a valid move")
+
+        if not firstAction:
+            choice = input("SKIP OR PLACE (s/p): ")
+            if choice=="s":
+                return None
+            elif choice=='p':
+                card = self.placeCard(topCard)
+                if card:
+                    return card
+                print("Card does not exist or is not a valid move")
+
+    def placeCard(self, topCard):
+        cardInput = input("Enter the card: ").upper()
+        splitInput = cardInput.split(" ", 1)
+        if(len(splitInput)==2):
+            card = Card(splitInput[0], splitInput[1])
+            if self.isInHand(card) and Ruleset.isValid(card, topCard):
+                self.hand.remove(card)
+                if card.color=="WILD":
+                    color_choice = ""
+                    while color_choice not in ["RED", "YELLOW", "GREEN", "BLUE"]:
+                        color_choice = input("Choose color: ").upper()
+                    return Card(color_choice, card.value)
+                return card
+        return None
+    
+    def isInHand(self, card):
+        for hand_card in self.hand:
+            if card == hand_card:
+                return True
+        return False
 
     def maxColor(self):
         """ Finds the color that the AI has the most of. """
@@ -70,9 +101,7 @@ class Player():
         """ Returns a string containing all cards in the player's hand. """
         cards = ""
         for card in self.hand:
-            if not card==self.hand[0]:
-                cards += " | "
-            cards += str(card)
+            cards += str(card) + " | "
         return cards
 
     def __str__(self):

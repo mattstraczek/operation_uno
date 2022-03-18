@@ -6,7 +6,7 @@ class Ruleset():
     def isValid(card, topCard):
         if card.color=="WILD":
             return True
-        elif card.value == topCard.value:
+        elif str(card.value) == str(topCard.value):
             return True
         return card.color == topCard.color
 

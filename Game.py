@@ -57,16 +57,21 @@ class Game:
             currPlayer = self.players[(turn-1) % total_players]
             print("Actual Turn", actualTurn, ":", currPlayer)
             print("Top Card is", topCard)
-            playedCard = currPlayer.playCard(topCard)
+
+            if currPlayer.isAI:
+                playedCard = currPlayer.playCardAI(topCard)
+                if not playedCard:
+                    self.draw(currPlayer, 1)
+                    playedCard = currPlayer.playCardAI(topCard)
+            else:
+                playedCard = currPlayer.playCardHuman(topCard, True)
+                if not playedCard:
+                    self.draw(currPlayer, 1)
+                    playedCard = currPlayer.playCardHuman(topCard, False)
 
             if not playedCard:
-                self.draw(currPlayer, 1)
-                playedCard = currPlayer.playCard(topCard)
-                if not playedCard:
-                    print("Ended turn")
-                # play card or keep it?
-
-            else:
+                print(currPlayer.name, "skipped their turn")
+            elif playedCard:
                 if playedCard.value=="REVERSE":
                     self.players.reverse()
                     print("Turn order:", end="")

@@ -8,7 +8,7 @@ class Card:
 
     def __eq__(self, other):
         """ Overloaded equal operator compares two cards """
-        return self.color == other.color and self.value == other.value
+        return self.color == other.color and str(self.value) == str(other.value)
 
     def __str__(self):
         """ Overridden toString() method displays the card. """
