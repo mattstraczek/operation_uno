@@ -71,27 +71,10 @@ class Player():
 
     def maxColor(self):
         """ Finds the color that the AI has the most of. """
-        colors = [0] * 4
+        colors = {"RED" : 0, "YELLOW" : 0, "GREEN" : 0, "BLUE" : 0}
         for card in self.hand:
-            if card.color=="RED":
-                colors[0]+=1
-            elif card.color=="BLUE":
-                colors[1]+=1
-            elif card.color=="GREEN":
-                colors[2]+=1
-            elif card.color=="YELLOW":
-                colors[3]+=1
-        
-        maxIndex = np.argmax(colors)
-        if maxIndex==0:
-            return "RED"
-        elif maxIndex==1:
-            return "BLUE"
-        elif maxIndex==2:
-            return "GREEN"
-        elif maxIndex==3:
-            return "YELLOW"
-
+            colors[card.color]+=1
+        return max(colors, key=colors.get)
 
     def isWin(self):
         """ Returns True if the player has an empty hand (won the game) and false otherwise """

@@ -5,17 +5,17 @@ import numpy as np
 
 class Game:
 
-    def __init__(self, isMultiplayer, num_players=2, difficulty="Easy"):
+    def __init__(self, isMultiplayer, num_players=2, difficulty="Easy", playerNames=[]):
         """ Constructs a Game object with players and AI, deals cards, and starts a game. """
         self.isMultiplayer = isMultiplayer
-        self.num_players = num_players
         self.deck = Deck()
 
         # Initialize players
         self.players = []
         if isMultiplayer:
-            # Figure this out
-            x = 0
+            for player in playerNames:
+                self.players.append(Player(player))
+                # add option to add bots to the game?
         else:
             self.players.append(Player("Player Name"))
             for i in range(num_players):
