@@ -8,7 +8,7 @@ import pygame
 import pygame.mixer as mixer
 from pygame.mixer import music as msound
 
-class PlayGame:
+class GameWindow:
     # This will serve as additional menu functionality
     def playGameMenu(game_instance):
         # changeable constants -----

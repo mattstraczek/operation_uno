@@ -1,6 +1,6 @@
 import pygame
 from Screens import MainMenu
-
+from Game import Game
 #from Game import Game
 #from PlayGame import PlayGame
 #from Difficulty import Difficulty

@@ -1,16 +1,14 @@
 import pygame, sys
 from Components import Button, Message
-from Screens import MainMenu
+from Screens import MainMenu, SingleplayerMenu, MultiplayerMenu
 
 class PlayMenu():
     def __init__(self, width=800, height=600, bg_color=pygame.Color("Black")):
         """ Initializes the Main Menu with default size of 800x600 and a black background """
-        self.title = "Main Menu"
+        self.title = "Play Menu"
         self.w = width
         self.h = height
         self.bg_color = bg_color
-        self.num_players = 2
-        self.difficulty = "Easy"
 
     def display(self):
         """ Displays the Main Menu and its components """
@@ -33,29 +31,18 @@ class PlayMenu():
 
         # Initialize text objects
         text_font = pygame.font.Font('Resources/Font/OpenSans-ExtraBold.ttf', fontSize*2)
-        num_players_text = Message.Message(play_menu, "NUMBER OF PLAYERS: 2", text_font, white, [self.w/2, self.h/8])
-        difficulty_text = Message.Message(play_menu, "DIFFICULTY: Easy", text_font, white, [self.w/2, self.h/2])
+        player_mode = Message.Message(play_menu, "CHOOSE YOUR MODE", text_font, white, [self.w/2, self.h/4])
         #png = pygame.image.load('Resources/Images/uno.png')
         #png_dims = png.get_size()
 
         # Initializes buttons
         button_font = pygame.font.Font('Resources/Font/OpenSans-Regular.ttf', fontSize)
 
-        players_2 = Button.Button(play_menu, red, [self.w/4,self.h/4], [fontSize*2.5, fontSize*2.5], button_font, "2", red, yellow)
-        players_3 = Button.Button(play_menu, green, [self.w/2,self.h/4], [fontSize*2.5, fontSize*2.5], button_font, "3", green, yellow)
-        players_4 = Button.Button(play_menu, blue, [self.w*3/4,self.h/4], [fontSize*2.5, fontSize*2.5], button_font, "4", blue, yellow)
-        player_buttons = [players_2, players_3, players_4]
-
-        easy = Button.Button(play_menu, red, [self.w/4,self.h*3/4], [fontSize*5, fontSize*2.5], button_font, "Easy", red, yellow)
-        medium = Button.Button(play_menu, green, [self.w/2,self.h*3/4], [fontSize*5, fontSize*2.5], button_font, "Medium", green, yellow)
-        hard = Button.Button(play_menu, blue, [self.w*3/4,self.h*3/4], [fontSize*5, fontSize*2.5], button_font, "Hard", blue, yellow)
-        difficulty_buttons = [easy, medium, hard]
-
-        start_game_button = Button.Button(play_menu, blue, [self.w/2,self.h*7/8], [self.w/2, fontSize*2.5], button_font, "START", white, yellow)
+        singleplayer_button = Button.Button(play_menu, blue, [self.w/2,self.h/2], [self.w/2, fontSize*2.5], button_font, "Singleplayer", white, yellow)
+        multiplayer_button = Button.Button(play_menu, blue, [self.w/2,self.h*3/4], [self.w/2, fontSize*2.5], button_font, "Multiplayer", white, yellow)
         back_button = Button.Button(play_menu, blue, [self.w*7/8,self.h*7/8], [fontSize*5, fontSize*2.5], button_font, "Back", white, yellow)
 
-        current = True
-        while current:
+        while True:
             # Fills the screen with the background color
             play_menu.fill(self.bg_color)
 
@@ -65,36 +52,29 @@ class PlayMenu():
                     pygame.quit()
                     sys.exit()
                 elif event.type == pygame.MOUSEBUTTONDOWN:
-                    # Number of Players buttons
-                    for button in player_buttons:
-                        if button.isHovered():
-                            self.num_players = int(button.msg)
-                            num_players_text.changeMessage("NUMBER OF PLAYERS: " + str(self.num_players))
-                    
-                    # Difficulty buttons
-                    for button in difficulty_buttons:
-                        if button.isHovered():
-                            self.difficulty = button.msg
-                            difficulty_text.changeMessage("DIFFICULTY: " + self.difficulty)
+                    if singleplayer_button.isHovered():
+                        singleplayer_menu = SingleplayerMenu.SingleplayerMenu(self.w, self.h)
+                        singleplayer_menu.display()
+                        pygame.display.quit()
+                        return
 
-                    if start_game_button.isHovered():
-                        current = False
-                        print("Starting Game")
+                    if multiplayer_button.isHovered():
+                        multiplayer_menu = MultiplayerMenu.MultiplayerMenu(self.w, self.h)
+                        multiplayer_menu.display()
+                        pygame.display.quit()
+                        return
 
-                    if back_button.isHovered():
-                        current = False
+                    elif back_button.isHovered():
                         main_menu = MainMenu.MainMenu(self.w, self.h)
                         main_menu.display()
+                        pygame.display.quit()
+                        return
 
             # Displays the components of main menu
-            num_players_text.displayMessage()
-            difficulty_text.displayMessage()
+            player_mode.displayMessage()
 
-            for button in player_buttons:
-                button.displayButton()
-            for button in difficulty_buttons:
-                button.displayButton()
-            start_game_button.displayButton()
+            singleplayer_button.displayButton()
+            multiplayer_button.displayButton()
             back_button.displayButton()
             
             # Refreshes the screen to update the changes

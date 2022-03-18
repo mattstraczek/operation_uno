@@ -40,8 +40,7 @@ class MainMenu():
         settings_button = Button.Button(main_menu, green, [self.w/2,self.h*3/4], [fontSize*7.5, fontSize*2.5], button_font, "Settings", green, yellow)
         quit_button = Button.Button(main_menu, blue, [self.w*3/4,self.h*3/4], [fontSize*5, fontSize*2.5], button_font, "Quit", blue, yellow)
 
-        current = True
-        while current:
+        while True:
             # Fills the screen with the background color
             main_menu.fill(self.bg_color)
 
@@ -52,12 +51,15 @@ class MainMenu():
                     sys.exit()
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if play_button.isHovered():
-                        current = False
                         play_menu = PlayMenu.PlayMenu(self.w, self.h)
                         play_menu.display()
+                        pygame.display.quit() # Does this close window?
+                        return
                     if settings_button.isHovered():
-                        current = False
-                        settings_menu = SettingsMenu.SettingsMenu(self.w, self.h)
+                        #settings_menu = SettingsMenu.SettingsMenu(self.w, self.h)
+                        #play_menu.display()
+                        pygame.display.quit()
+                        return
                     if quit_button.isHovered():
                         print('Thanks for playing')
                         pygame.quit()

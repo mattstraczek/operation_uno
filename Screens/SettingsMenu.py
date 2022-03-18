@@ -2,10 +2,10 @@ import pygame, sys
 from Components import Button, Message
 from Screens import MainMenu
 
-class MainMenu():
+class Settings():
     def __init__(self, width=800, height=600, bg_color=pygame.Color("Black")):
         """ Initializes the Main Menu with default size of 800x600 and a black background """
-        self.title = "Main Menu"
+        self.title = "Settings"
         self.w = width
         self.h = height
         self.bg_color = bg_color
@@ -21,7 +21,7 @@ class MainMenu():
             fontSize = self.w // 40
         else:
             fontSize = self.h // 20
-
+        
         # Initialize text objects
         text_font = pygame.font.Font('Resources/Font/OpenSans-ExtraBold.ttf', fontSize*2)
         title_msg = Message.Message(main_menu, "OPERATION UNO", text_font, pygame.Color("White"), [self.w/2, self.h/8])

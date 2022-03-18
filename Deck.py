@@ -24,6 +24,10 @@ class Deck():
     def draw(self):
         """ Draws and removes the card at the top of the deck. """
         return self.deck.pop(0)
+    
+    def peek(self):
+        """ Shows the card at the top of the deck without removing. """
+        return self.deck[0]
 
     def __str__(self):
         """ Overridden toString() method displays the deck. """
