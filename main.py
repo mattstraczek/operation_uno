@@ -1,33 +1,23 @@
-from Game import Game
-from PlayGame import PlayGame
-from Button import Button
-from Difficulty import Difficulty
-from NumPlayers import NumPlayers
-from SoundEffects import SoundEffects
-from MainScreen import MainScreen
 import pygame
+from Screens import MainMenu
+
+#from Game import Game
+#from PlayGame import PlayGame
+#from Difficulty import Difficulty
+#from NumPlayers import NumPlayers
+#from SoundEffects import SoundEffects
+
 # from pygame import mixer
 # from mixer import music
 import os
 import pygame.mixer as mixer
 from pygame.mixer import music as msound
 
-# functions -------------------------
-
-def displayWindow(window):
-    window.fill(background_color) # change color if you want
-
-def displayMessage(msg, color, dest, display):
-    screen_text = font.render(msg, True, color)
-    display.blit(screen_text, dest)
-
-# main ----------------------------
-
 if __name__ == '__main__':
     pygame.init()
     info = pygame.display.Info()
-    main_screen = MainScreen(width=info.current_w, height=info.current_h, bg_color=pygame.Color("Black"))
-    main_screen.display()
+    main_menu = MainMenu.MainMenu(width=info.current_w, height=info.current_h)
+    main_menu.display()
     '''
     run = True
     # instantiate our needed classes here
