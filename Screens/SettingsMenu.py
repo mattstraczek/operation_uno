@@ -3,7 +3,7 @@ from Components import Button, Message
 from Screens import MainMenu
 
 class Settings():
-    def __init__(self, width=800, height=600, bg_color=pygame.Color("Blue")):
+    def __init__(self, width=800, height=600, bg_color=pygame.Color("Purple")):
         """ Initializes the Main Menu with default size of 800x600 and a Purple background """
         self.title = "Settings"
         self.w = width
