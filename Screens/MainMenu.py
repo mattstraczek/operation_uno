@@ -35,6 +35,7 @@ class MainMenu():
         green  = pygame.Color("Green")
         blue   = pygame.Color("Blue")
         button_font = pygame.font.Font('Resources/Font/OpenSans-Regular.ttf', fontSize)
+        black = pygame.Color("Black")
 
         play_button = Button.Button(main_menu, red, [self.w/4,self.h*3/4], [fontSize*5, fontSize*2.5], button_font, "Play", red, yellow)
         settings_button = Button.Button(main_menu, green, [self.w/2,self.h*3/4], [fontSize*7.5, fontSize*2.5], button_font, "Settings", green, yellow)
