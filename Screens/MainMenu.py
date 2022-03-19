@@ -40,7 +40,7 @@ class MainMenu():
         play_button = Button.Button(main_menu, red, [self.w/4,self.h*3/4], [fontSize*5, fontSize*2.5], button_font, "Play", red, yellow)
         settings_button = Button.Button(main_menu, green, [self.w/2,self.h*3/4], [fontSize*7.5, fontSize*2.5], button_font, "Settings", green, yellow)
         quit_button = Button.Button(main_menu, blue, [self.w*3/4,self.h*3/4], [fontSize*5, fontSize*2.5], button_font, "Quit", blue, yellow)
-        sound_button = Button.Button(main_menu, black, [self.w*4/5, self.h*4/5], [fontSize*3, fontSize*1.5], button_font, "Sound", black, yellow)
+        sound_button = Button.Button(main_menu, black, [self.w*8/9, self.h*8/9], [fontSize*3, fontSize*1.5], button_font, "Sound", black, yellow)
 
         while True:
             # Fills the screen with the background color
