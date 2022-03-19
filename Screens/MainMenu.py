@@ -67,10 +67,10 @@ class MainMenu():
                         # Logic for on/off with boolean
                         if self.is_sound_on == True:
                             self.is_sound_on = False
-                            sound_button = Button.Button(main_menu, black, [self.w*8/9, self.h*8/9], [fontSize*3, fontSize*1.5], button_font, "Sound Off", black, yellow)
+                            sound_button = Button.Button(main_menu, black, [self.w*8/9, self.h*8/9], [fontSize*5, fontSize*2.5], button_font, "Sound Off", black, yellow)
                         elif self.is_sound_on == False:
                             self.is_sound_on = True
-                            sound_button = Button.Button(main_menu, black, [self.w*8/9, self.h*8/9], [fontSize*3, fontSize*1.5], button_font, "Sound On", black, yellow)
+                            sound_button = Button.Button(main_menu, black, [self.w*8/9, self.h*8/9], [fontSize*5, fontSize*2.5], button_font, "Sound On", black, yellow)
                         # pygame.display.quit()
                         return
                     if quit_button.isHovered():
