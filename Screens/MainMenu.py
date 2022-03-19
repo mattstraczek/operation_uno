@@ -36,6 +36,7 @@ class MainMenu():
         green  = pygame.Color("Green")
         blue   = pygame.Color("Blue")
         button_font = pygame.font.Font('Resources/Font/OpenSans-Regular.ttf', fontSize)
+        black = pygame.Color("Black")
 
         play_button = Button.Button(main_menu, red, [self.w/4,self.h*3/4], [fontSize*5, fontSize*2.5], button_font, "Play", red, yellow)
         settings_button = Button.Button(main_menu, green, [self.w/2,self.h*3/4], [fontSize*7.5, fontSize*2.5], button_font, "Settings", green, yellow)
@@ -64,11 +65,11 @@ class MainMenu():
                         return
                     if sound_button.isHovered():
                         # Logic for on/off with boolean
-                        if is_sound_on == True:
-                            is_sound_on = False
+                        if self.is_sound_on == True:
+                            self.is_sound_on = False
                             sound_button = Button.Button(main_menu, black, [self.w*8/9, self.h*8/9], [fontSize*3, fontSize*1.5], button_font, "Sound Off", black, yellow)
-                        elif is_sound_on == False:
-                            is_sound_on = True
+                        elif self.is_sound_on == False:
+                            self.is_sound_on = True
                             sound_button = Button.Button(main_menu, black, [self.w*8/9, self.h*8/9], [fontSize*3, fontSize*1.5], button_font, "Sound On", black, yellow)
                         # pygame.display.quit()
                         return
