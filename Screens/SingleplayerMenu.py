@@ -60,6 +60,7 @@ class SingleplayerMenu():
         # Initialize Ruleset/Cardset
         cardset = Deck.Deck()
         ruleset = Ruleset.Ruleset()
+        
         current = True
         while current:
             # Fills the screen with the background color
