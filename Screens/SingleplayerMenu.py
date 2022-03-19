@@ -1,6 +1,6 @@
 import pygame, sys
 from Components import Button, Message
-from Screens import PlayMenu#, GameWindow
+from Screens import PlayMenu, GameWindow
 import Game
 
 class SingleplayerMenu():
@@ -81,6 +81,8 @@ class SingleplayerMenu():
                     if start_game_button.isHovered():
                         current = False
                         game = Game.Game(False, self.num_players, self.difficulty)
+                        play_game = GameWindow.GameWindow(game)
+                        play_game.display()
                         pygame.display.quit()
                         return
                         

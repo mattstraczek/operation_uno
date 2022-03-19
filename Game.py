@@ -23,8 +23,8 @@ class Game:
         
         # Deals cards to each player
         self.deal()
-
-        self.startGame()
+        #self.startGame()
+        self.sound = "off"
 
     def deal(self):
         """ Deals cards to each player (including AI). """
@@ -106,7 +106,7 @@ class Game:
         print(currPlayer.name, "is the winner!")
 
     
-    '''def changeSoundEffects(self, sound):
+    def changeSoundEffects(self, sound):
         """ Changes if sound effects are on/off """
         self.sound = sound
 
@@ -116,4 +116,4 @@ class Game:
 
     def printGameState(self):
         print('NumPlayers: ', self.num_players, '\nSound: ', self.sound, '\nDifficulty: ', self.difficulty)
-    '''
+    

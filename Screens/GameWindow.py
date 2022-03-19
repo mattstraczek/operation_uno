@@ -2,15 +2,17 @@
 from Deck import Deck
 from Player import Player
 from AI import AI 
-from Button import Button
+from Components import Button
 from Game import Game
 import pygame
 import pygame.mixer as mixer
 from pygame.mixer import music as msound
 
 class GameWindow:
-    # This will serve as additional menu functionality
-    def playGameMenu(game_instance):
+    def __init__(self, game_instance):
+        self.game = game_instance
+
+    def display(self):
         # changeable constants -----
         screen_x = 800
         screen_y = 600
@@ -50,12 +52,12 @@ class GameWindow:
         button_font = pygame.font.Font('Resources/Font/OpenSans-Regular.ttf', 22)
         png = pygame.image.load('Resources/Images/uno.png')
 
-        exit_button = Button(colors["green"], [15, 175], [100, 50], button_font, "Back", colors["green"], (37,186,176))
+        exit_button = Button.Button(window, colors["green"], [15, 175], [100, 50], button_font, "Back", colors["green"], colors["yellow"])
 
         # Have the background fanfare playing while the menu is running
         msound.load("Resources/Sounds/Fanfare-sound.wav")
         msound.play(-1)
-        if (game_instance.getSoundEffects() == "off"):
+        if (self.game.getSoundEffects() == "off"):
             msound.pause()
         else:
             msound.play(-1)
@@ -67,7 +69,7 @@ class GameWindow:
             
 
             # ---------------- updates -----------------
-            exit_button.updateButton(mouse_pos, window)
+            # exit_button.updateButton(mouse_pos, window)
 
             for event in pygame.event.get(): 
                 # ----------- ongoing checks (controls, updates, etc) ----------
@@ -84,7 +86,7 @@ class GameWindow:
             # ---------- renders --------------
             displayWindow(window)
             displayMessage("OPERATION UNO", colors["white"], [150, 25], window)
-            exit_button.displayButton(window)
+            exit_button.displayButton()
             window.blit(png, (225, 150))
             # pygame.display.flip() # Do we need this? I feel like this will change the layout of the window
 
