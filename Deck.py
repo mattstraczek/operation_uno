@@ -3,7 +3,10 @@ import numpy as np
 from Ruleset import Ruleset
 
 class Deck():
-    def __init__(self, seed=None):
+    # ruleset  -> ruleset to apply to deck functions, default will use the default ruleset
+    # seed     -> random seed for generating the deck, default=random
+
+    def __init__(self, ruleset=None, seed=None):
         """ Constructs a Deck object that contains a shuffled deck. """
         if ruleset == None:
             self.ruleset = Ruleset()

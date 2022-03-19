@@ -4,8 +4,15 @@ from Ruleset import Ruleset
 import numpy as np
 
 class Game:
+    # isMultiplayer -> whether or not game is multiplayer
+    # ruleset       -> current game ruleset, leave empty for default ruleset
+    # num_players   -> number of AI in singleplayer, total player in multiplayer, default=1
+    # difficulty    -> bot difficulty, TBD
+    # playerNames   -> list of player names, default=empty
+    # deckSeed      -> random seed for deck generation, default=random
+    # runGame       -> when false will prevent game from starting, use for debugging only
 
-    def __init__(self, isMultiplayer, ruleset, num_players=1, difficulty="Easy", playerNames=[], deckSeed=None, debug=False):
+    def __init__(self, isMultiplayer, ruleset=None, num_players=1, difficulty="Easy", playerNames=[], deckSeed=None, runGame=True):
         """ Constructs a Game object with players and AI, deals cards, and starts a game. """
         if ruleset == None:
             self.ruleset = Ruleset()
@@ -28,12 +35,10 @@ class Game:
         
         # Deals cards to each player
         self.deal(ruleset)
-        #self.startGame()
         self.sound = "off"
-        self.deal(ruleset)
         
-        # if not debug:
-        #     self.startGame()
+        if runGame:
+            self.startGame()
 
     def deal(self, ruleset):
         """ Deals cards to each player (including AI). """
