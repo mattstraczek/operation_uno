@@ -1,7 +1,7 @@
 from Game import Game
 from Deck import Deck
 import unittest
-
+import numpy as np
 from Ruleset import Ruleset
 
 """
@@ -30,8 +30,8 @@ How to use the unittest framework:
 class UnoTestCases(unittest.TestCase):
 
     def testInitDeck(self):
-        r = Ruleset()
         self.maxDiff = None
+        r = Ruleset()
         deck = Deck(r, 10)
         deck2 = Deck(r, 500)
         deck3 = Deck(r, 10)
@@ -40,8 +40,8 @@ class UnoTestCases(unittest.TestCase):
         self.assertEqual(deck.__str__(), deck3.__str__())
     
     def testShuffleDeck(self):
-        r = Ruleset()
         self.maxDiff = None
+        r = Ruleset()
         deck = Deck(r)
         original = deck.__str__()
         deck.shuffle()
@@ -61,47 +61,24 @@ class UnoTestCases(unittest.TestCase):
         self.assertEqual((originalDeckCount - 1), len(deck.deck))
 
     def testDealCard(self):
+        for i in range(10):
+            game = TestHelperFunctions.dealHelper(i)
+            ruleset = Ruleset()
+            # players array should be one more than the AIcount (i)
+            self.assertTrue(len(game.players) == i + 1)
+            # all hands should be at the appropriate amount
+            for player in game.players:
+                self.assertTrue(len(player.hand) == ruleset.dealQuantity)
+            # deck length should be reduced by the amount of players times the drawQuantity
+            self.assertTrue(len(game.deck.deck) == len(ruleset.cardSet) - (i + 1)*ruleset.dealQuantity)
+
+
+
+class TestHelperFunctions():
+    def dealHelper(AIcount):
         ruleset = Ruleset()
-        game = Game(False, 4, "Easy", [], 1024, ruleset, True)
-        print(len(game.players))
-        self.assertTrue(len(game.players) == 4)
-        for player in game.players:
-            self.assertTrue(len(player.hand) == ruleset.dealQuantity)
-        
-        self.assertTrue(len(game.deck.deck) == len(ruleset.cardSet) - 4*ruleset.dealQuantity)
-
-        # game = Game(0, 3)
-        # testDeck = Deck()
-        # self.assertTrue(len(game.players) == 3)
-        # # the following assumes the game rule that the players will receive at least one card
-        # self.assertTrue(len(game.players[0].hand) > 0)
-        # self.assertTrue(len(game.deck.deck) < len(testDeck.deck))
-
-        # game = Game(7, 0)
-        # testDeck = Deck()
-        # self.assertTrue(len(game.players) == 7)
-        # # the following assumes the game rule that the players will receive at least one card
-        # self.assertTrue(len(game.players[0].hand) > 0)
-        # self.assertTrue(len(game.deck.deck) < len(testDeck.deck))
-
-        # game = Game(1, 1)
-        # testDeck = Deck()
-        # self.assertTrue(len(game.players) == 2)
-        # # the following assumes the game rule that the players will receive at least one card
-        # self.assertTrue(len(game.players[0].hand) > 0)
-        # self.assertTrue(len(game.deck.deck) < len(testDeck.deck))
-
-    # def testChangePlayers(self):
-    #     game = Game(1, 6)
-    #     game2 = Game(4, 0)
-    #     self.assertTrue(game.num_players == 1)
-    #     self.assertTrue(game2.num_players == 4)
-    #     game.changeNumPlayers(4)
-    #     game2.changeNumPlayers(0)
-    #     self.assertTrue(game.num_players == 4)
-    #     self.assertTrue(game2.num_players == 0)
-
-
+        game = Game(False, AIcount, "Easy", [], np.random.randint(0, 1000), ruleset, True)
+        return game
 
 if __name__ == '__main__':
     unittest.main()
