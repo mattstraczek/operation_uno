@@ -2,6 +2,8 @@ from Game import Game
 from Deck import Deck
 import unittest
 
+from Ruleset import Ruleset
+
 """
 How to use the unittest framework:
 
@@ -28,22 +30,28 @@ How to use the unittest framework:
 class UnoTestCases(unittest.TestCase):
 
     def testInitDeck(self):
+        r = Ruleset()
         self.maxDiff = None
-        deck = Deck()
-        deck2 = Deck()
+        deck = Deck(r, 10)
+        deck2 = Deck(r, 500)
+        deck3 = Deck(r, 10)
         self.assertNotEqual(deck.__str__(), deck2.__str__())
+        self.assertNotEqual(deck3.__str__(), deck2.__str__())
+        self.assertEqual(deck.__str__(), deck3.__str__())
     
     def testShuffleDeck(self):
+        r = Ruleset()
         self.maxDiff = None
-        deck = Deck()
+        deck = Deck(r)
         original = deck.__str__()
         deck.shuffle()
         shuffled = deck.__str__()
         self.assertNotEqual(original, shuffled)
     
     def testDrawCard(self):
+        r = Ruleset()
         self.maxDiff = None
-        deck = Deck()
+        deck = Deck(r)
         originalDeckCount = len(deck.deck)
         topCard = deck.deck[0]
         original = deck.__str__()
@@ -53,43 +61,45 @@ class UnoTestCases(unittest.TestCase):
         self.assertEqual((originalDeckCount - 1), len(deck.deck))
 
     def testDealCard(self):
-        game = Game(4, 2)
-        testDeck = Deck()
-        self.assertTrue(len(game.players) == 6)
-        # the following assumes the game rule that the players will receive at least one card
-        self.assertTrue(len(game.players[0].hand) > 0)
-        self.assertTrue(len(game.deck.deck) < len(testDeck.deck))
+        ruleset = Ruleset()
+        game = Game(False, 4, "Easy", [], 1024, ruleset, True)
+        print(len(game.players))
+        self.assertTrue(len(game.players) == 4)
+        for player in game.players:
+            self.assertTrue(len(player.hand) == ruleset.dealQuantity)
+        
+        self.assertTrue(len(game.deck.deck) == len(ruleset.cardSet) - 4*ruleset.dealQuantity)
 
-        game = Game(0, 3)
-        testDeck = Deck()
-        self.assertTrue(len(game.players) == 3)
-        # the following assumes the game rule that the players will receive at least one card
-        self.assertTrue(len(game.players[0].hand) > 0)
-        self.assertTrue(len(game.deck.deck) < len(testDeck.deck))
+        # game = Game(0, 3)
+        # testDeck = Deck()
+        # self.assertTrue(len(game.players) == 3)
+        # # the following assumes the game rule that the players will receive at least one card
+        # self.assertTrue(len(game.players[0].hand) > 0)
+        # self.assertTrue(len(game.deck.deck) < len(testDeck.deck))
 
-        game = Game(7, 0)
-        testDeck = Deck()
-        self.assertTrue(len(game.players) == 7)
-        # the following assumes the game rule that the players will receive at least one card
-        self.assertTrue(len(game.players[0].hand) > 0)
-        self.assertTrue(len(game.deck.deck) < len(testDeck.deck))
+        # game = Game(7, 0)
+        # testDeck = Deck()
+        # self.assertTrue(len(game.players) == 7)
+        # # the following assumes the game rule that the players will receive at least one card
+        # self.assertTrue(len(game.players[0].hand) > 0)
+        # self.assertTrue(len(game.deck.deck) < len(testDeck.deck))
 
-        game = Game(1, 1)
-        testDeck = Deck()
-        self.assertTrue(len(game.players) == 2)
-        # the following assumes the game rule that the players will receive at least one card
-        self.assertTrue(len(game.players[0].hand) > 0)
-        self.assertTrue(len(game.deck.deck) < len(testDeck.deck))
+        # game = Game(1, 1)
+        # testDeck = Deck()
+        # self.assertTrue(len(game.players) == 2)
+        # # the following assumes the game rule that the players will receive at least one card
+        # self.assertTrue(len(game.players[0].hand) > 0)
+        # self.assertTrue(len(game.deck.deck) < len(testDeck.deck))
 
-    def testChangePlayers(self):
-        game = Game(1, 6)
-        game2 = Game(4, 0)
-        self.assertTrue(game.num_players == 1)
-        self.assertTrue(game2.num_players == 4)
-        game.changeNumPlayers(4)
-        game2.changeNumPlayers(0)
-        self.assertTrue(game.num_players == 4)
-        self.assertTrue(game2.num_players == 0)
+    # def testChangePlayers(self):
+    #     game = Game(1, 6)
+    #     game2 = Game(4, 0)
+    #     self.assertTrue(game.num_players == 1)
+    #     self.assertTrue(game2.num_players == 4)
+    #     game.changeNumPlayers(4)
+    #     game2.changeNumPlayers(0)
+    #     self.assertTrue(game.num_players == 4)
+    #     self.assertTrue(game2.num_players == 0)
 
 
 
