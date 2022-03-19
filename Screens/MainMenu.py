@@ -3,8 +3,8 @@ from Components import Button, Message
 from Screens import PlayMenu, SettingsMenu
 
 class MainMenu():
-    def __init__(self, width=800, height=600, bg_color=pygame.Color("Black")): # add sound boolean and variable for every cstr
-        """ Initializes the Main Menu with default size of 800x600 and a black background """
+    def __init__(self, width=800, height=600, bg_color=pygame.Color("Purple")): # add sound boolean and variable for every cstr
+        """ Initializes the Main Menu with default size of 800x600 and a purple background """
         self.title = "Main Menu"
         self.w = width
         self.h = height
@@ -39,6 +39,7 @@ class MainMenu():
         play_button = Button.Button(main_menu, red, [self.w/4,self.h*3/4], [fontSize*5, fontSize*2.5], button_font, "Play", red, yellow)
         settings_button = Button.Button(main_menu, green, [self.w/2,self.h*3/4], [fontSize*7.5, fontSize*2.5], button_font, "Settings", green, yellow)
         quit_button = Button.Button(main_menu, blue, [self.w*3/4,self.h*3/4], [fontSize*5, fontSize*2.5], button_font, "Quit", blue, yellow)
+        sound_button = Button.Button(main_menu, black, [self.w*4/5, self.h*4/5], [fontSize*3, fontSize*1.5], button_font, "Sound", black, yellow)
 
         while True:
             # Fills the screen with the background color
@@ -60,6 +61,10 @@ class MainMenu():
                         #play_menu.display()
                         pygame.display.quit()
                         return
+                    if sound_button.isHovered():
+                        # Need to add logic for on/off with boolean
+                        pygame.display.quit()
+                        return
                     if quit_button.isHovered():
                         print('Thanks for playing')
                         pygame.quit()
@@ -69,6 +74,7 @@ class MainMenu():
             title_msg.displayMessage()
             play_button.displayButton()
             settings_button.displayButton()
+            sound_button.displayButton()
             quit_button.displayButton()
             main_menu.blit(png, (self.w/2-png_dims[0]/2, self.h/2.5-png_dims[1]/2))
             

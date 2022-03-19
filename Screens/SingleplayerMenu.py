@@ -6,8 +6,8 @@ import Ruleset
 import Deck
 
 class SingleplayerMenu():
-    def __init__(self, width=800, height=600, bg_color=pygame.Color("Black")):
-        """ Initializes the Main Menu with default size of 800x600 and a black background """
+    def __init__(self, width=800, height=600, bg_color=pygame.Color("Purple")):
+        """ Initializes the Main Menu with default size of 800x600 and a purple background """
         self.title = "Singleplayer Menu"
         self.w = width
         self.h = height
