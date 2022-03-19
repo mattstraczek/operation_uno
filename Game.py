@@ -5,10 +5,15 @@ import numpy as np
 
 class Game:
 
-    def __init__(self, isMultiplayer, num_players=1, difficulty="Easy", playerNames=[]):
+    def __init__(self, isMultiplayer, ruleset, num_players=1, difficulty="Easy", playerNames=[], deckSeed=None, debug=False):
         """ Constructs a Game object with players and AI, deals cards, and starts a game. """
+        if ruleset == None:
+            self.ruleset = Ruleset()
+        else:
+            self.ruleset = ruleset
+
         self.isMultiplayer = isMultiplayer
-        self.deck = Deck()
+        self.deck = Deck(self.ruleset, deckSeed)
 
         # Initialize players
         self.players = []
@@ -22,14 +27,18 @@ class Game:
                 self.players.append(Player("AI " + str(i), True, difficulty))
         
         # Deals cards to each player
-        self.deal()
+        self.deal(ruleset)
         #self.startGame()
         self.sound = "off"
+        self.deal(ruleset)
+        
+        # if not debug:
+        #     self.startGame()
 
-    def deal(self):
+    def deal(self, ruleset):
         """ Deals cards to each player (including AI). """
         for player in self.players:
-            self.draw(player, 7) # Deals 7 cards, but Ruleset will override this number later on
+            self.draw(player, ruleset.dealQuantity) # Deals 7 cards, but Ruleset will override this number later on
         # for player in self.players: 
             # print(player) # Testing
     

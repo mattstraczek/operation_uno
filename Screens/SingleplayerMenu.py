@@ -2,6 +2,8 @@ import pygame, sys
 from Components import Button, Message
 from Screens import PlayMenu, GameWindow
 import Game
+import Ruleset
+import Deck
 
 class SingleplayerMenu():
     def __init__(self, width=800, height=600, bg_color=pygame.Color("Black")):
@@ -55,6 +57,9 @@ class SingleplayerMenu():
         start_game_button = Button.Button(singleplayer_menu, blue, [self.w/2,self.h*7/8], [self.w/2, fontSize*2.5], button_font, "START", white, yellow)
         back_button = Button.Button(singleplayer_menu, blue, [self.w*7/8,self.h*7/8], [fontSize*5, fontSize*2.5], button_font, "Back", white, yellow)
 
+        # Initialize Ruleset/Cardset
+        cardset = Deck.Deck()
+        ruleset = Ruleset.Ruleset()
         current = True
         while current:
             # Fills the screen with the background color
