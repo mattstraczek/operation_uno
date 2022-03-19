@@ -5,7 +5,7 @@ import numpy as np
 
 class Game:
 
-    def __init__(self, isMultiplayer, num_players=2, difficulty="Easy", playerNames=[]):
+    def __init__(self, isMultiplayer, num_players=1, difficulty="Easy", playerNames=[]):
         """ Constructs a Game object with players and AI, deals cards, and starts a game. """
         self.isMultiplayer = isMultiplayer
         self.deck = Deck()
