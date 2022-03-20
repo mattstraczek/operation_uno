@@ -1,5 +1,5 @@
 import pygame, sys
-from Components import Button, Message
+from Components import Button, Message, Image
 from Screens import PlayMenu, SettingsMenu
 
 class MainMenu():
@@ -37,6 +37,10 @@ class MainMenu():
         blue   = pygame.Color("Blue")
         button_font = pygame.font.Font('Resources/Font/OpenSans-Regular.ttf', fontSize)
         black = pygame.Color("Black")
+        sound_on_image = pygame.image.load("Resources/Images/volume_on.png")
+        on_dims = sound_on_image.get_size()
+        sound_off_image = pygame.image.load("Resources/Images/volume_off.png")
+        off_dims = sound_off_image.get_size()
 
         play_button = Button.Button(main_menu, red, [self.w/4,self.h*3/4], [fontSize*5, fontSize*2.5], button_font, "Play", red, yellow)
         settings_button = Button.Button(main_menu, green, [self.w/2,self.h*3/4], [fontSize*7.5, fontSize*2.5], button_font, "Settings", green, yellow)
