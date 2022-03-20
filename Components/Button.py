@@ -1,36 +1,6 @@
 import pygame
 
-class Button:
-    '''
-    def __init__(self, image, pos, msg, text_color, font, base_color, hover_color):
-        self.image = image
-        self.pos = pos
-        self.msg = msg
-        self.text_color = text_color
-        self.font = font
-        self.base_color = base_color
-        self.hover_color = hover_color
-        self.text = self.font.render(self.msg, True, self.base_color)
-        if self.image is None:
-            self.image = self.text
-        self.rect = self.image.get_rect(center=pos)
-        self.text_rect = self.text.get_rect(center=pos)
-
-    def update(self, screen):
-        if self.image is not None:
-            screen.blit(self.image, self.rect)
-        screen.blit(self.text, self.text_rect)
-    
-    def checkForInput(self, position):
-        return position[0] in range(self.rect.left, self.rect.right) and position[1] in range(self.rect.top, self.rect.bottom)        
-             
-    def changeColor(self, position):
-        if self.checkForInput(position):
-            self.text = self.font.render(self.msg, True, self.hovering_color)
-        else:
-            self.text = self.font.render(self.msg, True, self.base_color)
-    '''
-    
+class Button:    
     def __init__(self, window, color, pos, size, font, msg, base_color, hover_color, scale=1.1):
         # initializes the Button, sets each element of Button
         self.color = color
@@ -72,6 +42,4 @@ class Button:
     def isHovered(self):
         # Gets the mouse position
         mouse_pos = pygame.mouse.get_pos()
-        return mouse_pos[0] in range(self.button_rect.left, self.button_rect.right) and mouse_pos[1] in range(self.button_rect.top, self.button_rect.bottom)        
-
- 
+        return mouse_pos[0] in range(self.button_rect.left, self.button_rect.right) and mouse_pos[1] in range(self.button_rect.top, self.button_rect.bottom)
