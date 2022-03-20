@@ -27,3 +27,8 @@ class Image:
         new_png_dims = tuple(i*png_scale_factor for i in png_dims)
         self.image = pygame.transform.scale(png, new_png_dims)
         self.image_rect = self.image.get_rect(center=self.pos, size=new_png_dims)
+
+    def updatePos(self, new_pos):
+        self.pos = new_pos
+    
+    # def updateSize(self, new_size): not sure if needed
