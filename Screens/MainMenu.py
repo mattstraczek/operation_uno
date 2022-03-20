@@ -80,9 +80,9 @@ class MainMenu():
                         # Logic for on/off with boolean
                         self.is_sound_on = not self.is_sound_on
                         if self.is_sound_on == True:
-                            sound_image.updateImage("Resources/Images/volume_on.png")
-                        elif self.is_sound_on == False:
                             sound_image.updateImage("Resources/Images/volume_off.png")
+                        elif self.is_sound_on == False:
+                            sound_image.updateImage("Resources/Images/volume_on.png")
                         # pygame.display.quit()
                     if quit_button.isHovered():
                         print("Thanks for playing")
