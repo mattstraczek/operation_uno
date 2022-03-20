@@ -42,10 +42,15 @@ class MainMenu():
         sound_off_image = pygame.image.load("Resources/Images/volume_off.png")
         off_dims = sound_off_image.get_size()
 
+        # Different buttons displayed on main menu
         play_button = Button.Button(main_menu, red, [self.w/4,self.h*3/4], [fontSize*5, fontSize*2.5], button_font, "Play", red, yellow)
         settings_button = Button.Button(main_menu, green, [self.w/2,self.h*3/4], [fontSize*7.5, fontSize*2.5], button_font, "Settings", green, yellow)
         quit_button = Button.Button(main_menu, blue, [self.w*3/4,self.h*3/4], [fontSize*5, fontSize*2.5], button_font, "Quit", blue, yellow)
-        sound_button = Button.Button(main_menu, black, [self.w*8/9, self.h*8/9], [fontSize*5, fontSize*2.5], button_font, "Sound On", black, yellow)
+        # sound_button = Button.Button(main_menu, black, [self.w*8/9, self.h*8/9], [fontSize*5, fontSize*2.5], button_font, "Sound On", black, yellow)
+        sound_image_on = Image.Image(main_menu, black, sound_on_image, [self.w*8/9, self.h*8/9], black, yellow)
+        sound_image_off = Image.Image(main_menu, black, sound_off_image, [self.e*8/9, self.h*8/9], black, yellow)
+        # Default state (sound is on):
+        sound_image = sound_image_on
 
         while True:
             # Fills the screen with the background color
@@ -60,33 +65,38 @@ class MainMenu():
                     if play_button.isHovered():
                         play_menu = PlayMenu.PlayMenu(self.w, self.h)
                         play_menu.display()
-                        pygame.display.quit() # Does this close window?
-                        return
+                        print("Play button pressed")
+                        # pygame.display.quit() # Does this close window? --> Yes
+                        # return
                     if settings_button.isHovered():
-                        #settings_menu = SettingsMenu.SettingsMenu(self.w, self.h)
-                        #play_menu.display()
-                        pygame.display.quit()
-                        return
+                        print("Settings button pressed")
+                        # settings_menu = SettingsMenu.SettingsMenu(self.w, self.h)
+                        # play_menu.display()
+                        # pygame.display.quit()
+                        # return
                     if sound_button.isHovered():
                         # Logic for on/off with boolean
                         if self.is_sound_on == True:
                             self.is_sound_on = False
-                            sound_button = Button.Button(main_menu, black, [self.w*8/9, self.h*8/9], [fontSize*5, fontSize*2.5], button_font, "Sound Off", black, yellow)
+                            # sound_button = Button.Button(main_menu, black, [self.w*8/9, self.h*8/9], [fontSize*5, fontSize*2.5], button_font, "Sound Off", black, yellow)
+                            sound_image = sound_image_off
                         elif self.is_sound_on == False:
                             self.is_sound_on = True
-                            sound_button = Button.Button(main_menu, black, [self.w*8/9, self.h*8/9], [fontSize*5, fontSize*2.5], button_font, "Sound On", black, yellow)
+                            # sound_button = Button.Button(main_menu, black, [self.w*8/9, self.h*8/9], [fontSize*5, fontSize*2.5], button_font, "Sound On", black, yellow)
+                            sound_image = sound_image_on
                         # pygame.display.quit()
                     if quit_button.isHovered():
-                        print('Thanks for playing')
+                        print("Thanks for playing")
                         pygame.quit()
                         sys.exit()
-
+                    
             # Displays the components of main menu
             title_msg.displayMessage()
             play_button.displayButton()
             settings_button.displayButton()
             sound_button.displayButton()
             quit_button.displayButton()
+            sound_image.displayImage()
             main_menu.blit(png, (self.w/2-png_dims[0]/2, self.h/2.5-png_dims[1]/2))
             
             # Refreshes the screen to update the changes
