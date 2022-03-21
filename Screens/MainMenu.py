@@ -64,10 +64,14 @@ class MainMenu():
                         play_menu = PlayMenu.PlayMenu(self.w, self.h)
                         play_menu.display()
                         print("Play button pressed")
+                        button_sound = mix.Sound('Resources/Sounds/button-3.wav')
+                        button_sound.play()
                         # pygame.display.quit() # Does this close window? --> Yes
                         # return
                     if settings_button.isHovered():
                         print("Settings button pressed")
+                        button_sound = mix.Sound('Resources/Sounds/button-3.wav')
+                        button_sound.play()
                         # settings_menu = SettingsMenu.SettingsMenu(self.w, self.h)
                         # play_menu.display()
                         # pygame.display.quit()
@@ -78,8 +82,12 @@ class MainMenu():
                             sound_img.updateImage("Resources/Icons/SoundOff.png")
                         elif self.is_sound_on == False:
                             sound_img.updateImage("Resources/Icons/SoundOn.png")
+                        button_sound = mix.Sound('Resources/Sounds/button-3.wav')
+                        button_sound.play()
                         self.is_sound_on = not self.is_sound_on
                     if quit_button.isHovered():
+                        button_sound = mix.Sound('Resources/Sounds/button-3.wav')
+                        button_sound.play()
                         print("Thanks for playing")
                         pygame.quit()
                         sys.exit()
