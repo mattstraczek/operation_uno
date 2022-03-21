@@ -72,7 +72,6 @@ class MainMenu():
                             self.is_sound_on = True
                             sound_button = Button.Button(main_menu, black, [self.w*8/9, self.h*8/9], [fontSize*3, fontSize*1.5], button_font, "Sound On", black, yellow)
                         # pygame.display.quit()
-                        return
                     if quit_button.isHovered():
                         print('Thanks for playing')
                         pygame.quit()
