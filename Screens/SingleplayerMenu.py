@@ -1,11 +1,13 @@
 import pygame, sys
 from Components import Button, Message
-from Screens import PlayMenu#, GameWindow
+from Screens import PlayMenu, GameWindow
 import Game
+import Ruleset
+import Deck
 
 class SingleplayerMenu():
-    def __init__(self, width=800, height=600, bg_color=pygame.Color("Black")):
-        """ Initializes the Main Menu with default size of 800x600 and a black background """
+    def __init__(self, width=800, height=600, bg_color=pygame.Color("Purple")):
+        """ Initializes the Main Menu with default size of 800x600 and a purple background """
         self.title = "Singleplayer Menu"
         self.w = width
         self.h = height
@@ -47,14 +49,18 @@ class SingleplayerMenu():
         players_4 = Button.Button(singleplayer_menu, blue, [self.w*3/4,self.h/4], [fontSize*2.5, fontSize*2.5], button_font, "3", blue, yellow)
         player_buttons = [players_2, players_3, players_4]
 
-        easy = Button.Button(singleplayer_menu, red, [self.w/4,self.h*3/4], [fontSize*5, fontSize*2.5], button_font, "Easy", red, yellow)
-        medium = Button.Button(singleplayer_menu, green, [self.w/2,self.h*3/4], [fontSize*5, fontSize*2.5], button_font, "Medium", green, yellow)
-        hard = Button.Button(singleplayer_menu, blue, [self.w*3/4,self.h*3/4], [fontSize*5, fontSize*2.5], button_font, "Hard", blue, yellow)
+        easy = Button.Button(singleplayer_menu, red, [self.w/4,self.h*5/8], [fontSize*5, fontSize*2.5], button_font, "Easy", red, yellow)
+        medium = Button.Button(singleplayer_menu, green, [self.w/2,self.h*5/8], [fontSize*5, fontSize*2.5], button_font, "Medium", green, yellow)
+        hard = Button.Button(singleplayer_menu, blue, [self.w*3/4,self.h*5/8], [fontSize*5, fontSize*2.5], button_font, "Hard", blue, yellow)
         difficulty_buttons = [easy, medium, hard]
 
         start_game_button = Button.Button(singleplayer_menu, blue, [self.w/2,self.h*7/8], [self.w/2, fontSize*2.5], button_font, "START", white, yellow)
         back_button = Button.Button(singleplayer_menu, blue, [self.w*7/8,self.h*7/8], [fontSize*5, fontSize*2.5], button_font, "Back", white, yellow)
 
+        # Initialize Ruleset/Cardset
+        cardset = Deck.Deck()
+        ruleset = Ruleset.Ruleset()
+        
         current = True
         while current:
             # Fills the screen with the background color
@@ -79,13 +85,13 @@ class SingleplayerMenu():
                             difficulty_text.changeMessage("DIFFICULTY: " + self.difficulty)
 
                     if start_game_button.isHovered():
-                        current = False
-                        game = Game.Game(False, self.num_players, self.difficulty)
+                        game_instance = Game.Game(False, self.num_players, self.difficulty)
+                        game_window = GameWindow.GameWindow(game_instance, self.w, self.h)
+                        game_window.display()
                         pygame.display.quit()
                         return
                         
                     if back_button.isHovered():
-                        current = False
                         play_menu = PlayMenu.PlayMenu(self.w, self.h)
                         play_menu.display()
                         pygame.display.quit()
