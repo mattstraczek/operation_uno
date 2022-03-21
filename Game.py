@@ -4,16 +4,19 @@ from Ruleset import Ruleset
 import numpy as np
 
 class Game:
+    # isMultiplayer -> whether or not game is multiplayer
+    # ruleset       -> current game ruleset, leave empty for default ruleset
+    # num_players   -> number of AI in singleplayer, total player in multiplayer, default=1
+    # difficulty    -> bot difficulty, TBD
+    # playerNames   -> list of player names, default=empty
+    # deckSeed      -> random seed for deck generation, default=random
+    # runGame       -> when false will prevent game from starting, use for debugging only
 
-    def __init__(self, isMultiplayer, num_players=1, difficulty="Easy", playerNames=[], deckSeed=None, ruleset=None, debug=False):
+    def __init__(self, isMultiplayer, num_players=1, difficulty="Easy", playerNames=[]):
         """ Constructs a Game object with players and AI, deals cards, and starts a game. """
-        if ruleset == None:
-            self.ruleset = Ruleset()
-        else:
-            self.ruleset = ruleset
-
         self.isMultiplayer = isMultiplayer
-        self.deck = Deck(self.ruleset, deckSeed)
+        self.ruleset = Ruleset()
+        self.deck = Deck(self.ruleset)
 
         # Initialize players
         self.players = []
@@ -22,20 +25,14 @@ class Game:
                 self.players.append(Player(player))
                 # add option to add bots to the game?
         else:
-            self.players.append(Player("Player Name"))
+            self.players.append(Player("Player Name")) # need to fetch from profile.py class or something
             for i in range(num_players):
                 self.players.append(Player("AI " + str(i), True, difficulty))
-        
-        # Deals cards to each player
-        self.deal(ruleset)
-        
-        if not debug:
-            self.startGame()
-
-    def deal(self, ruleset):
+                
+    def deal(self):
         """ Deals cards to each player (including AI). """
         for player in self.players:
-            self.draw(player, ruleset.dealQuantity) # Deals 7 cards, but Ruleset will override this number later on
+            self.draw(player, self.ruleset.deal_quantity) # Deals 7 cards, but Ruleset will override this number later on
         # for player in self.players: 
             # print(player) # Testing
     
@@ -112,7 +109,7 @@ class Game:
         print(currPlayer.name, "is the winner!")
 
     
-    '''def changeSoundEffects(self, sound):
+    def changeSoundEffects(self, sound):
         """ Changes if sound effects are on/off """
         self.sound = sound
 
@@ -122,4 +119,4 @@ class Game:
 
     def printGameState(self):
         print('NumPlayers: ', self.num_players, '\nSound: ', self.sound, '\nDifficulty: ', self.difficulty)
-    '''
+    

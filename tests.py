@@ -68,6 +68,7 @@ class UnoTestCases(unittest.TestCase):
             self.assertTrue(len(game.players) == i + 1)
             # all hands should be at the appropriate amount
             for player in game.players:
+                print("player hand: " + str(len(player.hand)) + " | " + str(ruleset.dealQuantity))
                 self.assertTrue(len(player.hand) == ruleset.dealQuantity)
             # deck length should be reduced by the amount of players times the drawQuantity
             self.assertTrue(len(game.deck.deck) == len(ruleset.cardSet) - (i + 1)*ruleset.dealQuantity)
@@ -77,7 +78,7 @@ class UnoTestCases(unittest.TestCase):
 class TestHelperFunctions():
     def dealHelper(AIcount):
         ruleset = Ruleset()
-        game = Game(False, AIcount, "Easy", [], np.random.randint(0, 1000), ruleset, True)
+        game = Game(False, ruleset, AIcount, "Easy", [], np.random.randint(0, 1000), False)
         return game
 
 if __name__ == '__main__':
