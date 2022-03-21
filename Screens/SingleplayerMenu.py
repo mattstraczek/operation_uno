@@ -85,15 +85,13 @@ class SingleplayerMenu():
                             difficulty_text.changeMessage("DIFFICULTY: " + self.difficulty)
 
                     if start_game_button.isHovered():
-                        current = False
-                        game = Game.Game(False, self.num_players, self.difficulty)
-                        play_game = GameWindow.GameWindow(game)
-                        play_game.display()
+                        game_instance = Game.Game(False, self.num_players, self.difficulty)
+                        game_window = GameWindow.GameWindow(game_instance, self.w, self.h)
+                        game_window.display()
                         pygame.display.quit()
                         return
                         
                     if back_button.isHovered():
-                        current = False
                         play_menu = PlayMenu.PlayMenu(self.w, self.h)
                         play_menu.display()
                         pygame.display.quit()
