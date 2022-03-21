@@ -1,6 +1,7 @@
 import pygame, sys
 from Components import Button, Message, Image
 from Screens import PlayMenu, SettingsMenu
+from pygame import mixer as mix
 
 class MainMenu():
     def __init__(self, width=800, height=600, bg_color=pygame.Color("Purple")): # add sound boolean and variable for every cstr
@@ -47,6 +48,12 @@ class MainMenu():
             # Fills the screen with the background color
             main_menu.fill(self.bg_color)
 
+            menu_sound = mix.Sound('Resources/Sounds/Menu-theme.wav')
+            if self.is_sound_on == True:
+                menu_sound.play()
+            elif self.is_sound_on == False:
+                menu_sound.stop()
+
             # Registers button presses and changes screens accordingly
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -76,7 +83,7 @@ class MainMenu():
                         print("Thanks for playing")
                         pygame.quit()
                         sys.exit()
-                    
+
             # Displays the components of main menu
             title_msg.displayMessage()
             play_button.displayButton()
