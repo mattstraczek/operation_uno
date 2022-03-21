@@ -3,18 +3,25 @@ from Components import Button, Message, Image
 from Screens import PlayMenu, SettingsMenu
 
 class MainMenu():
-    def __init__(self, width=800, height=600, bg_color=pygame.Color("Purple")): # add sound boolean and variable for every cstr
+    def __init__(self, f_w, f_h, w, h, b_w, b_h, bg_color=pygame.Color("Purple")): # add sound boolean and variable for every cstr
         """ Initializes the Main Menu with default size of 800x600 and a purple background """
         self.title = "Main Menu"
-        self.w = width
-        self.h = height
+        # full screen dims
+        self.f_w = f_w
+        self.f_h = f_h
+        # displayed screen dims
+        self.w = w
+        self.h = h
+        # buffer dims
+        self.b_w = b_w
+        self.b_h = b_h
         self.bg_color = bg_color
         self.is_sound_on = True
 
     def display(self):
         """ Displays the Main Menu and its components """
         # Initializes the main screen width and title
-        main_menu = pygame.display.set_mode((self.w, self.h))
+        main_menu = pygame.display.set_mode((self.f_w, self.f_h))
         pygame.display.set_caption(self.title)
         
         # Determines the font size based on screen dimensions
@@ -32,7 +39,7 @@ class MainMenu():
         yellow = pygame.Color("Yellow")
         green  = pygame.Color("Green")
         blue   = pygame.Color("Blue")
-        black = pygame.Color("Black")
+        black  = pygame.Color("Black")
         button_font = pygame.font.Font('Resources/Font/OpenSans-Regular.ttf', fontSize)
 
         # Different buttons displayed on main menu
@@ -45,7 +52,8 @@ class MainMenu():
 
         while True:
             # Fills the screen with the background color
-            main_menu.fill(self.bg_color)
+            main_menu.fill(black)
+            pygame.draw.rect(main_menu, self.bg_color, [self.b_w, self.b_h, self.w, self.h])
 
             # Registers button presses and changes screens accordingly
             for event in pygame.event.get():
