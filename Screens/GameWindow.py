@@ -5,6 +5,7 @@ from AI import AI
 from Components import Button, Message, Image, CardImage
 from Game import Game
 import pygame, sys
+import time
 
 def updateHand(self, player, window):
     temp_hand = []
@@ -33,9 +34,12 @@ class GameWindow:
         selected_card = None
 
         players = self.game_instance.players
-        
+        print(self.top_card)
         while True:
+            self.game_instance.nextTurn()
+            time.sleep(100)
             self.card_imgs = updateHand(self, self.game_instance.main_player, game_window)
+            print(self.top_card)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()

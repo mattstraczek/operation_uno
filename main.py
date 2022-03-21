@@ -17,6 +17,7 @@ if __name__ == '__main__':
     pygame.init()
     info = pygame.display.Info()
     # do some math to establish a 2:1 screen dimension
+<<<<<<< HEAD
     screen_w, screen_h = info.current_w, info.current_h
     screen_buffer_w, screen_buffer_h = 0, 0 
     if info.current_w / info.current_h > 2: # if height is the limiting factor
@@ -32,12 +33,18 @@ if __name__ == '__main__':
 
     main_menu = MainMenu.MainMenu(info.current_w, info.current_h, screen_w, screen_h, screen_buffer_w, screen_buffer_h)
     main_menu.display()
+=======
+    
+    # main_menu = MainMenu.MainMenu(width=info.current_w, height=info.current_h)
+    # main_menu.display()
+>>>>>>> 222a295a072babc33afa0b9d85d3f283e42bacd0
 
     # for quick testing of game_window
-    # game_instance = Game(False, 4, 'easy')
-    # game_window = GameWindow.GameWindow(game_instance, info.current_w, info.current_h)
-    # game_window = GameWindow.GameWindow(width=info.current_w, height=info.current_h)
-    # game_window.display()
+    game_instance = Game(False, 4, 'easy')
+    game_window = GameWindow.GameWindow(game_instance, info.current_w, info.current_h)
+    
+    #game_window = GameWindow.GameWindow(width=info.current_w, height=info.current_h)
+    game_window.display()
     '''
     run = True
     # instantiate our needed classes here
