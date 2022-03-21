@@ -20,6 +20,7 @@ class Game:
 
         # Initialize players
         self.players = []
+
         if isMultiplayer:
             for player in playerNames:
                 self.players.append(Player(player))
@@ -28,6 +29,12 @@ class Game:
             self.players.append(Player("Player Name")) # need to fetch from profile.py class or something
             for i in range(num_players):
                 self.players.append(Player("AI " + str(i), True, difficulty))
+        self.deal()
+        self.main_player = self.players[0]
+        self.turn = 1
+        self.actual_turn = 1
+        np.random.shuffle(self.players)
+        self.top_card = self.deck.draw()
                 
     def deal(self):
         """ Deals cards to each player (including AI). """
@@ -40,6 +47,17 @@ class Game:
         for i in range(num_times):
             print(player.name, "drew", self.deck.peek())
             player.addCard(self.deck.draw())
+
+    # def nextTurn(self):
+    #     currPlayer = self.players[(self.turn-1) % len(self.players)]
+    #     currPlayer.draw()
+    #     pickCard AI/human
+    #     update self.topcard
+    #     check if theres a winner
+    #     move to next Turn
+    #     let gamewindow reflect changes in hand and Deck
+    def updateTopCard(self, selected_card):
+        self.top_card = selected_card
 
     def startGame(self):
         """ Begins a game of UNO. """

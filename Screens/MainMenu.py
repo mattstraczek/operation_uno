@@ -57,10 +57,12 @@ class MainMenu():
             pygame.draw.rect(main_menu, self.bg_color, [self.b_w, self.b_h, self.w, self.h])
 
             menu_sound = mix.Sound('Resources/Sounds/Menu-theme.wav')
-            if self.is_sound_on == True:
-                menu_sound.play()
-            elif self.is_sound_on == False:
-                menu_sound.stop()
+            menu_sound.set_volume(0.4)
+            menu_sound.play()
+            # if self.is_sound_on == True:
+            #     menu_sound.play()
+            # elif self.is_sound_on == False:
+            #     menu_sound.stop()
 
             # Registers button presses and changes screens accordingly
             for event in pygame.event.get():
@@ -88,8 +90,10 @@ class MainMenu():
                         # Logic for on/off with boolean
                         if self.is_sound_on == True:
                             sound_img.updateImage("Resources/Icons/SoundOff.png")
+                            mix.pause()
                         elif self.is_sound_on == False:
                             sound_img.updateImage("Resources/Icons/SoundOn.png")
+                            mix.unpause()
                         button_sound = mix.Sound('Resources/Sounds/button-3.wav')
                         button_sound.play()
                         self.is_sound_on = not self.is_sound_on

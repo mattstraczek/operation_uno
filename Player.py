@@ -48,6 +48,27 @@ class Player():
                     return card
                 print("Card does not exist or is not a valid move")
 
+        # def playCardHuman(self, topCard, firstAction, choice):
+        #         while firstAction:
+        #             # choice = input("DRAW OR PLACE (d/p): ")
+        #             if choice=="d":
+        #                 return None
+        #             elif choice=='p':
+        #                 card = self.placeCard(topCard)
+        #                 if card:
+        #                     return card
+        #                 print("Card does not exist or is not a valid move")
+
+        #         if not firstAction:
+        #             choice = input("SKIP OR PLACE (s/p): ")
+        #             if choice=="s":
+        #                 return None
+        #             elif choice=='p':
+        #                 card = self.placeCard(topCard)
+        #                 if card:
+        #                     return card
+        #                 print("Card does not exist or is not a valid move")
+
     def placeCard(self, topCard):
         cardInput = input("Enter the card: ").upper()
         splitInput = cardInput.split(" ", 1)
