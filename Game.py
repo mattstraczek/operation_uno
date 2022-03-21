@@ -54,10 +54,16 @@ class Game:
         #currPlayer.draw()
         #if ai:
         #pickCard AI
-        played_card = currPlayer.playCardAI(self.top_card)
-        self.updateGameState(played_card, currPlayer)
-        self.turn += 1
-        self.actual_turn += 1
+        if currPlayer.isAI:
+            played_card = currPlayer.playCardAI(self.top_card)
+            self.updateGameState(played_card, currPlayer)
+            self.turn += 1
+            self.actual_turn += 1
+            return False
+        else:
+            self.turn += 1
+            self.actual_turn += 1
+            return True
         #else, human
         #return
         #let gamewindow reflect changes in hand and Deck
@@ -68,6 +74,7 @@ class Game:
         # let gamewindow reflect changes in hand and Deck
 
     def updateGameState(self, playedCard, currPlayer):
+        total_players = len(self.players)
         if not playedCard:
             print(currPlayer.name, "skipped their turn")
         elif playedCard:
@@ -78,7 +85,6 @@ class Game:
                     print(player.name, end=" | ")  
                 print()
                 print("Reverse")
-                total_players = len(self.players)
                 self.turn = total_players - (self.turn % total_players)
 
             elif playedCard.value=="SKIP":

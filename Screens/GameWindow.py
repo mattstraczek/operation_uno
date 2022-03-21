@@ -34,12 +34,15 @@ class GameWindow:
         selected_card = None
 
         players = self.game_instance.players
-        print(self.top_card)
+        finished_turn = True
         while True:
-            self.game_instance.nextTurn()
-            time.sleep(100)
+            if finished_turn:
+                if self.game_instance.nextTurn():
+                    finished_turn = False
+                time.sleep(1)
+
+            
             self.card_imgs = updateHand(self, self.game_instance.main_player, game_window)
-            print(self.top_card)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -58,8 +61,13 @@ class GameWindow:
                             selected_card.updateBasePos((self.middle_bound.centerx, self.middle_bound.centery))
                             self.game_instance.main_player.hand.remove(selected_card.card)
                             self.game_instance.updateTopCard(selected_card.card)
-                            self.top_card.updateCard(self.game_instance.top_card)
+                            finished_turn = True
                         selected_card = None
+                        
+                        #self.game_instance.main_player.hand.remove(selected_card.card)
+        
+                        #self.game_instance.updateTopCard(selected_card.card)
+            self.top_card.updateCard(self.game_instance.top_card)
 
                 #if draw_button.isHovered
 
@@ -70,11 +78,11 @@ class GameWindow:
             for card in self.card_imgs:
                 card.displayImage()
 
+            self.top_card.displayImage()
+
             if selected_card:
                 selected_card.updatePos(pos)
                 selected_card.displayImage()
-
-            self.top_card.displayImage()
 
             pygame.draw.rect(game_window, pygame.Color("White"), self.middle_bound, 2, 10)
             pygame.display.flip()
