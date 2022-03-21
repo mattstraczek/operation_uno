@@ -48,14 +48,56 @@ class Game:
             print(player.name, "drew", self.deck.peek())
             player.addCard(self.deck.draw())
 
-    # def nextTurn(self):
-    #     currPlayer = self.players[(self.turn-1) % len(self.players)]
-    #     currPlayer.draw()
-    #     pickCard AI/human
-    #     update self.topcard
-    #     check if theres a winner
-    #     move to next Turn
-    #     let gamewindow reflect changes in hand and Deck
+    def nextTurn(self):
+        currPlayer = self.players[(self.turn-1) % len(self.players)]
+        
+        #currPlayer.draw()
+        #if ai:
+        #pickCard AI
+        played_card = currPlayer.playCardAI(self.top_card)
+        self.updateGameState(played_card, currPlayer)
+        self.turn += 1
+        self.actual_turn += 1
+        #else, human
+        #return
+        #let gamewindow reflect changes in hand and Deck
+
+        # #check if theres a winner 
+        # if currPlayer.isWin():
+        #     return currPlayer.name
+        # let gamewindow reflect changes in hand and Deck
+
+    def updateGameState(self, playedCard, currPlayer):
+        if not playedCard:
+            print(currPlayer.name, "skipped their turn")
+        elif playedCard:
+            if playedCard.value=="REVERSE":
+                self.players.reverse()
+                print("Turn order:", end="")
+                for player in self.players:
+                    print(player.name, end=" | ")  
+                print()
+                print("Reverse")
+                total_players = len(self.players)
+                self.turn = total_players - (self.turn % total_players)
+
+            elif playedCard.value=="SKIP":
+                print("Skipped", self.players[(self.turn) % total_players].name, "turn")
+                self.turn+=1
+
+            elif playedCard.value=="DRAW 2":
+                self.draw(self.players[(self.turn) % total_players], 2)
+                print("Added 2 cards to", self.players[(self.turn) % total_players].name)
+                self.turn+=1
+
+            elif playedCard.value=="DRAW 4":
+                self.draw(self.players[(self.turn) % total_players], 4)
+                print("Added 4 cards to", self.players[(self.turn) % total_players].name)
+                self.turn+=1
+
+            self.top_card = playedCard
+
+
     def updateTopCard(self, selected_card):
         self.top_card = selected_card
 
