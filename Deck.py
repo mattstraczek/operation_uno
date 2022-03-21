@@ -1,32 +1,31 @@
 from Card import Card
 import numpy as np
+import random
 from Ruleset import Ruleset
 
 class Deck():
-    def __init__(self, ruleset=None, seed=None):
+    # ruleset  -> ruleset to apply to deck functions, default will use the default ruleset
+    # seed     -> random seed for generating the deck, default=random
+
+    def __init__(self, seed=None):
         """ Constructs a Deck object that contains a shuffled deck. """
-        if ruleset == None:
-            self.ruleset = Ruleset()
-        else:
-            self.ruleset = ruleset
-            
-        self.deck = []
-        self.inititializeDeck(ruleset)
+        self.ruleset = Ruleset()
+        self.deck = self.ruleset.deck
+        #self.inititializeDeck()
         self.shuffle(seed)
 
-    def inititializeDeck(self, ruleset): # will pass in Ruleset class to receive parameters for a specialized deck
-        """ Initializes a shallow copy of the ruleset deck. """
-        for c in ruleset.cardSet:
-            self.deck.append(c)
+    #def inititializeDeck(self): # will pass in Ruleset class to receive parameters for a specialized deck
+        #""" Initializes a shallow copy of the ruleset deck. """
+        #for card in self.ruleset.cardSet:
+        #    self.deck.append(card)
 
     def shuffle(self, seed=None):
         """ Shuffles the deck using numpy's random shuffle method. """
-        if (seed == None):
-            np.random.seed(np.random.randint(0, 100000))
+        if seed:
+            random.seed(seed)
         else:
-            np.random.seed(seed)
-
-        np.random.shuffle(self.deck)
+            random.seed(2)
+        random.shuffle(self.deck)
 
     def draw(self):
         """ Draws and removes the card at the top of the deck. """
