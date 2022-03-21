@@ -16,6 +16,9 @@ from pygame.mixer import music as msound
 if __name__ == '__main__':
     pygame.init()
     info = pygame.display.Info()
+
+    # do some math to establish a 2:1 screen dimension
+    
     main_menu = MainMenu.MainMenu(width=info.current_w, height=info.current_h)
     main_menu.display()
     # for quick testing of game_window
