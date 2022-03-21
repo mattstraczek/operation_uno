@@ -19,15 +19,15 @@ if __name__ == '__main__':
 
     # do some math to establish a 2:1 screen dimension
     
-    # main_menu = MainMenu.MainMenu(width=info.current_w, height=info.current_h)
-    # main_menu.display()
+    main_menu = MainMenu.MainMenu(width=info.current_w, height=info.current_h)
+    main_menu.display()
 
     # for quick testing of game_window
-    game_instance = Game(False, 4, 'easy')
-    game_window = GameWindow.GameWindow(game_instance, info.current_w, info.current_h)
+    # game_instance = Game(False, 4, 'easy')
+    # game_window = GameWindow.GameWindow(game_instance, info.current_w, info.current_h)
     
     #game_window = GameWindow.GameWindow(width=info.current_w, height=info.current_h)
-    game_window.display()
+    #game_window.display()
     '''
     run = True
     # instantiate our needed classes here
