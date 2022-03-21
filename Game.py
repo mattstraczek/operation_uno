@@ -68,6 +68,8 @@ class Game:
         # let gamewindow reflect changes in hand and Deck
 
     def updateGameState(self, playedCard, currPlayer):
+        total_players = len(self.players)
+
         if not playedCard:
             print(currPlayer.name, "skipped their turn")
         elif playedCard:
@@ -78,7 +80,6 @@ class Game:
                     print(player.name, end=" | ")  
                 print()
                 print("Reverse")
-                total_players = len(self.players)
                 self.turn = total_players - (self.turn % total_players)
 
             elif playedCard.value=="SKIP":

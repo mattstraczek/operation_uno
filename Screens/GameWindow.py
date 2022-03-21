@@ -37,7 +37,7 @@ class GameWindow:
         print(self.top_card)
         while True:
             self.game_instance.nextTurn()
-            time.sleep(100)
+            time.sleep(1)
             self.card_imgs = updateHand(self, self.game_instance.main_player, game_window)
             print(self.top_card)
             for event in pygame.event.get():
@@ -57,12 +57,10 @@ class GameWindow:
                         if selected_card.checkInBounds(self.middle_bound):
                             selected_card.updateBasePos((self.middle_bound.centerx, self.middle_bound.centery))
                             self.game_instance.main_player.hand.remove(selected_card.card)
-                            self.game_instance.updateTopCard(selected_card.card)
-                            self.top_card.updateCard(self.game_instance.top_card)
                         selected_card = None
 
                 #if draw_button.isHovered
-
+            self.top_card.updateCard(self.game_instance.top_card)
 
             game_window.fill(self.bg_color)
             pos = pygame.mouse.get_pos()
