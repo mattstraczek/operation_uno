@@ -40,8 +40,8 @@ class MainMenu():
         settings_button = Button.Button(main_menu, green, [self.w/2,self.h*3/4], [fontSize*7.5, fontSize*2.5], button_font, "Settings", green, yellow)
         quit_button = Button.Button(main_menu, blue, [self.w*3/4,self.h*3/4], [fontSize*5, fontSize*2.5], button_font, "Quit", blue, yellow)
         
-        sound_img = Image.Image(main_menu, [self.w*8/9, self.h*8/9], [self.w/8, self.h/8], "Resources/Images/SoundOn.png")
-        uno_img = Image.Image(main_menu, [self.w/2, self.h/2.5], [self.w, self.h/4], "Resources/Images/uno.png")
+        sound_img = Image.Image(main_menu, [self.w*8/9, self.h*8/9], [self.w/8, self.h/8], "Resources/Icons/SoundOn.png")
+        uno_img = Image.Image(main_menu, [self.w/2, self.h/2.5], [self.w, self.h/4], "Resources/Icons/uno.png")
 
         while True:
             # Fills the screen with the background color
@@ -68,9 +68,9 @@ class MainMenu():
                     if sound_img.isHovered():
                         # Logic for on/off with boolean
                         if self.is_sound_on == True:
-                            sound_img.updateImage("Resources/Images/SoundOff.png")
+                            sound_img.updateImage("Resources/Icons/SoundOff.png")
                         elif self.is_sound_on == False:
-                            sound_img.updateImage("Resources/Images/SoundOn.png")
+                            sound_img.updateImage("Resources/Icons/SoundOn.png")
                         self.is_sound_on = not self.is_sound_on
                     if quit_button.isHovered():
                         print("Thanks for playing")
