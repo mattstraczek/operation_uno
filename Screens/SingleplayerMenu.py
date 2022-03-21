@@ -49,9 +49,9 @@ class SingleplayerMenu():
         players_4 = Button.Button(singleplayer_menu, blue, [self.w*3/4,self.h/4], [fontSize*2.5, fontSize*2.5], button_font, "3", blue, yellow)
         player_buttons = [players_2, players_3, players_4]
 
-        easy = Button.Button(singleplayer_menu, red, [self.w/4,self.h*3/4], [fontSize*5, fontSize*2.5], button_font, "Easy", red, yellow)
-        medium = Button.Button(singleplayer_menu, green, [self.w/2,self.h*3/4], [fontSize*5, fontSize*2.5], button_font, "Medium", green, yellow)
-        hard = Button.Button(singleplayer_menu, blue, [self.w*3/4,self.h*3/4], [fontSize*5, fontSize*2.5], button_font, "Hard", blue, yellow)
+        easy = Button.Button(singleplayer_menu, red, [self.w/4,self.h*5/8], [fontSize*5, fontSize*2.5], button_font, "Easy", red, yellow)
+        medium = Button.Button(singleplayer_menu, green, [self.w/2,self.h*5/8], [fontSize*5, fontSize*2.5], button_font, "Medium", green, yellow)
+        hard = Button.Button(singleplayer_menu, blue, [self.w*3/4,self.h*5/8], [fontSize*5, fontSize*2.5], button_font, "Hard", blue, yellow)
         difficulty_buttons = [easy, medium, hard]
 
         start_game_button = Button.Button(singleplayer_menu, blue, [self.w/2,self.h*7/8], [self.w/2, fontSize*2.5], button_font, "START", white, yellow)
