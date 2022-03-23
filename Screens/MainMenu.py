@@ -4,18 +4,20 @@ from Screens import PlayMenu, SettingsMenu
 from pygame import mixer as mix
 
 class MainMenu():
-    def __init__(self, f_w, f_h, w, h, b_w, b_h, bg_color=pygame.Color("Purple")): # add sound boolean and variable for every cstr
+    #def __init__(self, f_w, f_h, w, h, b_w, b_h, bg_color=pygame.Color("Purple")): # add sound boolean and variable for every cstr
+    def __init__(self, w, h, bg_color=pygame.Color("Purple")): # add sound boolean and variable for every cstr
+
         """ Initializes the Main Menu with default size of 800x600 and a purple background """
         self.title = "Main Menu"
         # full screen dims
-        self.f_w = f_w
-        self.f_h = f_h
+        self.f_w = w #f_w
+        self.f_h = h #f_h
         # displayed screen dims
         self.w = w
         self.h = h
         # buffer dims
-        self.b_w = b_w
-        self.b_h = b_h
+        self.b_w = 0 #b_w
+        self.b_h = 0 #b_h
         self.bg_color = bg_color
         self.is_sound_on = True
 

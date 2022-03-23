@@ -29,13 +29,14 @@ class Game:
             self.players.append(Player("Player Name")) # need to fetch from profile.py class or something
             for i in range(num_players):
                 self.players.append(Player("AI " + str(i), True, difficulty))
-        self.deal()
+        self.total_players = len(self.players)
         self.main_player = self.players[0]
+        self.deal()
         self.turn = 1
         self.actual_turn = 1
         np.random.shuffle(self.players)
         self.top_card = self.deck.draw()
-                
+
     def deal(self):
         """ Deals cards to each player (including AI). """
         for player in self.players:
@@ -50,14 +51,26 @@ class Game:
 
     def nextTurn(self):
         currPlayer = self.players[(self.turn-1) % len(self.players)]
-        
-        #currPlayer.draw()
-        #if ai:
-        #pickCard AI
+        #if currPlayer.isAI:
         played_card = currPlayer.playCardAI(self.top_card)
+        if not played_card:
+            self.draw(currPlayer, 1)
+            played_card = currPlayer.playCardAI(self.top_card)
         self.updateGameState(played_card, currPlayer)
         self.turn += 1
         self.actual_turn += 1
+        return False
+        """
+        else:
+            played_card = currPlayer.playCardHuman(self.top_card, True)
+            if not playedCard:
+                self.draw(currPlayer, 1)
+                played_card = currPlayer.playCardHuman(self.top_card, False)
+            self.updateGameState(played_card, currPlayer)
+            self.turn += 1
+            self.actual_turn += 1
+            return True
+        """
         #else, human
         #return
         #let gamewindow reflect changes in hand and Deck
@@ -68,8 +81,6 @@ class Game:
         # let gamewindow reflect changes in hand and Deck
 
     def updateGameState(self, playedCard, currPlayer):
-        total_players = len(self.players)
-
         if not playedCard:
             print(currPlayer.name, "skipped their turn")
         elif playedCard:
@@ -80,28 +91,30 @@ class Game:
                     print(player.name, end=" | ")  
                 print()
                 print("Reverse")
-                self.turn = total_players - (self.turn % total_players)
+                self.turn = self.total_players - (self.turn % self.total_players)
 
             elif playedCard.value=="SKIP":
-                print("Skipped", self.players[(self.turn) % total_players].name, "turn")
+                print("Skipped", self.players[(self.turn) % self.total_players].name, "turn")
                 self.turn+=1
 
             elif playedCard.value=="DRAW 2":
-                self.draw(self.players[(self.turn) % total_players], 2)
-                print("Added 2 cards to", self.players[(self.turn) % total_players].name)
+                self.draw(self.players[(self.turn) % self.total_players], 2)
+                print("Added 2 cards to", self.players[(self.turn) % self.total_players].name)
                 self.turn+=1
 
             elif playedCard.value=="DRAW 4":
-                self.draw(self.players[(self.turn) % total_players], 4)
-                print("Added 4 cards to", self.players[(self.turn) % total_players].name)
+                self.draw(self.players[(self.turn) % self.total_players], 4)
+                print("Added 4 cards to", self.players[(self.turn) % self.total_players].name)
                 self.turn+=1
 
             self.top_card = playedCard
 
-
-    def updateTopCard(self, selected_card):
-        self.top_card = selected_card
-
+    def winnerExists(self):
+        for player in self.players:
+            if player.isWin():
+                return True
+        return False
+    '''
     def startGame(self):
         """ Begins a game of UNO. """
         np.random.shuffle(self.players)
@@ -113,12 +126,12 @@ class Game:
         topCard = self.deck.draw()
         turn = 1
         actualTurn = 1
-        total_players = len(self.players)
+        self.total_players = len(self.players)
         winner = False
 
         while not winner:
             print("Turn number:", turn, end=", ")
-            currPlayer = self.players[(turn-1) % total_players]
+            currPlayer = self.players[(turn-1) % self.total_players]
             print("Actual Turn", actualTurn, ":", currPlayer)
             print("Top Card is", topCard)
 
@@ -143,20 +156,20 @@ class Game:
                         print(player.name, end=" | ")  
                     print()
                     print("Reverse")
-                    turn = total_players - (turn % total_players)
+                    turn = self.total_players - (turn % self.total_players)
 
                 elif playedCard.value=="SKIP":
-                    print("Skipped", self.players[(turn) % total_players].name, "turn")
+                    print("Skipped", self.players[(turn) % self.total_players].name, "turn")
                     turn+=1
 
                 elif playedCard.value=="DRAW 2":
-                    self.draw(self.players[(turn) % total_players], 2)
-                    print("Added 2 cards to", self.players[(turn) % total_players].name)
+                    self.draw(self.players[(turn) % self.total_players], 2)
+                    print("Added 2 cards to", self.players[(turn) % self.total_players].name)
                     turn+=1
 
                 elif playedCard.value=="DRAW 4":
-                    self.draw(self.players[(turn) % total_players], 4)
-                    print("Added 4 cards to", self.players[(turn) % total_players].name)
+                    self.draw(self.players[(turn) % self.total_players], 4)
+                    print("Added 4 cards to", self.players[(turn) % self.total_players].name)
                     turn+=1
 
                 topCard = playedCard
@@ -168,7 +181,7 @@ class Game:
             actualTurn+=1
         
         print(currPlayer.name, "is the winner!")
-
+    '''
     
     def changeSoundEffects(self, sound):
         """ Changes if sound effects are on/off """
