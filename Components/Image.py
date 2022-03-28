@@ -20,7 +20,7 @@ class Image:
             self.pos = self.base_pos
         self.image_rect = self.image.get_rect(center=self.pos, size=self.new_png_dims)
         self.window.blit(self.image, self.image_rect)
-
+    
     def isHovered(self):
         mouse_pos = pygame.mouse.get_pos()
         return mouse_pos[0] in range(self.image_rect.left, self.image_rect.right) and mouse_pos[1] in range(self.image_rect.top, self.image_rect.bottom)

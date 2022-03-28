@@ -20,7 +20,7 @@ class Player():
         """ AI plays a card depending on difficulty level """
         # Add different difficulties
         for card in self.hand:
-            if Ruleset.isValid(card, topCard):
+            if Ruleset.isValid(self, card=card, topCard=topCard):
                 self.hand.remove(card)
                 if card.color=="WILD":
                     card = Card(self.maxColor(), card.value)
@@ -48,26 +48,13 @@ class Player():
                     return card
                 print("Card does not exist or is not a valid move")
 
-        # def playCardHuman(self, topCard, firstAction, choice):
-        #         while firstAction:
-        #             # choice = input("DRAW OR PLACE (d/p): ")
-        #             if choice=="d":
-        #                 return None
-        #             elif choice=='p':
-        #                 card = self.placeCard(topCard)
-        #                 if card:
-        #                     return card
-        #                 print("Card does not exist or is not a valid move")
 
-        #         if not firstAction:
-        #             choice = input("SKIP OR PLACE (s/p): ")
-        #             if choice=="s":
-        #                 return None
-        #             elif choice=='p':
-        #                 card = self.placeCard(topCard)
-        #                 if card:
-        #                     return card
-        #                 print("Card does not exist or is not a valid move")
+    
+    def removeCard(self, card):
+        for c in self.hand:
+            if c.color == card.color and c.value == card.value:
+                self.hand.remove(c)
+        #self.hand.remove(card)
 
     def placeCard(self, topCard):
         cardInput = input("Enter the card: ").upper()
@@ -83,6 +70,7 @@ class Player():
                     return Card(color_choice, card.value)
                 return card
         return None
+
     
     def isInHand(self, card):
         for hand_card in self.hand:

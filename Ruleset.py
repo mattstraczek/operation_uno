@@ -5,7 +5,7 @@ class Ruleset():
     def __init__(self):
         self.initialize_standard_game() # by default, but can be overwritten with new rules
 
-    def isValid(card, topCard):
+    def isValid(self, card, topCard):
         if card.color=="WILD":
             return True
         elif str(card.value) == str(topCard.value):
