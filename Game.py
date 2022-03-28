@@ -72,6 +72,11 @@ class Game:
         # if currPlayer.isWin():
         #     return currPlayer.name
         # let gamewindow reflect changes in hand and Deck
+    def checkWinner(self):
+        for player in self.players:
+            if player.isWin():
+                return True
+        return False
 
     def updateGameState(self, playedCard, currPlayer):
         total_players = len(self.players)

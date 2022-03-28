@@ -41,7 +41,11 @@ class GameWindow:
                     finished_turn = False
                 time.sleep(1)
 
-            
+            if (self.game_instance.checkWinner()):
+                print("Winner Found")
+                pygame.quit()
+                sys.exit()
+
             self.card_imgs = updateHand(self, self.game_instance.main_player, game_window)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
