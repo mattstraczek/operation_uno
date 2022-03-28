@@ -37,6 +37,6 @@ if __name__ == '__main__':
     # main_menu.display()
 
     # for quick testing of game_window
-    game_instance = Game(False, 3, 'easy')
+    game_instance = Game(False, 2, 'easy')
     game_window = GameWindow.GameWindow(game_instance, info.current_w, info.current_h)
     game_window.display()

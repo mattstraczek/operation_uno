@@ -67,7 +67,7 @@ class GameWindow:
         player_dict = {}
         for i in range(total_players):
             print(i)
-            player_dict[i] = self.game_instance.players[(index+i)%(total_players-1)]
+            player_dict[i] = self.game_instance.players[(index+i)%(total_players)]
 
         while not self.game_instance.winnerExists():
             if finished_turn:
