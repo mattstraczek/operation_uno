@@ -49,28 +49,52 @@ class Game:
             print(player.name, "drew", self.deck.peek())
             player.addCard(self.deck.draw())
 
-    def nextTurn(self):
-        currPlayer = self.players[(self.turn-1) % len(self.players)]
-        #if currPlayer.isAI:
-        played_card = currPlayer.playCardAI(self.top_card)
-        if not played_card:
-            self.draw(currPlayer, 1)
-            played_card = currPlayer.playCardAI(self.top_card)
-        self.updateGameState(played_card, currPlayer)
+    def skipTurn(self):
         self.turn += 1
         self.actual_turn += 1
-        return False
-        """
-        else:
-            played_card = currPlayer.playCardHuman(self.top_card, True)
-            if not playedCard:
+
+    def updateTurnHuman2(self, curr_player, played_card):
+        curr_player.removeCard(played_card)
+        self.updateGameState(played_card, curr_player)
+        self.actual_turn += 1
+        self.turn += 1
+
+    def getCurrPlayer(self):
+        currPlayer = self.players[(self.turn-1) % len(self.players)]
+        return currPlayer.name
+
+    def nextTurn(self):
+        currPlayer = self.players[(self.turn-1) % len(self.players)]
+        if currPlayer.isAI:
+            played_card = currPlayer.playCardAI(self.top_card)
+            if not played_card:
                 self.draw(currPlayer, 1)
-                played_card = currPlayer.playCardHuman(self.top_card, False)
+                played_card = currPlayer.playCardAI(self.top_card)
             self.updateGameState(played_card, currPlayer)
             self.turn += 1
             self.actual_turn += 1
+            return False
+        else:
             return True
-        """
+            # played_card = currPlayer.playCardHuman2(self.top_card, True)
+            # if not played_card:
+            #     self.draw(currPlayer, 1)
+            #     played_card = currPlayer.playCardHuman2(self.top_card, False)
+            # self.updateGameState(played_card, currPlayer)
+            # self.turn += 1
+            # self.actual_turn += 1
+            #return True
+        
+    def updateTurnHuman(self):
+        currPlayer = self.players[(self.turn-1) % len(self.players)]
+        played_card = currPlayer.playCardHuman2(self.top_card, True)
+        if not played_card:
+            self.draw(currPlayer, 1)
+            played_card = currPlayer.playCardHuman2(self.top_card, False)
+        self.updateGameState(played_card, currPlayer)
+        self.turn += 1
+        self.actual_turn += 1
+
         #else, human
         #return
         #let gamewindow reflect changes in hand and Deck
@@ -79,6 +103,11 @@ class Game:
         # if currPlayer.isWin():
         #     return currPlayer.name
         # let gamewindow reflect changes in hand and Deck
+    def checkWinner(self):
+        for player in self.players:
+            if player.isWin():
+                return True
+        return False
 
     def updateGameState(self, playedCard, currPlayer):
         if not playedCard:
