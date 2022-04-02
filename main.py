@@ -33,10 +33,10 @@ if __name__ == '__main__':
     # main_menu = MainMenu.MainMenu(info.current_w, info.current_h, screen_w, screen_h, screen_buffer_w, screen_buffer_h)
     # main_menu.display()
     
-    # main_menu = MainMenu.MainMenu(w=info.current_w, h=info.current_h)
-    # main_menu.display()
+    main_menu = MainMenu.MainMenu(w=info.current_w, h=info.current_h)
+    main_menu.display()
 
     # for quick testing of game_window
-    game_instance = Game(False, 3, 'easy')
-    game_window = GameWindow.GameWindow(game_instance, info.current_w, info.current_h)
-    game_window.display()
+    # game_instance = Game(False, 3, 'easy')
+    # game_window = GameWindow.GameWindow(game_instance, info.current_w, info.current_h)
+    # game_window.display()
