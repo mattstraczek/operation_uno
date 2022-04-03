@@ -3,6 +3,7 @@ from Game import Game
 import pygame, sys
 from time import sleep, time
 import numpy as np
+from pygame import mixer as mix
 
 def updateCards(self, player, base_card_pos, window):
     num_cards = len(player.hand)
@@ -106,7 +107,6 @@ class GameWindow:
                         ai_turn = False
                 else:
                     sleep(0.1)
-
             
             num_turns.changeMessage(str(self.game_instance.actual_turn))
             current_player.changeMessage(self.game_instance.getCurrPlayer())
@@ -146,6 +146,9 @@ class GameWindow:
                         if selected_card.checkInBounds(self.middle_bound):
                             #print(type(selected_card.card))
                             if self.game_instance.ruleset.isValid(card=selected_card.card, topCard=self.game_instance.top_card):
+                                play_card = mix.Sound('Resources/Sounds/Card-flip-sound-effect.wav')
+                                play_card.set_volume(0.5)
+                                play_card.play()
                                 selected_card.updateBasePos((self.middle_bound.centerx, self.middle_bound.centery))
                                 self.top_card.updateCard(self.game_instance.top_card)
                                 self.game_instance.updateTurnHuman2(self.game_instance.main_player, selected_card.card)
@@ -154,6 +157,10 @@ class GameWindow:
                         selected_card.clicked = False
                         selected_card = None
                     
+            if self.game_instance.winnerExists():
+                win_sound = mix.Sound('Resources/Sounds/Fanfare-sound.wav')
+                win_sound.set_volume(0.5)
+                win_sound.play()
 
             self.top_card.updateCard(self.game_instance.top_card)
 
