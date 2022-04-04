@@ -6,6 +6,7 @@ class Ruleset():
         self.initialize_standard_game() # by default, but can be overwritten with new rules
 
     def isValid(self, card, topCard):
+        """ Checks if card is able to be placed during the current turn (based on top card). """
         if card.color=="WILD":
             return True
         elif str(card.value) == str(topCard.value):
@@ -13,6 +14,7 @@ class Ruleset():
         return card.color == topCard.color
 
     def initialize_standard_game(self):
+        """ Initializes deck for game. """
         colors = ["RED","BLUE","GREEN","YELLOW"]
         cards_zero   = [Card(c,0) for c in colors]
         cards_number = [Card(c,v) for c in colors for v in range (1,10)]*2
@@ -22,6 +24,7 @@ class Ruleset():
         self.deal_quantity = 7
 
     def initialize_quick_game(self):
+        """ Initializes a deck for game with half as many numbered and 'special' cards. """
         colors = ["RED","BLUE","GREEN","YELLOW"]
         cards_zero   = [Card(c,0) for c in colors]
         cards_number = [Card(c,v) for c in colors for v in range (1,10)]
@@ -31,6 +34,7 @@ class Ruleset():
         self.deal_quantity = 4
 
     def initialize_doubledeck_game(self):
+        """ Initializes a deck for game with twice as many numbered and 'special' cards. """
         colors = ["RED","BLUE","GREEN","YELLOW"]
         cards_zero   = [Card(c,0) for c in colors]*2
         cards_number = [Card(c,v) for c in colors for v in range (1,10)]*4
