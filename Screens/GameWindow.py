@@ -151,7 +151,7 @@ class GameWindow:
                                 play_card.play()
                                 selected_card.updateBasePos((self.middle_bound.centerx, self.middle_bound.centery))
                                 self.top_card.updateCard(self.game_instance.top_card)
-                                self.game_instance.updateTurnHuman2(self.game_instance.main_player, selected_card.card)
+                                self.game_instance.updateTurnHuman(self.game_instance.main_player, selected_card.card)
                                 ai_turn = True
                                 can_draw = True
                         selected_card.clicked = False
