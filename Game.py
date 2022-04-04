@@ -88,7 +88,7 @@ class Game:
         else:
             return True
 
-    def checkWinner(self):
+    def winnerExists(self):
         """ Checks state of the game for winner. """
         for player in self.players:
             if player.isWin():
