@@ -21,4 +21,22 @@ class Ruleset():
         self.deck = cards_zero + cards_number + cards_action + cards_wild
         self.deal_quantity = 7
 
+    def initialize_quick_game(self):
+        colors = ["RED","BLUE","GREEN","YELLOW"]
+        cards_zero   = [Card(c,0) for c in colors]
+        cards_number = [Card(c,v) for c in colors for v in range (1,10)]
+        cards_action = [Card(c,v) for c in colors for v in ["REVERSE","DRAW 2"]]
+        cards_wild   = [Card("WILD",v) for v in ["CARD"]]*2
+        self.deck = cards_zero + cards_number + cards_action + cards_wild
+        self.deal_quantity = 4
+
+    def initialize_doubledeck_game(self):
+        colors = ["RED","BLUE","GREEN","YELLOW"]
+        cards_zero   = [Card(c,0) for c in colors]*2
+        cards_number = [Card(c,v) for c in colors for v in range (1,10)]*4
+        cards_action = [Card(c,v) for c in colors for v in ["SKIP","REVERSE","DRAW 2"]]*4
+        cards_wild   = [Card("WILD",v) for v in ["CARD","DRAW 4"]]*8
+        self.deck = cards_zero + cards_number + cards_action + cards_wild
+        self.deal_quantity = 7
+
 

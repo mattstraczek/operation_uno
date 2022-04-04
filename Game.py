@@ -5,18 +5,24 @@ import numpy as np
 
 class Game:
     # isMultiplayer -> whether or not game is multiplayer
-    # ruleset       -> current game ruleset, leave empty for default ruleset
     # num_players   -> number of AI in singleplayer, total player in multiplayer, default=1
     # difficulty    -> bot difficulty, TBD
     # playerNames   -> list of player names, default=empty
-    # deckSeed      -> random seed for deck generation, default=random
-    # runGame       -> when false will prevent game from starting, use for debugging only
 
-    def __init__(self, isMultiplayer, num_players=1, difficulty="Easy", playerNames=[]):
+    # prototype parameters: please ask Jacob if there are issues
+    # ruleset       -> current game ruleset, leave empty for default ruleset 
+    # deckSeed      -> random seed for deck generation, default=random
+    # runGame       -> removed [depreciated]
+
+    def __init__(self, isMultiplayer, num_players=1, difficulty="Easy", playerNames=[], ruleset=Ruleset(), deckSeed=None):
         """ Constructs a Game object with players and AI, deals cards, and starts a game. """
+        if (type(isMultiplayer) != type(True) or type(num_players) != type(4) or type(difficulty) != type("test") or type(playerNames) != type([]) or type(ruleset) != type(Ruleset)):
+            print("type mismatch")
+    
         self.isMultiplayer = isMultiplayer
-        self.ruleset = Ruleset()
-        self.deck = Deck(self.ruleset)
+        self.ruleset = ruleset
+        self.deckSeed = deckSeed
+        self.deck = Deck(self.ruleset, deckSeed)
 
         # Initialize players
         self.players = []
@@ -35,7 +41,7 @@ class Game:
         self.turn = 1
         self.actual_turn = 1
         np.random.shuffle(self.players)
-        self.top_card = self.deck.draw()
+        self.top_card = self.deck.peek()
 
     def deal(self):
         """ Deals cards to each player (including AI). """
