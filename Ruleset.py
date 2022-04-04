@@ -42,5 +42,3 @@ class Ruleset():
         cards_wild   = [Card("WILD",v) for v in ["CARD","DRAW 4"]]*8
         self.deck = cards_zero + cards_number + cards_action + cards_wild
         self.deal_quantity = 7
-
-
