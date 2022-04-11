@@ -3,8 +3,10 @@ from Game import Game
 import pygame, sys
 from time import sleep, time
 import numpy as np
+from pygame import mixer as mix
 
 def updateCards(self, player, base_card_pos, window):
+    """ Updates the visual display of all cards on the screen that are currently in players hands. """
     num_cards = len(player.hand)
     card_offsets = np.linspace(-num_cards/2, num_cards/2, num_cards)
     if base_card_pos[0] == self.w/2: # top or bottom of screen
@@ -29,6 +31,7 @@ timer.start()'''
 
 class GameWindow:
     def __init__(self, game_instance, width=800, height=600, bg_color=pygame.Color("Purple")):
+        """ Initializes a game window to display a game. """
         self.title = "UNO Game"
         self.game_instance = game_instance
         self.w = width
@@ -38,6 +41,7 @@ class GameWindow:
         self.middle_bound = pygame.Rect((self.w / 2 - self.w / 8, self.h / 2 - self.h / 8), (self.w / 4, self.h / 4))
         #self.draw_button
     def display(self):
+        """ Displays the game window and allows for a game to be played using the logic of the imported components. """
         clock = pygame.time.Clock()
         game_window = pygame.display.set_mode((self.w, self.h))
         self.top_card = CardImage.CardImage(game_window, [self.w/2, self.h/2], [self.w/8, self.h/8], self.game_instance.top_card)
@@ -55,13 +59,17 @@ class GameWindow:
         green  = pygame.Color("Green")
         blue   = pygame.Color("Blue")
         white  = pygame.Color("White")
+        black = pygame.Color("Black")
 
         # Initialize text objects
         text_font = pygame.font.Font('Resources/Font/OpenSans-ExtraBold.ttf', int(fontSize/2))
-        num_turns_label = Message.Message(game_window, "Number of turns: ", text_font, white, [100, 100])
-        current_player_label = Message.Message(game_window, "Current player: ", text_font, white, [100, self.h - 100])
-        num_turns = Message.Message(game_window, "0", text_font, white, [200, 100])
-        current_player = Message.Message(game_window, "0", text_font, white, [250, self.h - 100])
+        large_text = pygame.font.Font('Resources/Font/OpenSans-ExtraBold.ttf', int(fontSize * 2))
+        num_turns_label = Message.Message(game_window, "Turn Number", text_font, black, [100, 100])
+        num_turns = Message.Message(game_window, "", large_text, black, [100, 200])
+        current_player_label = Message.Message(game_window, "Current player", text_font, black, [100, 300])
+        current_player = Message.Message(game_window, "", text_font, black, [100, 400])
+
+        labels = [num_turns_label, num_turns, current_player_label, current_player]
 
         #Initialize Buttons
         button_font = pygame.font.Font('Resources/Font/OpenSans-Regular.ttf', fontSize)
@@ -104,10 +112,12 @@ class GameWindow:
                         ai_turn = False
                 else:
                     sleep(0.1)
-
             
             num_turns.changeMessage(str(self.game_instance.actual_turn))
             current_player.changeMessage(self.game_instance.getCurrPlayer())
+            # pygame.time.delay(3000) # Pauses the game for 3 seconds
+            # current_player_label.displayMessage()
+            # current_player.displayMessage()
 
             self.card_imgs = []
             for i in range(total_players):
@@ -141,14 +151,21 @@ class GameWindow:
                         if selected_card.checkInBounds(self.middle_bound):
                             #print(type(selected_card.card))
                             if self.game_instance.ruleset.isValid(card=selected_card.card, topCard=self.game_instance.top_card):
+                                # play_card = mix.Sound('Resources/Sounds/Card-flip-sound-effect.wav')
+                                # play_card.set_volume(0.5)
+                                # play_card.play()
                                 selected_card.updateBasePos((self.middle_bound.centerx, self.middle_bound.centery))
                                 self.top_card.updateCard(self.game_instance.top_card)
-                                self.game_instance.updateTurnHuman2(self.game_instance.main_player, selected_card.card)
+                                self.game_instance.updateTurnHuman(self.game_instance.main_player, selected_card.card)
                                 ai_turn = True
                                 can_draw = True
                         selected_card.clicked = False
                         selected_card = None
                     
+            # if self.game_instance.winnerExists():
+                # win_sound = mix.Sound('Resources/Sounds/Fanfare-sound.wav')
+                # win_sound.set_volume(0.5)
+                # win_sound.play()
 
             self.top_card.updateCard(self.game_instance.top_card)
 
@@ -167,10 +184,13 @@ class GameWindow:
             draw_btn.displayButton()
             skip_btn.displayButton()
 
-            num_turns_label.displayMessage()
-            current_player_label.displayMessage()
-            num_turns.displayMessage()
-            current_player.displayMessage()
+            for label in labels:
+                label.displayMessage()
+
+            # if current_player.changeMessage:
+            #     pygame.time.delay(300) # Pauses the game
+            #     current_player_label.displayMessage()
+            #     current_player.displayMessage()
 
             pygame.draw.rect(game_window, pygame.Color("White"), self.middle_bound, 2, 10)
             pygame.display.flip()

@@ -5,18 +5,24 @@ import numpy as np
 
 class Game:
     # isMultiplayer -> whether or not game is multiplayer
-    # ruleset       -> current game ruleset, leave empty for default ruleset
     # num_players   -> number of AI in singleplayer, total player in multiplayer, default=1
     # difficulty    -> bot difficulty, TBD
     # playerNames   -> list of player names, default=empty
-    # deckSeed      -> random seed for deck generation, default=random
-    # runGame       -> when false will prevent game from starting, use for debugging only
 
-    def __init__(self, isMultiplayer, num_players=1, difficulty="Easy", playerNames=[]):
+    # prototype parameters: please ask Jacob if there are issues
+    # ruleset       -> current game ruleset, leave empty for default ruleset 
+    # deckSeed      -> random seed for deck generation, default=random
+    # runGame       -> removed [depreciated]
+
+    def __init__(self, isMultiplayer, num_players=1, difficulty="Easy", playerNames=[], ruleset=Ruleset(), deckSeed=None):
         """ Constructs a Game object with players and AI, deals cards, and starts a game. """
+        if (type(isMultiplayer) != type(True) or type(num_players) != type(4) or type(difficulty) != type("test") or type(playerNames) != type([]) or type(ruleset) != type(Ruleset)):
+            print("type mismatch")
+    
         self.isMultiplayer = isMultiplayer
-        self.ruleset = Ruleset()
-        self.deck = Deck(self.ruleset)
+        self.ruleset = ruleset
+        self.deckSeed = deckSeed
+        self.deck = Deck(self.ruleset, deckSeed)
 
         # Initialize players
         self.players = []
@@ -35,7 +41,7 @@ class Game:
         self.turn = 1
         self.actual_turn = 1
         np.random.shuffle(self.players)
-        self.top_card = self.deck.draw()
+        self.top_card = self.deck.peek()
 
     def deal(self):
         """ Deals cards to each player (including AI). """
@@ -45,25 +51,30 @@ class Game:
             # print(player) # Testing
     
     def draw(self, player, num_times):
+        """ Passed in player draws a random card from self.deck exactly 'num_times'. """
         for i in range(num_times):
             print(player.name, "drew", self.deck.peek())
             player.addCard(self.deck.draw())
 
     def skipTurn(self):
+        """ Updates turn count of game instance. Effectively skips a turn. """
         self.turn += 1
         self.actual_turn += 1
 
-    def updateTurnHuman2(self, curr_player, played_card):
+    def updateTurnHuman(self, curr_player, played_card):
+        """ Handles the hands-on placing of a card and its game logic by a non-AI player. """
         curr_player.removeCard(played_card)
         self.updateGameState(played_card, curr_player)
         self.actual_turn += 1
         self.turn += 1
 
     def getCurrPlayer(self):
+        """ Returns the current turn's player. """
         currPlayer = self.players[(self.turn-1) % len(self.players)]
         return currPlayer.name
 
     def nextTurn(self):
+        """ Handles game logic for an AI-player's turn. If player is not AI, return control of program to the user by returning True. """
         currPlayer = self.players[(self.turn-1) % len(self.players)]
         if currPlayer.isAI:
             played_card = currPlayer.playCardAI(self.top_card)
@@ -76,40 +87,17 @@ class Game:
             return False
         else:
             return True
-            # played_card = currPlayer.playCardHuman2(self.top_card, True)
-            # if not played_card:
-            #     self.draw(currPlayer, 1)
-            #     played_card = currPlayer.playCardHuman2(self.top_card, False)
-            # self.updateGameState(played_card, currPlayer)
-            # self.turn += 1
-            # self.actual_turn += 1
-            #return True
-        
-    def updateTurnHuman(self):
-        currPlayer = self.players[(self.turn-1) % len(self.players)]
-        played_card = currPlayer.playCardHuman2(self.top_card, True)
-        if not played_card:
-            self.draw(currPlayer, 1)
-            played_card = currPlayer.playCardHuman2(self.top_card, False)
-        self.updateGameState(played_card, currPlayer)
-        self.turn += 1
-        self.actual_turn += 1
 
-        #else, human
-        #return
-        #let gamewindow reflect changes in hand and Deck
-
-        # #check if theres a winner 
-        # if currPlayer.isWin():
-        #     return currPlayer.name
-        # let gamewindow reflect changes in hand and Deck
-    def checkWinner(self):
+    def winnerExists(self):
+        """ Checks state of the game for winner. """
         for player in self.players:
             if player.isWin():
                 return True
         return False
 
     def updateGameState(self, playedCard, currPlayer):
+        """ Core game logic for a given turn and player. Handles general cards, SKIPs, REVERSEs, and DRAWs. 
+            Updates the corresponding top card of the deck. """
         if not playedCard:
             print(currPlayer.name, "skipped their turn")
         elif playedCard:
@@ -138,80 +126,6 @@ class Game:
 
             self.top_card = playedCard
 
-    def winnerExists(self):
-        for player in self.players:
-            if player.isWin():
-                return True
-        return False
-    '''
-    def startGame(self):
-        """ Begins a game of UNO. """
-        np.random.shuffle(self.players)
-        print("Turn order:", end="")
-        for player in self.players:
-            print(player.name, end=" | ")  
-        print()
-
-        topCard = self.deck.draw()
-        turn = 1
-        actualTurn = 1
-        self.total_players = len(self.players)
-        winner = False
-
-        while not winner:
-            print("Turn number:", turn, end=", ")
-            currPlayer = self.players[(turn-1) % self.total_players]
-            print("Actual Turn", actualTurn, ":", currPlayer)
-            print("Top Card is", topCard)
-
-            if currPlayer.isAI:
-                playedCard = currPlayer.playCardAI(topCard)
-                if not playedCard:
-                    self.draw(currPlayer, 1)
-                    playedCard = currPlayer.playCardAI(topCard)
-            else:
-                playedCard = currPlayer.playCardHuman(topCard, True)
-                if not playedCard:
-                    self.draw(currPlayer, 1)
-                    playedCard = currPlayer.playCardHuman(topCard, False)
-
-            if not playedCard:
-                print(currPlayer.name, "skipped their turn")
-            elif playedCard:
-                if playedCard.value=="REVERSE":
-                    self.players.reverse()
-                    print("Turn order:", end="")
-                    for player in self.players:
-                        print(player.name, end=" | ")  
-                    print()
-                    print("Reverse")
-                    turn = self.total_players - (turn % self.total_players)
-
-                elif playedCard.value=="SKIP":
-                    print("Skipped", self.players[(turn) % self.total_players].name, "turn")
-                    turn+=1
-
-                elif playedCard.value=="DRAW 2":
-                    self.draw(self.players[(turn) % self.total_players], 2)
-                    print("Added 2 cards to", self.players[(turn) % self.total_players].name)
-                    turn+=1
-
-                elif playedCard.value=="DRAW 4":
-                    self.draw(self.players[(turn) % self.total_players], 4)
-                    print("Added 4 cards to", self.players[(turn) % self.total_players].name)
-                    turn+=1
-
-                topCard = playedCard
-
-            if currPlayer.isWin():
-                winner = True
-            print()
-            turn+=1
-            actualTurn+=1
-        
-        print(currPlayer.name, "is the winner!")
-    '''
-    
     def changeSoundEffects(self, sound):
         """ Changes if sound effects are on/off """
         self.sound = sound

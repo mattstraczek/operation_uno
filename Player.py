@@ -17,7 +17,7 @@ class Player():
         self.hand.append(card)
 
     def playCardAI(self, topCard):
-        """ AI plays a card depending on difficulty level """
+        """ AI plays a card depending on difficulty level. """
         # Add different difficulties
         for card in self.hand:
             if Ruleset.isValid(self, card=card, topCard=topCard):
@@ -28,6 +28,7 @@ class Player():
                 return card
 
     def playCardHuman(self, topCard, firstAction):
+        """ User can place a card based on what the current top card is. A user can also choose between drawing, skipping, or placing a card. """
         while firstAction:
             choice = input("DRAW OR PLACE (d/p): ")
             if choice=="d":
@@ -51,12 +52,14 @@ class Player():
 
     
     def removeCard(self, card):
+        """ Removes card from hand. """
         for c in self.hand:
             if c.color == card.color and c.value == card.value:
                 self.hand.remove(c)
-        #self.hand.remove(card)
 
     def placeCard(self, topCard):
+        """ Logic for placing a card during a turn. Removes card from hand and returns it so that it 
+            can be placed at the top of a current pile. Includes logic for WILD cards as well. """
         cardInput = input("Enter the card: ").upper()
         splitInput = cardInput.split(" ", 1)
         if(len(splitInput)==2):
@@ -73,6 +76,7 @@ class Player():
 
     
     def isInHand(self, card):
+        """ Checks for specified card in hand. """
         for hand_card in self.hand:
             if card == hand_card:
                 return True
