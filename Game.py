@@ -16,8 +16,6 @@ class Game:
 
     def __init__(self, isMultiplayer, num_players=1, difficulty="Easy", playerNames=[], ruleset=Ruleset(), deckSeed=None):
         """ Constructs a Game object with players and AI, deals cards, and starts a game. """
-        if (type(isMultiplayer) != type(True) or type(num_players) != type(4) or type(difficulty) != type("test") or type(playerNames) != type([]) or type(ruleset) != type(Ruleset)):
-            print("type mismatch")
     
         self.isMultiplayer = isMultiplayer
         self.ruleset = ruleset

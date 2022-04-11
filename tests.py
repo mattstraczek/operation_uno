@@ -76,6 +76,31 @@ class UnoTestCases(unittest.TestCase):
             print("game deck size: " + str(len(game.deck.deck)) + " actual | " + str(len(ruleset.deck) - (i + 1)*ruleset.deal_quantity) + " expected")
             self.assertTrue(len(game.deck.deck) == len(ruleset.deck) - (i + 1)*ruleset.deal_quantity)
 
+    def testTurnOrder(self):
+        print("turn order")
+        game = Game(False, 3, "Easy", [])
+        player1 = game.getCurrPlayer
+        self.assertEqual(game.turn, 1)
+        game.skipTurn()
+        self.assertEqual(game.turn, 2)
+        game.skipTurn()
+        self.assertEqual(game.turn, 3)
+        game.skipTurn()
+        self.assertEqual(game.turn, 4)
+        game.skipTurn()
+        self.assertEqual(game.turn, 5)
+        player2 = game.getCurrPlayer
+        self.assertEqual(player1, player2)
+
+    def testWinCondition(self):
+        print("testwincondition")
+        game = Game(False, 3, "Easy", [])
+        self.assertFalse(game.winnerExists())
+        game.players[0].hand = [game.players[0].hand[0]]
+        self.assertFalse(game.winnerExists())
+        game.players[0].hand = []
+        self.assertTrue(game.winnerExists())
+
 
 
 class TestHelperFunctions():
