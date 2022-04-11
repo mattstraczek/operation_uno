@@ -18,3 +18,7 @@ class Message():
     def changeMessage(self, new_msg):
         """ Modifies a messages text. """
         self.msg = new_msg
+
+    def changeColor(self, color):
+        """ Modifies the color of a message. """
+        self.color = color

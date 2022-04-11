@@ -16,9 +16,6 @@ def updateCards(self, player, base_card_pos, window):
         for i in range(num_cards):
             self.card_imgs.append(CardImage.CardImage(window, [base_card_pos[0], base_card_pos[1]+self.h*card_offsets[i]/32], [self.w/8, self.h/8], player.hand[i]))
 
-# def updateTopCard():
-# def removeCard(player):
-# def placeCard(player):
 
 '''
 import threading 
@@ -103,6 +100,15 @@ class GameWindow:
         for i in range(total_players):
             print(i)
             player_dict[i] = self.game_instance.players[(index+i)%(total_players)]
+            # print(player_dict[i].name)
+            # if player_dict[i].name == "AI 0":
+            #     top_label.changeMessage("AI 0")
+            # if player_dict[i].name == "AI 1":
+            #     left_label.changeMessage("AI 1")
+            # if player_dict[i].name == "AI 2":
+            #     right_label.changeMessage("AI 2")
+            # if player_dict[i].name == "AI 0":
+            #     main_player_label.changeMessage()
 
         while not self.game_instance.winnerExists():
             if ai_turn:
@@ -114,7 +120,27 @@ class GameWindow:
                     sleep(0.1)
             
             num_turns.changeMessage(str(self.game_instance.actual_turn))
-            current_player.changeMessage(self.game_instance.getCurrPlayer())
+            current_player_label.changeMessage(self.game_instance.getCurrPlayer())
+            if self.game_instance.getCurrPlayer() == "AI 0":
+                top_label.changeColor(yellow)
+                left_label.changeColor(black)
+                right_label.changeColor(black)
+                main_player_label.changeColor(black)
+            elif self.game_instance.getCurrPlayer() == "AI 1":
+                top_label.changeColor(black)
+                left_label.changeColor(yellow)
+                right_label.changeColor(black)
+                main_player_label.changeColor(black)
+            elif self.game_instance.getCurrPlayer() == "AI 2":
+                top_label.changeColor(black)
+                left_label.changeColor(black)
+                right_label.changeColor(yellow)
+                main_player_label.changeColor(black)
+            else:
+                top_label.changeColor(black)
+                left_label.changeColor(black)
+                right_label.changeColor(black)
+                main_player_label.changeColor(yellow)
             # pygame.time.delay(3000) # Pauses the game for 3 seconds
             # current_player_label.displayMessage()
             # current_player.displayMessage()
