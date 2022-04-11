@@ -16,9 +16,6 @@ def updateCards(self, player, base_card_pos, window):
         for i in range(num_cards):
             self.card_imgs.append(CardImage.CardImage(window, [base_card_pos[0], base_card_pos[1]+self.h*card_offsets[i]/32], [self.w/8, self.h/8], player.hand[i]))
 
-# def updateTopCard():
-# def removeCard(player):
-# def placeCard(player):
 
 '''
 import threading 
@@ -67,7 +64,7 @@ class GameWindow:
         num_turns_label = Message.Message(game_window, "Number of turns: ", text_font, black, [100, 100])
         current_player_label = Message.Message(game_window, "Current player: ", large_text, black, [400, self.h - 550])
         num_turns = Message.Message(game_window, "0", text_font, black, [200, 100])
-        current_player = Message.Message(game_window, "0", large_text, black, [1000, self.h - 550])
+        #current_player = Message.Message(game_window, "0", large_text, black, [1000, self.h - 550])
 
         #Initialize Buttons
         button_font = pygame.font.Font('Resources/Font/OpenSans-Regular.ttf', fontSize)
@@ -100,7 +97,7 @@ class GameWindow:
         player_dict = {}
         for i in range(total_players):
             print(i)
-            player_dict[i] = self.game_instance.players[(index+i)%(total_players-1)]
+            player_dict[i] = self.game_instance.players[(index+i)%(total_players)]
 
         while not self.game_instance.winnerExists():
             if ai_turn:
@@ -112,7 +109,7 @@ class GameWindow:
                     sleep(0.1)
             
             num_turns.changeMessage(str(self.game_instance.actual_turn))
-            current_player.changeMessage(self.game_instance.getCurrPlayer())
+            current_player_label.changeMessage(self.game_instance.getCurrPlayer())
             # pygame.time.delay(3000) # Pauses the game for 3 seconds
             # current_player_label.displayMessage()
             # current_player.displayMessage()
@@ -183,14 +180,14 @@ class GameWindow:
             skip_btn.displayButton()
 
             num_turns_label.displayMessage()
-            # current_player_label.displayMessage()
+            current_player_label.displayMessage()
             num_turns.displayMessage()
             # current_player.displayMessage()
 
-            if current_player.changeMessage:
-                pygame.time.delay(300) # Pauses the game
-                current_player_label.displayMessage()
-                current_player.displayMessage()
+            # if current_player.changeMessage:
+            #     pygame.time.delay(300) # Pauses the game
+            #     current_player_label.displayMessage()
+            #     current_player.displayMessage()
 
             pygame.draw.rect(game_window, pygame.Color("White"), self.middle_bound, 2, 10)
             pygame.display.flip()
