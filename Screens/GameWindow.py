@@ -65,6 +65,14 @@ class GameWindow:
         current_player_label = Message.Message(game_window, "Current player: ", large_text, black, [400, self.h - 550])
         num_turns = Message.Message(game_window, "0", text_font, black, [200, 100])
         #current_player = Message.Message(game_window, "0", large_text, black, [1000, self.h - 550])
+        top_label = Message.Message(game_window,"AI 0", text_font, black, [self.w/2,0 + 25])
+        left_label = Message.Message(game_window,"AI 1", text_font, black, [self.w*1/16, self.h*1/2])
+        right_label = Message.Message(game_window,"AI 2", text_font, black, [self.w*15/16 + 25, self.h*1/2])
+        main_player_label = Message.Message(game_window,"Main", text_font, black, [self.w/2, self.h*15/16 + 25])
+        # card_positions.append((self.w/2, self.h*7/8))
+        #     card_positions.append((self.w/8, self.h/2))
+        #     card_positions.append((self.w/2, self.h*1/8))
+        #     card_positions.append((self.w*7/8, self.h/2))
 
         #Initialize Buttons
         button_font = pygame.font.Font('Resources/Font/OpenSans-Regular.ttf', fontSize)
@@ -98,6 +106,15 @@ class GameWindow:
         for i in range(total_players):
             print(i)
             player_dict[i] = self.game_instance.players[(index+i)%(total_players)]
+            # print(player_dict[i].name)
+            # if player_dict[i].name == "AI 0":
+            #     top_label.changeMessage("AI 0")
+            # if player_dict[i].name == "AI 1":
+            #     left_label.changeMessage("AI 1")
+            # if player_dict[i].name == "AI 2":
+            #     right_label.changeMessage("AI 2")
+            # if player_dict[i].name == "AI 0":
+            #     main_player_label.changeMessage()
 
         while not self.game_instance.winnerExists():
             if ai_turn:
@@ -110,6 +127,26 @@ class GameWindow:
             
             num_turns.changeMessage(str(self.game_instance.actual_turn))
             current_player_label.changeMessage(self.game_instance.getCurrPlayer())
+            if self.game_instance.getCurrPlayer() == "AI 0":
+                top_label.changeColor(yellow)
+                left_label.changeColor(black)
+                right_label.changeColor(black)
+                main_player_label.changeColor(black)
+            elif self.game_instance.getCurrPlayer() == "AI 1":
+                top_label.changeColor(black)
+                left_label.changeColor(yellow)
+                right_label.changeColor(black)
+                main_player_label.changeColor(black)
+            elif self.game_instance.getCurrPlayer() == "AI 2":
+                top_label.changeColor(black)
+                left_label.changeColor(black)
+                right_label.changeColor(yellow)
+                main_player_label.changeColor(black)
+            else:
+                top_label.changeColor(black)
+                left_label.changeColor(black)
+                right_label.changeColor(black)
+                main_player_label.changeColor(yellow)
             # pygame.time.delay(3000) # Pauses the game for 3 seconds
             # current_player_label.displayMessage()
             # current_player.displayMessage()
@@ -180,7 +217,7 @@ class GameWindow:
             skip_btn.displayButton()
 
             num_turns_label.displayMessage()
-            current_player_label.displayMessage()
+            #current_player_label.displayMessage()
             num_turns.displayMessage()
             # current_player.displayMessage()
 
@@ -188,6 +225,10 @@ class GameWindow:
             #     pygame.time.delay(300) # Pauses the game
             #     current_player_label.displayMessage()
             #     current_player.displayMessage()
+            top_label.displayMessage()
+            left_label.displayMessage()
+            right_label.displayMessage()
+            main_player_label.displayMessage()
 
             pygame.draw.rect(game_window, pygame.Color("White"), self.middle_bound, 2, 10)
             pygame.display.flip()
