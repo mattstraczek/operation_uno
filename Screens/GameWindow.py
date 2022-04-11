@@ -69,6 +69,8 @@ class GameWindow:
         left_label = Message.Message(game_window,"AI 1", text_font, black, [self.w*1/16, self.h*1/2])
         right_label = Message.Message(game_window,"AI 2", text_font, black, [self.w*15/16 + 25, self.h*1/2])
         main_player_label = Message.Message(game_window,"Main", text_font, black, [self.w/2, self.h*15/16 + 25])
+        you_win_label = Message.Message(game_window, "YOU WIN", large_text, black, [1000, self.h - 550])
+        you_lose_label = Message.Message(game_window, "YOU LOSE", large_text, black, [1000, self.h - 550])
         # card_positions.append((self.w/2, self.h*7/8))
         #     card_positions.append((self.w/8, self.h/2))
         #     card_positions.append((self.w/2, self.h*1/8))
@@ -193,11 +195,20 @@ class GameWindow:
                                 can_draw = True
                         selected_card.clicked = False
                         selected_card = None
-                    
+            # Tries to handle the case where a winner exists
             if self.game_instance.winnerExists():
-                win_sound = mix.Sound('Resources/Sounds/Fanfare-sound.wav')
-                win_sound.set_volume(0.5)
-                win_sound.play()
+                if num_cards == 1: # What happens if main player wins
+                    win_sound = mix.Sound('Resources/Sounds/Fanfare-sound.wav')
+                    win_sound.set_volume(0.5)
+                    win_sound.play()
+                    game_window.fill(pygame.Color("Black"))
+                    you_win_label.displayMessage()
+                else: # What happens if one of the AI players wins
+                    lose_sound = mix.Sound('Resources/Sounds/Fanfare-sound.wav')
+                    lose_sound.set_volume(0.5)
+                    lose_sound.play()
+                    game_window.fill(pygame.Color("Black"))
+                    you_win_label.displayMessage()
 
             self.top_card.updateCard(self.game_instance.top_card)
 
