@@ -70,13 +70,14 @@ class GameWindow:
 
         #Initialize Buttons
         button_font = pygame.font.Font('Resources/Font/OpenSans-Regular.ttf', fontSize)
-        draw_btn = Button.Button(game_window, red, [self.w - self.w/10, self.h - self.h/8], [fontSize*5, fontSize*2.5], button_font, "Draw", red, yellow)
-        skip_btn = Button.Button(game_window, red, [self.w - self.w/4, self.h - self.h/8], [fontSize*5, fontSize*2.5], button_font, "Skip", red, yellow)
+        draw_btn = Button.Button(game_window, red, [self.w*7/8, self.h*7/8], [fontSize*4, fontSize*2], button_font, "Draw", red, yellow)
+        skip_btn = Button.Button(game_window, red, [self.w*7/8, self.h*7/8], [fontSize*4, fontSize*2], button_font, "Skip", red, yellow)
 
         selected_card = None
         ai_turn = True
         last_time = time()
         can_draw = True
+        mouse_down = False
 
         total_players = self.game_instance.total_players
         card_positions = []
@@ -121,26 +122,26 @@ class GameWindow:
             
             num_turns.changeMessage(str(self.game_instance.actual_turn))
             current_player_label.changeMessage(self.game_instance.getCurrPlayer())
-            if self.game_instance.getCurrPlayer() == "AI 0":
-                top_label.changeColor(yellow)
-                left_label.changeColor(black)
-                right_label.changeColor(black)
-                main_player_label.changeColor(black)
-            elif self.game_instance.getCurrPlayer() == "AI 1":
-                top_label.changeColor(black)
-                left_label.changeColor(yellow)
-                right_label.changeColor(black)
-                main_player_label.changeColor(black)
-            elif self.game_instance.getCurrPlayer() == "AI 2":
-                top_label.changeColor(black)
-                left_label.changeColor(black)
-                right_label.changeColor(yellow)
-                main_player_label.changeColor(black)
-            else:
-                top_label.changeColor(black)
-                left_label.changeColor(black)
-                right_label.changeColor(black)
-                main_player_label.changeColor(yellow)
+            # if self.game_instance.getCurrPlayer() == "AI 0":
+            #     top_label.changeColor(yellow)
+            #     left_label.changeColor(black)
+            #     right_label.changeColor(black)
+            #     main_player_label.changeColor(black)
+            # elif self.game_instance.getCurrPlayer() == "AI 1":
+            #     top_label.changeColor(black)
+            #     left_label.changeColor(yellow)
+            #     right_label.changeColor(black)
+            #     main_player_label.changeColor(black)
+            # elif self.game_instance.getCurrPlayer() == "AI 2":
+            #     top_label.changeColor(black)
+            #     left_label.changeColor(black)
+            #     right_label.changeColor(yellow)
+            #     main_player_label.changeColor(black)
+            # else:
+            #     top_label.changeColor(black)
+            #     left_label.changeColor(black)
+            #     right_label.changeColor(black)
+            #     main_player_label.changeColor(yellow)
             # pygame.time.delay(3000) # Pauses the game for 3 seconds
             # current_player_label.displayMessage()
             # current_player.displayMessage()
@@ -154,10 +155,12 @@ class GameWindow:
                     if draw_btn.isHovered() and ai_turn == False and can_draw:
                         self.game_instance.draw(self.game_instance.main_player, 1)
                         can_draw = False
+                        mouse_down = True
                         print("Main player drew")
-                    if skip_btn.isHovered() and ai_turn == False:
+                    elif skip_btn.isHovered() and ai_turn == False and not can_draw and not mouse_down:
                         self.game_instance.skipTurn()
                         ai_turn = True
+                        can_draw = True
                         print("Main player skipped turn")
 
                 if event.type == pygame.QUIT:
@@ -168,11 +171,12 @@ class GameWindow:
                     #if draw_button.isHovered:
 
                     for card in self.card_imgs:
-                        if card.isHovered():
+                        if card.card in self.game_instance.main_player.hand and card.isHovered():
                             selected_card = card
                             selected_card.clicked = True
 
                 elif event.type == pygame.MOUSEBUTTONUP:
+                    mouse_down = False
                     if selected_card:
                         if selected_card.checkInBounds(self.middle_bound):
                             #print(type(selected_card.card))
@@ -197,6 +201,8 @@ class GameWindow:
 
             game_window.fill(self.bg_color)
             pos = pygame.mouse.get_pos()
+            
+            pygame.draw.rect(game_window, pygame.Color("White"), self.middle_bound, 2, 10)
 
             for card in self.card_imgs:
                 card.displayImage()
@@ -207,8 +213,10 @@ class GameWindow:
                 selected_card.updatePos(pos)
                 selected_card.displayImage()
 
-            draw_btn.displayButton()
-            skip_btn.displayButton()
+            if can_draw:
+                draw_btn.displayButton()
+            else:
+                skip_btn.displayButton()
 
             for label in labels:
                 label.displayMessage()
@@ -218,6 +226,6 @@ class GameWindow:
             #     current_player_label.displayMessage()
             #     current_player.displayMessage()
 
-            pygame.draw.rect(game_window, pygame.Color("White"), self.middle_bound, 2, 10)
             pygame.display.flip()
             clock.tick(60)
+

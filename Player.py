@@ -86,7 +86,8 @@ class Player():
         """ Finds the color that the AI has the most of. """
         colors = {"RED" : 0, "YELLOW" : 0, "GREEN" : 0, "BLUE" : 0}
         for card in self.hand:
-            colors[card.color]+=1
+            if not card.color=="WILD":
+                colors[card.color]+=1
         return max(colors, key=colors.get)
 
     def isWin(self):

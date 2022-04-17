@@ -57,7 +57,6 @@ class Game:
     def skipTurn(self):
         """ Updates turn count of game instance. Effectively skips a turn. """
         self.turn += 1
-        self.actual_turn += 1
 
     def updateTurnHuman(self, curr_player, played_card):
         """ Handles the hands-on placing of a card and its game logic by a non-AI player. """
