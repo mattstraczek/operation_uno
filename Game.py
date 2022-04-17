@@ -68,8 +68,12 @@ class Game:
 
     def getCurrPlayer(self):
         """ Returns the current turn's player. """
-        currPlayer = self.players[(self.turn-1) % len(self.players)]
+        currPlayer = self.players[self.getPlayerNum()]
         return currPlayer.name
+
+    def getPlayerNum(self):
+        """ Returns the index of the current player. """
+        return (self.turn-1) % len(self.players)
 
     def nextTurn(self):
         """ Handles game logic for an AI-player's turn. If player is not AI, return control of program to the user by returning True. """
@@ -92,6 +96,13 @@ class Game:
             if player.isWin():
                 return True
         return False
+
+    def getWinner(self):
+        """ Returns winner (if there is one). """
+        for player in self.players:
+            if player.isWin():
+                return player
+        return None
 
     def updateGameState(self, playedCard, currPlayer):
         """ Core game logic for a given turn and player. Handles general cards, SKIPs, REVERSEs, and DRAWs. 
