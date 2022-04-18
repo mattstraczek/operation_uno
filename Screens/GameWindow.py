@@ -37,6 +37,21 @@ class GameWindow:
         self.card_imgs = []
         self.middle_bound = pygame.Rect((self.w / 2 - self.w / 8, self.h / 2 - self.h / 8), (self.w / 4, self.h / 4))
         #self.draw_button
+    def showWinScreen(self, winningPlayer, game_window, you_win_label):
+        winningPlayer = self.game_instance.getWinner()
+        if not winningPlayer.isAI: # What happens if main player wins
+            win_sound = mix.Sound('Resources/Sounds/Fanfare-sound.wav')
+            win_sound.set_volume(0.5)
+            win_sound.play()
+            game_window.fill(pygame.Color("Black"))
+            you_win_label.displayMessage()
+        else: # What happens if one of the AI players wins
+            lose_sound = mix.Sound('Resources/Sounds/Fanfare-sound.wav')
+            lose_sound.set_volume(0.5)
+            lose_sound.play()
+            game_window.fill(pygame.Color("Black"))
+            you_win_label.displayMessage()
+
     def display(self):
         """ Displays the game window and allows for a game to be played using the logic of the imported components. """
         clock = pygame.time.Clock()
@@ -125,7 +140,7 @@ class GameWindow:
             # if player_dict[i].name == "AI 0":
             #     main_player_label.changeMessage()
 
-        while not self.game_instance.winnerExists():
+        while True: #not self.game_instance.winnerExists():
             if ai_turn:
                 if time()-last_time > 2:
                     last_time = time()
@@ -133,29 +148,19 @@ class GameWindow:
                         ai_turn = False
                 else:
                     sleep(0.1)
+            # Tries to handle the case where a winner exists
+            if self.game_instance.winnerExists():
+                self.showWinScreen(self.game_instance.getWinner(), game_window, you_win_label)
+                break
             
             num_turns.changeMessage(str(self.game_instance.actual_turn))
             current_player_label.changeMessage(self.game_instance.getCurrPlayer())
-            # if self.game_instance.getCurrPlayer() == "AI 0":
-            #     top_label.changeColor(yellow)
-            #     left_label.changeColor(black)
-            #     right_label.changeColor(black)
-            #     main_player_label.changeColor(black)
-            # elif self.game_instance.getCurrPlayer() == "AI 1":
-            #     top_label.changeColor(black)
-            #     left_label.changeColor(yellow)
-            #     right_label.changeColor(black)
-            #     main_player_label.changeColor(black)
-            # elif self.game_instance.getCurrPlayer() == "AI 2":
-            #     top_label.changeColor(black)
-            #     left_label.changeColor(black)
-            #     right_label.changeColor(yellow)
-            #     main_player_label.changeColor(black)
-            # else:
-            #     top_label.changeColor(black)
-            #     left_label.changeColor(black)
-            #     right_label.changeColor(black)
-            #     main_player_label.changeColor(yellow)
+
+            current_player = self.game_instance.getCurrPlayer()
+            top_label.changeColor(yellow if current_player == "AI 0" else black)
+            left_label.changeColor(yellow if current_player == "AI 1" else black)
+            right_label.changeColor(yellow if current_player == "AI 2" else black)
+            main_player_label.changeColor(yellow if current_player != "AI 0" and current_player != "AI 1" and current_player != "AI 2" else black)
             # pygame.time.delay(3000) # Pauses the game for 3 seconds
             # current_player_label.displayMessage()
             # current_player.displayMessage()
@@ -205,20 +210,6 @@ class GameWindow:
                                 can_draw = True
                         selected_card.clicked = False
                         selected_card = None
-            # Tries to handle the case where a winner exists
-            if self.game_instance.winnerExists():
-                if num_cards == 1: # What happens if main player wins
-                    win_sound = mix.Sound('Resources/Sounds/Fanfare-sound.wav')
-                    win_sound.set_volume(0.5)
-                    win_sound.play()
-                    game_window.fill(pygame.Color("Black"))
-                    you_win_label.displayMessage()
-                else: # What happens if one of the AI players wins
-                    lose_sound = mix.Sound('Resources/Sounds/Fanfare-sound.wav')
-                    lose_sound.set_volume(0.5)
-                    lose_sound.play()
-                    game_window.fill(pygame.Color("Black"))
-                    you_win_label.displayMessage()
 
             self.top_card.updateCard(self.game_instance.top_card)
 

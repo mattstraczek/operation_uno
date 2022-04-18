@@ -9,15 +9,9 @@ class MainMenu():
 
         """ Initializes the Main Menu with default size of 800x600 and a purple background """
         self.title = "Main Menu"
-        # full screen dims
-        self.f_w = w #f_w
-        self.f_h = h #f_h
         # displayed screen dims
         self.w = w
         self.h = h
-        # buffer dims
-        self.b_w = 0 #b_w
-        self.b_h = 0 #b_h
         self.bg_color = bg_color
         self.is_sound_on = True
 

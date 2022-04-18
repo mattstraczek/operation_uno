@@ -2,6 +2,7 @@ import pygame
 from Screens import MainMenu, GameWindow
 from Game import Game
 from CardSprite import CardSprite
+from ButtonSprite import ButtonSprite
 from Card import Card
 #from Game import Game
 #from PlayGame import PlayGame
@@ -16,7 +17,6 @@ import pygame.mixer as mixer
 from pygame.mixer import music as msound
 
 def singleUpdate(card, new_pos):
-
     if card.squared_distance(new_pos) > 100:
         card.update(new_pos)
         return False
@@ -30,21 +30,7 @@ if __name__ == '__main__':
     info = pygame.display.Info()
     # do some math to establish a 2:1 screen dimension
     screen_w, screen_h = info.current_w, info.current_h
-    screen_buffer_w, screen_buffer_h = 0, 0 
-    if info.current_w / info.current_h > 2: # if height is the limiting factor
-        screen_w = info.current_h * 2
-        screen_h = info.current_h
-        screen_buffer_w = (info.current_w - screen_w) // 2
-        screen_buffer_h = 0
-    else:
-        screen_w = screen_w
-        screen_h = screen_w // 2
-        screen_buffer_w = 0
-        screen_buffer_h = (info.current_h - screen_h) // 2
 
-    #  main_menu = MainMenu.MainMenu(info.current_w, info.current_h, screen_w, screen_h, screen_buffer_w, screen_buffer_h)
-    #  main_menu.display()
-    
     #main_menu = MainMenu.MainMenu(w=info.current_w, h=info.current_h)
     #main_menu.display()
 
@@ -64,6 +50,20 @@ if __name__ == '__main__':
     card_group = pygame.sprite.Group()
     card_group.add(card)
     
+    red    = pygame.Color("Red")
+    yellow = pygame.Color("Yellow")
+    green  = pygame.Color("Green")
+    blue   = pygame.Color("Blue")
+    white  = pygame.Color("White")
+    black = pygame.Color("Black")
+
+    fontSize = info.current_w // 50
+    button_font = pygame.font.Font('Resources/Font/OpenSans-Regular.ttf', fontSize)
+    draw_btn = ButtonSprite(screen, (screen_w/2, screen_h/2), (screen_w/8,screen_w/16), "DRAW", button_font, red, yellow)
+    button_group = pygame.sprite.Group()
+    button_group.add(draw_btn)
+    # def __init__(self, pos, dim, message, font, base_text_color, hover_text_color, base_border_color, hover_border_color):
+
     single = True
 
     while True:
@@ -75,6 +75,10 @@ if __name__ == '__main__':
         pygame.display.flip()
         screen.blit(background, (0,0))
         card_group.draw(screen)
+
+        button_group.draw(screen)
+        button_group.update()
+
         if single:
             if singleUpdate(card, (100, 500)):  
                 single = False
