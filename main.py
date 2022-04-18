@@ -15,9 +15,15 @@ import os
 import pygame.mixer as mixer
 from pygame.mixer import music as msound
 
-def singleUpdate(card_group):
-    while card_group.update((500, 500)):
-        print()
+def singleUpdate(card, new_pos):
+
+    if card.squared_distance(new_pos) > 100:
+        card.update(new_pos)
+        return False
+    else:
+        print("done")
+        card.place()
+        return True
 
 if __name__ == '__main__':
     pygame.init()
@@ -69,6 +75,8 @@ if __name__ == '__main__':
         pygame.display.flip()
         screen.blit(background, (0,0))
         card_group.draw(screen)
-        singleUpdate(card_group)    
+        if single:
+            if singleUpdate(card, (100, 500)):  
+                single = False
         clock.tick(60)
 

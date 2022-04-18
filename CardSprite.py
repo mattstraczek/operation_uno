@@ -6,8 +6,9 @@ class CardSprite(pygame.sprite.Sprite):
         # dim = (width, height)
         super().__init__()
 
-        self.image_path = "Resources/Cards/" + str(card) + ".png"
-        self.image = pygame.image.load(self.image_path)
+        self.card = card    # saves the card for comparison
+
+        self.image = pygame.image.load("Resources/Cards/" + str(card) + ".png")
         image_dim = self.image.get_size()
         image_scale = min(dim[0]/image_dim[0], dim[1]/image_dim[1])
 
@@ -18,23 +19,16 @@ class CardSprite(pygame.sprite.Sprite):
         self.place_sound = pygame.mixer.Sound("PlaceCard.mp3")
 
     def update(self, new_pos):
-        if self.squared_distance(self.rect.center, new_pos) < 50:
+        if self.squared_distance(new_pos) < 100:
             self.rect.center = new_pos
-            self.place()
 
-        delta_x = (int)(abs(self.rect.x-new_pos[0])**0.25)
-        delta_y = (int)(abs(self.rect.x-new_pos[0])**0.25)
-        if new_pos[0] > self.rect.center[0]:
-            self.rect.x += delta_x
-        else:
-            self.rect.x -= delta_x
-        if new_pos[1] > self.rect.center[1]:
-            self.rect.y += delta_y
-        else:
-            self.rect.y -= delta_y
+        delta_x = (int)(abs(self.rect.centerx-new_pos[0])**0.35)
+        delta_y = (int)(abs(self.rect.centery-new_pos[1])**0.35)
+        self.rect.x += delta_x if new_pos[0] > self.rect.centerx else -delta_x
+        self.rect.y += delta_y if new_pos[1] > self.rect.centery else -delta_y
 
-    def squared_distance(self, pos, new_pos):
-       return (pos[0]-new_pos[0])**2 + (pos[1]-new_pos[1])**2
+    def squared_distance(self, new_pos):
+       return (self.rect.centerx-new_pos[0])**2 + (self.rect.centery-new_pos[1])**2
 
     def place(self):
         self.place_sound.play()

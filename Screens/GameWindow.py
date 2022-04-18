@@ -61,12 +61,26 @@ class GameWindow:
         # Initialize text objects
         text_font = pygame.font.Font('Resources/Font/OpenSans-ExtraBold.ttf', int(fontSize/2))
         large_text = pygame.font.Font('Resources/Font/OpenSans-ExtraBold.ttf', int(fontSize * 2))
-        num_turns_label = Message.Message(game_window, "Turn Number", text_font, black, [100, 100])
-        num_turns = Message.Message(game_window, "", large_text, black, [100, 200])
-        current_player_label = Message.Message(game_window, "Current player", text_font, black, [100, 300])
-        current_player = Message.Message(game_window, "", text_font, black, [100, 400])
+        # num_turns_label = Message.Message(game_window, "Turn Number", text_font, black, [100, 100])
+        # num_turns = Message.Message(game_window, "", large_text, black, [100, 200])
+        # current_player_label = Message.Message(game_window, "Current player", text_font, black, [100, 300])
+        # current_player = Message.Message(game_window, "", text_font, black, [100, 400])
 
         labels = [num_turns_label, num_turns, current_player_label, current_player]
+        num_turns_label = Message.Message(game_window, "Number of turns: ", text_font, black, [100, 100])
+        current_player_label = Message.Message(game_window, "Current player: ", large_text, black, [400, self.h - 550])
+        num_turns = Message.Message(game_window, "0", text_font, black, [200, 100])
+        #current_player = Message.Message(game_window, "0", large_text, black, [1000, self.h - 550])
+        top_label = Message.Message(game_window,"AI 0", text_font, black, [self.w/2,0 + 25])
+        left_label = Message.Message(game_window,"AI 1", text_font, black, [self.w*1/16, self.h*1/2])
+        right_label = Message.Message(game_window,"AI 2", text_font, black, [self.w*15/16 + 25, self.h*1/2])
+        main_player_label = Message.Message(game_window,"Main", text_font, black, [self.w/2, self.h*15/16 + 25])
+        you_win_label = Message.Message(game_window, "YOU WIN", large_text, black, [1000, self.h - 550])
+        you_lose_label = Message.Message(game_window, "YOU LOSE", large_text, black, [1000, self.h - 550])
+        # card_positions.append((self.w/2, self.h*7/8))
+        #     card_positions.append((self.w/8, self.h/2))
+        #     card_positions.append((self.w/2, self.h*1/8))
+        #     card_positions.append((self.w*7/8, self.h/2))
 
         #Initialize Buttons
         button_font = pygame.font.Font('Resources/Font/OpenSans-Regular.ttf', fontSize)
@@ -191,11 +205,20 @@ class GameWindow:
                                 can_draw = True
                         selected_card.clicked = False
                         selected_card = None
-                    
-            # if self.game_instance.winnerExists():
-                # win_sound = mix.Sound('Resources/Sounds/Fanfare-sound.wav')
-                # win_sound.set_volume(0.5)
-                # win_sound.play()
+            # Tries to handle the case where a winner exists
+            if self.game_instance.winnerExists():
+                if num_cards == 1: # What happens if main player wins
+                    win_sound = mix.Sound('Resources/Sounds/Fanfare-sound.wav')
+                    win_sound.set_volume(0.5)
+                    win_sound.play()
+                    game_window.fill(pygame.Color("Black"))
+                    you_win_label.displayMessage()
+                else: # What happens if one of the AI players wins
+                    lose_sound = mix.Sound('Resources/Sounds/Fanfare-sound.wav')
+                    lose_sound.set_volume(0.5)
+                    lose_sound.play()
+                    game_window.fill(pygame.Color("Black"))
+                    you_win_label.displayMessage()
 
             self.top_card.updateCard(self.game_instance.top_card)
 
