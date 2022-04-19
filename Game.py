@@ -2,6 +2,7 @@ from Deck import Deck
 from Player import Player
 from Ruleset import Ruleset
 import numpy as np
+import pygame
 
 class Game:
     # isMultiplayer -> whether or not game is multiplayer
@@ -14,13 +15,14 @@ class Game:
     # deckSeed      -> random seed for deck generation, default=random
     # runGame       -> removed [depreciated]
 
-    def __init__(self, isMultiplayer, num_players=1, difficulty="Easy", playerNames=[], ruleset=Ruleset(), deckSeed=None):
+    def __init__(self, w, h, isMultiplayer, num_players=1, difficulty="Easy", playerNames=[], ruleset=Ruleset(), deckSeed=None):
         """ Constructs a Game object with players and AI, deals cards, and starts a game. """
     
         self.isMultiplayer = isMultiplayer
         self.ruleset = ruleset
         self.deckSeed = deckSeed
-        self.deck = Deck(self.ruleset, deckSeed)
+        self.deck = Deck(w, h, self.ruleset, deckSeed)
+        self.played_cards = pygame.sprite.Group()
 
         # Initialize players
         self.players = []
@@ -33,13 +35,17 @@ class Game:
             self.players.append(Player("Player Name")) # need to fetch from profile.py class or something
             for i in range(num_players):
                 self.players.append(Player("AI " + str(i), True, difficulty))
+                
         self.total_players = len(self.players)
         self.main_player = self.players[0]
+        np.random.shuffle(self.players)
+        
         self.deal()
+        self.played_cards.add(self.deck.draw())
+        self.top_card = self.played_cards.sprites()[0]
+
         self.turn = 1
         self.actual_turn = 1
-        np.random.shuffle(self.players)
-        self.top_card = self.deck.peek()
 
     def deal(self):
         """ Deals cards to each player (including AI). """
@@ -109,29 +115,30 @@ class Game:
         if not playedCard:
             print(currPlayer.name, "skipped their turn")
         elif playedCard:
-            if playedCard.value=="REVERSE":
+            if playedCard.card.value=="REVERSE":
                 self.players.reverse()
-                print("Turn order:", end="")
-                for player in self.players:
-                    print(player.name, end=" | ")  
-                print()
-                print("Reverse")
+                # print("Turn order:", end="")
+                # for player in self.players:
+                #     print(player.name, end=" | ")  
+                # print()
+                # print("Reverse")
                 self.turn = self.total_players - (self.turn % self.total_players)
 
-            elif playedCard.value=="SKIP":
-                print("Skipped", self.players[(self.turn) % self.total_players].name, "turn")
+            elif playedCard.card.value=="SKIP":
+                # print("Skipped", self.players[(self.turn) % self.total_players].name, "turn")
                 self.turn+=1
 
-            elif playedCard.value=="DRAW 2":
+            elif playedCard.card.value=="DRAW 2":
                 self.draw(self.players[(self.turn) % self.total_players], 2)
-                print("Added 2 cards to", self.players[(self.turn) % self.total_players].name)
+                # print("Added 2 cards to", self.players[(self.turn) % self.total_players].name)
                 self.turn+=1
 
-            elif playedCard.value=="DRAW 4":
+            elif playedCard.card.value=="DRAW 4":
                 self.draw(self.players[(self.turn) % self.total_players], 4)
-                print("Added 4 cards to", self.players[(self.turn) % self.total_players].name)
+                # print("Added 4 cards to", self.players[(self.turn) % self.total_players].name)
                 self.turn+=1
 
+            self.played_cards.add(playedCard)
             self.top_card = playedCard
 
     def changeSoundEffects(self, sound):

@@ -5,13 +5,9 @@ class Ruleset():
     def __init__(self):
         self.initialize_standard_game() # by default, but can be overwritten with new rules
 
-    def isValid(self, card, topCard):
+    def isValid(self, card, top_card):
         """ Checks if card is able to be placed during the current turn (based on top card). """
-        if card.color=="WILD":
-            return True
-        elif str(card.value) == str(topCard.value):
-            return True
-        return card.color == topCard.color
+        return card.card == top_card.card
 
     def initialize_standard_game(self):
         """ Initializes deck for game. """

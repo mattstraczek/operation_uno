@@ -1,6 +1,6 @@
 import pygame, sys
 from Components import Button, Message
-from Screens import PlayMenu, GameWindow
+from Screens import PlayMenu, GameWindow, GameWindow_test
 import Game
 import Ruleset
 import Deck
@@ -58,8 +58,8 @@ class SingleplayerMenu():
         back_button = Button.Button(singleplayer_menu, blue, [self.w*7/8,self.h*7/8], [fontSize*5, fontSize*2.5], button_font, "Back", white, yellow)
 
         # Initialize Ruleset/Cardset
-        cardset = Deck.Deck()
-        ruleset = Ruleset.Ruleset()
+        # cardset = Deck.Deck()
+        # ruleset = Ruleset.Ruleset()
         
         current = True
         while current:
@@ -85,8 +85,9 @@ class SingleplayerMenu():
                             difficulty_text.changeMessage("DIFFICULTY: " + self.difficulty)
 
                     if start_game_button.isHovered():
-                        game_instance = Game.Game(False, self.num_players, self.difficulty)
-                        game_window = GameWindow.GameWindow(game_instance, self.w, self.h)
+                        game_instance = Game.Game(self.w, self.h, False, self.num_players, self.difficulty)
+                        # game_window = GameWindow.GameWindow(game_instance, self.w, self.h)
+                        game_window = GameWindow_test.GameWindow_test(game_instance, self.w, self.h)
                         game_window.display()
                         pygame.display.quit()
                         return

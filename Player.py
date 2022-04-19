@@ -1,61 +1,61 @@
 from Card import Card
 from Ruleset import Ruleset
 import numpy as np
+import pygame
 
 class Player():
     def __init__(self, name, isAI=False, difficulty="Easy"):
         """ Constructs a AI object with a name and an empty hand. """
         # print("Creating", name) # Testing
         self.name = name
-        self.hand = []
+        self.hand = pygame.sprite.Group()
         self.isAI = isAI
         self.difficulty = difficulty
     
     def addCard(self, card):
         """ Adds a card to the AI's hand. """
         # print("Adding", card, "to", self.name, "'s hand") # Testing
-        self.hand.append(card)
+        self.hand.add(card)
 
-    def playCardAI(self, topCard):
+    def playCardAI(self, top_card):
         """ AI plays a card depending on difficulty level. """
         # Add different difficulties
         for card in self.hand:
-            if Ruleset.isValid(self, card=card, topCard=topCard):
+            if Ruleset.isValid(self, card, top_card):
                 self.hand.remove(card)
-                if card.color=="WILD":
-                    card = Card(self.maxColor(), card.value)
+                if card.card.color=="WILD":
+                    card.update_card(Card(self.maxColor(), card.value))
                 print(self.name, "is placing", card)
                 return card
 
-    def playCardHuman(self, topCard, firstAction):
-        """ User can place a card based on what the current top card is. A user can also choose between drawing, skipping, or placing a card. """
-        while firstAction:
-            choice = input("DRAW OR PLACE (d/p): ")
-            if choice=="d":
-                return None
-            elif choice=='p':
-                card = self.placeCard(topCard)
-                if card:
-                    return card
-                print("Card does not exist or is not a valid move")
+    # def playCardHuman(self, topCard, firstAction):
+    #     """ User can place a card based on what the current top card is. A user can also choose between drawing, skipping, or placing a card. """
+    #     while firstAction:
+    #         choice = input("DRAW OR PLACE (d/p): ")
+    #         if choice=="d":
+    #             return None
+    #         elif choice=='p':
+    #             card = self.placeCard(topCard)
+    #             if card:
+    #                 return card
+    #             print("Card does not exist or is not a valid move")
 
-        if not firstAction:
-            choice = input("SKIP OR PLACE (s/p): ")
-            if choice=="s":
-                return None
-            elif choice=='p':
-                card = self.placeCard(topCard)
-                if card:
-                    return card
-                print("Card does not exist or is not a valid move")
-
-
+    #     if not firstAction:
+    #         choice = input("SKIP OR PLACE (s/p): ")
+    #         if choice=="s":
+    #             return None
+    #         elif choice=='p':
+    #             card = self.placeCard(topCard)
+    #             if card:
+    #                 return card
+    #             print("Card does not exist or is not a valid move")
     
     def removeCard(self, card):
         """ Removes card from hand. """
-        for c in self.hand:
-            if c.color == card.color and c.value == card.value:
-                self.hand.remove(c)
+        # for c in self.hand:
+        #     if c.color == card.color and c.value == card.value:
+        #         self.hand.remove(c)
+        self.hand.remove(card)
 
     def placeCard(self, topCard):
         """ Logic for placing a card during a turn. Removes card from hand and returns it so that it 
