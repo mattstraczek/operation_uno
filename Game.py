@@ -21,7 +21,9 @@ class Game:
         self.isMultiplayer = isMultiplayer
         self.ruleset = ruleset
         self.deckSeed = deckSeed
-        self.deck = Deck(w, h, self.ruleset, deckSeed)
+        self.w = w
+        self.h = h
+        self.deck = Deck(self.w, self.h, self.ruleset, deckSeed)
         self.played_cards = pygame.sprite.Group()
 
         # Initialize players
@@ -66,7 +68,6 @@ class Game:
 
     def updateTurnHuman(self, curr_player, played_card):
         """ Handles the hands-on placing of a card and its game logic by a non-AI player. """
-        curr_player.removeCard(played_card)
         self.updateGameState(played_card, curr_player)
         self.actual_turn += 1
         self.turn += 1
@@ -74,7 +75,7 @@ class Game:
     def getCurrPlayer(self):
         """ Returns the current turn's player. """
         currPlayer = self.players[self.getPlayerNum()]
-        return currPlayer.name
+        return currPlayer
 
     def getPlayerNum(self):
         """ Returns the index of the current player. """
@@ -109,13 +110,15 @@ class Game:
                 return player
         return None
 
-    def updateGameState(self, playedCard, currPlayer):
+    def updateGameState(self, played_card, curr_player):
         """ Core game logic for a given turn and player. Handles general cards, SKIPs, REVERSEs, and DRAWs. 
             Updates the corresponding top card of the deck. """
-        if not playedCard:
-            print(currPlayer.name, "skipped their turn")
-        elif playedCard:
-            if playedCard.card.value=="REVERSE":
+        curr_player.removeCard(played_card)
+        print(curr_player)
+        if not played_card:
+            print(curr_player.name, "skipped their turn")
+        elif played_card:
+            if played_card.card.value=="REVERSE":
                 self.players.reverse()
                 # print("Turn order:", end="")
                 # for player in self.players:
@@ -124,22 +127,22 @@ class Game:
                 # print("Reverse")
                 self.turn = self.total_players - (self.turn % self.total_players)
 
-            elif playedCard.card.value=="SKIP":
+            elif played_card.card.value=="SKIP":
                 # print("Skipped", self.players[(self.turn) % self.total_players].name, "turn")
                 self.turn+=1
 
-            elif playedCard.card.value=="DRAW 2":
+            elif played_card.card.value=="DRAW 2":
                 self.draw(self.players[(self.turn) % self.total_players], 2)
                 # print("Added 2 cards to", self.players[(self.turn) % self.total_players].name)
                 self.turn+=1
 
-            elif playedCard.card.value=="DRAW 4":
+            elif played_card.card.value=="DRAW 4":
                 self.draw(self.players[(self.turn) % self.total_players], 4)
                 # print("Added 4 cards to", self.players[(self.turn) % self.total_players].name)
                 self.turn+=1
-
-            self.played_cards.add(playedCard)
-            self.top_card = playedCard
+            played_card.update_pos((self.w/2, self.h/2))     
+            self.played_cards.add(played_card)
+            self.top_card = played_card
 
     def changeSoundEffects(self, sound):
         """ Changes if sound effects are on/off """

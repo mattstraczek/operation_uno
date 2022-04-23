@@ -22,9 +22,9 @@ class Player():
         # Add different difficulties
         for card in self.hand:
             if Ruleset.isValid(self, card, top_card):
-                self.hand.remove(card)
+                # self.hand.remove(card)
                 if card.card.color=="WILD":
-                    card.update_card(Card(self.maxColor(), card.value))
+                    card.update_card(Card(self.maxColor(), card.card.value))
                 print(self.name, "is placing", card)
                 return card
 
@@ -86,8 +86,8 @@ class Player():
         """ Finds the color that the AI has the most of. """
         colors = {"RED" : 0, "YELLOW" : 0, "GREEN" : 0, "BLUE" : 0}
         for card in self.hand:
-            if not card.color=="WILD":
-                colors[card.color]+=1
+            if not card.card.color=="WILD":
+                colors[card.card.color]+=1
         return max(colors, key=colors.get)
 
     def isWin(self):

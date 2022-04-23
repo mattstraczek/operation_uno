@@ -25,23 +25,11 @@ class CardSprite(pygame.sprite.Sprite):
 
     def update(self, is_placing, should_rotate):
         """ Updates the position of the card to a place towards the new position """
-
-        # if self.squared_distance() < 100:
-        #     print("here")
-        #     self.place()
-        #     self.rect.center = self.pos
-        #     return
-
-        # delta_x = (abs(self.initial_pos[0]-self.pos[0])*self.squared_distance()**0.5/4000)**0.5
-        # delta_y = (abs(self.initial_pos[1]-self.pos[1])*self.squared_distance()**0.5/4000)**0.5
-        
         curr_x = self.rect.centerx
         curr_y = self.rect.centery
 
         delta_x = (self.pos[0]-self.initial_pos[0])*self.squared_distance(self.pos, self.rect.center)**0.5/5000
         delta_y = (self.pos[1]-self.initial_pos[1])*self.squared_distance(self.pos, self.rect.center)**0.5/5000
-
-        # if(self.squared_distance(self.pos, (self.rect.centerx+delta_x, self.rect.centery+delta_y)) < 100):
 
         if(self.initial_pos[0]==self.pos[0] and self.initial_pos[1]==self.pos[1]):
             return

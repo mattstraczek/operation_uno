@@ -20,7 +20,6 @@ from pygame.mixer import music as msound
 if __name__ == '__main__':
     pygame.init()
     info = pygame.display.Info()
-    # do some math to establish a 2:1 screen dimension
     screen_w, screen_h = info.current_w, info.current_h
 
     # main_menu = MainMenu.MainMenu(w=info.current_w, h=info.current_h)
@@ -28,7 +27,7 @@ if __name__ == '__main__':
 
     # for quick testing of game_window
     game_instance = Game(screen_w, screen_h, False, 3, 'easy')
-    game_window = GameWindow_test.GameWindow_test(game_instance, info.current_w, info.current_h)
+    game_window = GameWindow_test.GameWindow_test(game_instance, screen_w, screen_h)
     game_window.display()
 
 
