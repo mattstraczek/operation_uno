@@ -59,18 +59,19 @@ class Game:
     def draw(self, player, num_times):
         """ Passed in player draws a random card from self.deck exactly 'num_times'. """
         for i in range(num_times):
-            print(player.name, "drew", self.deck.peek())
+            # print(player.name, "drew", self.deck.peek())
             player.addCard(self.deck.draw())
 
     def skipTurn(self):
         """ Updates turn count of game instance. Effectively skips a turn. """
         self.turn += 1
 
-    def updateTurnHuman(self, curr_player, played_card):
-        """ Handles the hands-on placing of a card and its game logic by a non-AI player. """
-        self.updateGameState(played_card, curr_player)
-        self.actual_turn += 1
-        self.turn += 1
+    # def updateTurnHuman(self, curr_player, played_card):
+    #     """ Handles the hands-on placing of a card and its game logic by a non-AI player. """
+    #     self.actual_turn += 1
+    #     self.turn += 1
+    #     return self.updateGameState(played_card, curr_player)
+
 
     def getCurrPlayer(self):
         """ Returns the current turn's player. """
@@ -81,20 +82,19 @@ class Game:
         """ Returns the index of the current player. """
         return (self.turn-1) % len(self.players)
 
-    def nextTurn(self):
+    def update_turn(self, curr_player, played_card=None):
         """ Handles game logic for an AI-player's turn. If player is not AI, return control of program to the user by returning True. """
-        currPlayer = self.players[(self.turn-1) % len(self.players)]
-        if currPlayer.isAI:
-            played_card = currPlayer.playCardAI(self.top_card)
+        # currPlayer = self.players[(self.turn-1) % len(self.players)]
+        
+        if curr_player.isAI:
+            played_card = curr_player.playCardAI(self.top_card)
             if not played_card:
-                self.draw(currPlayer, 1)
-                played_card = currPlayer.playCardAI(self.top_card)
-            self.updateGameState(played_card, currPlayer)
-            self.turn += 1
-            self.actual_turn += 1
-            return False
-        else:
-            return True
+                self.draw(curr_player, 1)
+                played_card = curr_player.playCardAI(self.top_card)
+        
+        self.turn += 1
+        self.actual_turn += 1
+        return self.updateGameState(played_card, curr_player)
 
     def winnerExists(self):
         """ Checks state of the game for winner. """
@@ -114,9 +114,10 @@ class Game:
         """ Core game logic for a given turn and player. Handles general cards, SKIPs, REVERSEs, and DRAWs. 
             Updates the corresponding top card of the deck. """
         curr_player.removeCard(played_card)
-        print(curr_player)
+        # print(curr_player)
         if not played_card:
-            print(curr_player.name, "skipped their turn")
+            return False
+            # print(curr_player.name, "skipped their turn")
         elif played_card:
             if played_card.card.value=="REVERSE":
                 self.players.reverse()
@@ -125,24 +126,31 @@ class Game:
                 #     print(player.name, end=" | ")  
                 # print()
                 # print("Reverse")
-                self.turn = self.total_players - (self.turn % self.total_players)
+                self.turn = self.total_players - (self.turn % self.total_players) - 1
 
             elif played_card.card.value=="SKIP":
                 # print("Skipped", self.players[(self.turn) % self.total_players].name, "turn")
                 self.turn+=1
 
             elif played_card.card.value=="DRAW 2":
-                self.draw(self.players[(self.turn) % self.total_players], 2)
+                self.draw(self.players[(self.turn-1) % self.total_players], 2)
                 # print("Added 2 cards to", self.players[(self.turn) % self.total_players].name)
                 self.turn+=1
 
             elif played_card.card.value=="DRAW 4":
-                self.draw(self.players[(self.turn) % self.total_players], 4)
+                self.draw(self.players[(self.turn-1) % self.total_players], 4)
                 # print("Added 4 cards to", self.players[(self.turn) % self.total_players].name)
                 self.turn+=1
+
+            if not curr_player==self.main_player:
+                played_card.toggle_face()
             played_card.update_pos((self.w/2, self.h/2))     
             self.played_cards.add(played_card)
             self.top_card = played_card
+
+            if played_card.card.value=="REVERSE":
+                return True
+            return False
 
     def changeSoundEffects(self, sound):
         """ Changes if sound effects are on/off """

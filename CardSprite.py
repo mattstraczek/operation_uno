@@ -9,14 +9,20 @@ class CardSprite(pygame.sprite.Sprite):
         self.card = card    # saves the card for comparison
         self.pos = pos      # saves the position of the card
         self.initial_pos = pos
+        self.is_selected = False
 
         # Loads in the image and scales the image to fit dim accordingly
-        self.image = pygame.image.load("Resources/Cards/" + str(card) + ".png")
-        image_dim = self.image.get_size()
+        self.front = pygame.image.load("Resources/Cards/" + str(card) + ".png")
+        image_dim = self.front.get_size()
         image_scale = min(dim[0]/image_dim[0], dim[1]/image_dim[1])
         self.dim = tuple(i*image_scale for i in image_dim)
-        self.image = pygame.transform.scale(self.image, self.dim)
+        self.front = pygame.transform.scale(self.front, self.dim)
 
+        self.back = pygame.image.load("Resources/Cards/Back-of-card.png")
+        self.back = pygame.transform.scale(self.back, self.dim)
+
+        self.image = self.back
+        
         # Rectangle that bounds the image
         self.rect = self.image.get_rect(center=pos)
     
@@ -41,9 +47,8 @@ class CardSprite(pygame.sprite.Sprite):
             if is_placing:
                 self.place()
             if should_rotate:
-                rotated_image = pygame.transform.rotate(self.image, np.random.rand()*60-30)
-                self.rect = rotated_image.get_rect(center=self.rect.center)
-                self.image = rotated_image
+                self.image = pygame.transform.rotozoom(self.image, np.random.rand()*60-30, 1)
+                self.rect = self.image.get_rect(center=self.rect.center)
             return
 
         self.rect.centerx += delta_x #if self.pos[0] > self.rect.centerx else -delta_x
@@ -58,12 +63,17 @@ class CardSprite(pygame.sprite.Sprite):
         self.place_sound.play()
 
     def update_card(self, new_card):
+        """ Updates the current card with a new card and updates the image """ 
         self.card = new_card
-        self.image = pygame.image.load("Resources/Cards/" + str(new_card) + ".png")
-        self.image = pygame.transform.scale(self.image, self.dim)
-
+        self.front = pygame.image.load("Resources/Cards/" + str(new_card) + ".png")
+        self.front = pygame.transform.scale(self.front, self.dim)
+    
     def update_pos(self, new_pos):
         self.pos = new_pos
+
+    def toggle_face(self):
+        """ Toggles between showing the front and back of the card """
+        self.image = self.front if self.image==self.back else self.back
 
     def __str__(self):
         """ Overridden toString() method displays the card. """
