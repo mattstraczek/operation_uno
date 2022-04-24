@@ -133,7 +133,7 @@ class GameWindow:
             # if player_dict[i].name == "AI 0":
             #     main_player_label.changeMessage()
 
-        while True: #not self.game_instance.winnerExists():
+        while not self.game_instance.winnerExists(): #True
             if ai_turn:
                 if time()-last_time > 2:
                     last_time = time()

@@ -79,7 +79,7 @@ class MultiplayerMenu():
 
                     if start_game_button.isHovered():
                         current = False
-                        game = Game.Game(True, num_players, difficulty)
+                        game = Game.game(True, num_players, difficulty)
                         print("Starting Game")
 
                     if back_button.isHovered():
