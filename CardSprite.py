@@ -27,7 +27,8 @@ class CardSprite(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center=pos)
     
         # Place Card Sound
-        self.place_sound = pygame.mixer.Sound("Resources/Sounds/PlaceCard.mp3")
+        pygame.mixer.init()
+        self.place_sound = pygame.mixer.Sound("Resources/Sounds/PlaceCard.wav")
 
     def update(self, is_placing, should_rotate):
         """ Updates the position of the card to a place towards the new position """
