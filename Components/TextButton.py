@@ -7,28 +7,24 @@ class TextButton:
         self.color = color
         self.font = font
         self.msg = msg
+
         self.base_color = base_color
         self.hover_color = hover_color
+
         self.text = self.font.render(msg, True, pygame.Color("Black"))
         self.typed_text = self.font.render("", True, pygame.Color("Black"))
+
         self.typed_entry = ""
         self.temp_msg = ""
         self.temp_text = self.text
+
         self.window = window
+        
         self.active = False
         self.new_text = False
 
-        self.base_button_rect = pygame.Rect((pos[0]-size[0]//2, pos[1]-size[1]//2), size)
-        self.test = pygame.Rect((0, 0), size)
-        self.base_text_rect = self.text.get_rect(center=pos, size=size)
-        #self.base_button_rect = self.text.get_rect(topleft=[pos[0]-size[0]//2, pos[1]-size[1]//2], size=size)
-        
-        # scaleSize = tuple(i*scale for i in size)
-        # self.scale_text_rect = self.text.get_rect(center=pos, size=scaleSize)
-        # self.scale_button_rect = self.text.get_rect(topleft=[pos[0]-scaleSize[0]//2, pos[1]-scaleSize[1]//2], size=scaleSize)
-
-        self.text_rect = self.base_text_rect
-        self.button_rect = self.base_button_rect
+        self.button_rect = pygame.Rect((pos[0]-size[0]//2, pos[1]-size[1]//2), size)
+        self.text_rect = self.text.get_rect(center=pos, size=size)
 
     def displayButton(self):
         """ Handles displaying the text button on the screen """
@@ -36,8 +32,6 @@ class TextButton:
             self.text = self.font.render(self.msg, True, pygame.Color("Black"))
             pygame.draw.rect(self.window, self.hover_color, self.button_rect, 0, 10)
         else:
-            self.text_rect = self.base_text_rect
-            self.button_rect = self.base_button_rect
             self.text = self.font.render(self.msg, True, pygame.Color("Black"))
             pygame.draw.rect(self.window, self.base_color, self.button_rect, 0, 10)
 
