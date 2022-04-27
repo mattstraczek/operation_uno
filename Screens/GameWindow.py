@@ -1,30 +1,12 @@
-from Components import Button, Message, Image, CardImage
+from Components import Button, Message, Image
+from CardSprite import CardSprite
+from ArrowSprite import ArrowSprite
+from Screens import EndMenu
+from Card import Card
 from Game import Game
 import pygame, sys
-from time import sleep, time
+from time import time
 import numpy as np
-from pygame import mixer as mix
-
-def updateCards(self, player, base_card_pos, window):
-    """ Updates the visual display of all cards on the screen that are currently in players hands. """
-    num_cards = len(player.hand)
-    card_offsets = np.linspace(-num_cards/2, num_cards/2, num_cards)
-    if base_card_pos[0] == self.w/2: # top or bottom of screen
-        for i in range(num_cards):
-            self.card_imgs.append(CardImage.CardImage(window, [base_card_pos[0]+self.w*card_offsets[i]/32, base_card_pos[1]], [self.w/8, self.h/8], player.hand[i]))
-    else:
-        for i in range(num_cards):
-            self.card_imgs.append(CardImage.CardImage(window, [base_card_pos[0], base_card_pos[1]+self.h*card_offsets[i]/32], [self.w/8, self.h/8], player.hand[i]))
-
-
-'''
-import threading 
-
-def ai_play(): 
-    print("2 seconds finished") 
-
-timer = threading.Timer(2.0, func)
-timer.start()'''
 
 class GameWindow:
     def __init__(self, game_instance, width=800, height=600, bg_color=pygame.Color("Purple")):
@@ -34,212 +16,259 @@ class GameWindow:
         self.w = width
         self.h = height
         self.bg_color = bg_color
-        self.card_imgs = []
-        self.middle_bound = pygame.Rect((self.w / 2 - self.w / 8, self.h / 2 - self.h / 8), (self.w / 4, self.h / 4))
-        #self.draw_button
-    def showWinScreen(self, winningPlayer, game_window, you_win_label):
-        winningPlayer = self.game_instance.getWinner()
-        if not winningPlayer.isAI: # What happens if main player wins
-            win_sound = mix.Sound('Resources/Sounds/Fanfare-sound.wav')
-            win_sound.set_volume(0.5)
-            win_sound.play()
-            game_window.fill(pygame.Color("Black"))
-            you_win_label.displayMessage()
-        else: # What happens if one of the AI players wins
-            lose_sound = mix.Sound('Resources/Sounds/Fanfare-sound.wav')
-            lose_sound.set_volume(0.5)
-            lose_sound.play()
-            game_window.fill(pygame.Color("Black"))
-            you_win_label.displayMessage()
+
+    def update_cards(self, player, base_card_pos, selected_card):
+        """ Updates the position of the cards in player's hand """
+        num_cards = len(player.hand)
+        card_offsets = np.linspace(-num_cards/2, num_cards/2, num_cards)
+        i = 0
+        if base_card_pos[0] == self.w/2: # top or bottom of screen
+            for card in player.hand:
+                if card==selected_card:
+                    selected_card.update_pos((base_card_pos[0]+self.w*card_offsets[i]/32, base_card_pos[1]-self.h/64))
+                else:
+                    card.update_pos((base_card_pos[0]+self.w*card_offsets[i]/32, base_card_pos[1]))
+                i+=1
+        else:
+            for card in player.hand:
+                card.update_pos((base_card_pos[0], base_card_pos[1]+self.h*card_offsets[i]/32))
+                i+=1
+
+    def update_graphics(self, game_window):
+        """ Updates the graphics of the game """
+        # Draws the background
+        game_window.fill(self.bg_color)
+
+        curr_player = self.game_instance.getCurrPlayer()
+        curr_player_idx = self.index_dict[curr_player]
+        # Update the arrow to point to the current player
+        self.arrow_sprite.update_angle(self.arrow_angles[curr_player_idx])
+
+        # Draws the arrow
+        self.arrow.draw(game_window)
+        self.arrow.update()
+
+        # Displays the cards that have been played
+        self.game_instance.played_cards.draw(game_window)
+        self.game_instance.played_cards.update(True, True)
+
+        # Displays every players' hand
+        for player in self.game_instance.players:
+            player.hand.draw(game_window)
+            player.hand.update(False, False)
+
+        # Displays the draw and skip button
+        if self.can_draw:
+            self.draw_button.displayButton()
+        else:
+            self.skip_button.displayButton()
+
+        if self.choose_color:
+            for button in self.choose_color_buttons:
+                button.displayButton()
+
+        # Displays text labels
+        self.turn_num_label.changeMessage("Turn Number: " + str(self.game_instance.actual_turn))
+        self.curr_player_label.changeMessage("Current Player: " + str(curr_player.name))
+        self.turn_num_label.displayMessage()
+        self.curr_player_label.displayMessage()
+
+        pygame.display.flip()
+        self.clock.tick(60)
+
+    def initialize_player_positions(self, num_players):
+        """ Initialize the positions and arrow angles of each player on the board """
+        # Positions of the players' hands on the screen
+        card_positions = []
+        bottom = (self.w/2, self.h*7/8)
+        left = (self.w/8, self.h/2)
+        top = (self.w/2, self.h*1/8)
+        right = (self.w*7/8, self.h/2)
+        card_positions.append(bottom)
+        if num_players==2:
+            card_positions.append(top)
+        if num_players==3:
+            card_positions.append(left)
+            card_positions.append(top)
+        if num_players==4:
+            card_positions.append(left)
+            card_positions.append(top)
+            card_positions.append(right)
+
+        # Arrow angle positions of the players
+        arrow_angles = []
+        if self.num_players==2:
+            arrow_angles.append(0)
+            arrow_angles.append(180)
+        if self.num_players==3:
+            arrow_angles.append(0)
+            arrow_angles.append(-90)
+            arrow_angles.append(90)
+        if self.num_players==4:
+            arrow_angles.append(0)
+            arrow_angles.append(-90)
+            arrow_angles.append(180)
+            arrow_angles.append(90)
+
+        return card_positions, arrow_angles
+
+    def update_next_turn(self, events, mouse_pos):
+        """ Handles updating the next turn if its AI or player """
+        curr_player = self.game_instance.getCurrPlayer()
+
+        # Updates the AI's next turn
+        if curr_player.isAI:
+            if self.game_instance.update_turn(curr_player):
+                self.arrow_sprite.toggle_clockwise()
+            return True
+
+        for event in events:
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                # DRAW BUTTON LOGIC
+                if self.draw_button.isHovered() and self.can_draw:
+                    self.game_instance.draw(self.game_instance.main_player, 1)
+                    self.can_draw = False
+                    self.mouse_down = True
+                    # print("Main player drew")
+                    return True
+                # SKIP BUTTON LOGIC
+                elif self.skip_button.isHovered() and not self.can_draw and not self.mouse_down:
+                    self.game_instance.skipTurn()
+                    self.can_draw = True
+                    # print("Main player skipped turn")
+                    return True
+
+                # If needs to choose a color
+                if self.choose_color:
+                    for button in self.choose_color_buttons:
+                        if button.isHovered():
+                            self.temp_wild_card.update_card(Card(button.msg, self.temp_wild_card.card.value), True)
+                            if self.game_instance.update_turn(self.game_instance.main_player, self.temp_wild_card):
+                                self.arrow_sprite.toggle_clockwise()
+                            self.can_draw = True
+                            return True
+
+                # MAIN PLAYER LOGIC
+                if self.selected_card:
+                    # If selected card is a wild card, toggle choosing a color
+                    if self.selected_card.card.color == "WILD":
+                        self.choose_color = True
+                        self.temp_wild_card = self.selected_card
+                        return False
+                    elif self.game_instance.ruleset.isValid(self.selected_card, self.game_instance.top_card):
+                        if self.game_instance.update_turn(self.game_instance.main_player, self.selected_card):
+                            self.arrow_sprite.toggle_clockwise()
+                        self.can_draw = True
+                        return True
+        return False
 
     def display(self):
         """ Displays the game window and allows for a game to be played using the logic of the imported components. """
-        clock = pygame.time.Clock()
+        self.clock = pygame.time.Clock()
+        self.last_time = time()
+
         game_window = pygame.display.set_mode((self.w, self.h))
-        self.top_card = CardImage.CardImage(game_window, [self.w/2, self.h/2], [self.w/8, self.h/8], self.game_instance.top_card)
 
+        self.num_players = self.game_instance.total_players
+        self.card_positions, self.arrow_angles = self.initialize_player_positions(self.num_players)
 
-        # Determines the font size based on screen dimensions
-        if self.w <= self.h:
-            fontSize = self.w // 50
-        else:
-            fontSize = self.h // 20
+        # Initialize the player and their respective indices and vice versa
+        index = self.game_instance.players.index(self.game_instance.main_player)
+        player_dict = {}
+        self.index_dict = {}
+        for i in range(self.num_players):
+            player_dict[i] = self.game_instance.players[(index+i)%(self.num_players)]
+            self.index_dict[self.game_instance.players[(index+i)%(self.num_players)]] = i
+        
+        # VARIABLES
+        self.can_draw       = True  # Toggle between drawing and skipping turn
+        self.mouse_down     = False # Toggle that checks if the mouse is held down and not lifted
+        self.selected_card  = None  # The current card in player's hand that is hovered by cursor
+        self.temp_wild_card = None  # Set to selected card when a wild card was clicked
+        self.paused         = True  # Toggles whether the game is paused (no moves made)
+        self.choose_color   = False # True when player needs to choose a color
 
-        #Initialize colors
+        # Update the positions of the cards to their players' hands
+        for i in range(self.num_players):
+            self.update_cards(player_dict[i], self.card_positions[i], self.selected_card)
+
+        # Update the position of the top card
+        self.game_instance.top_card.toggle_face()
+        self.game_instance.top_card.update_pos((self.w/2, self.h/2))
+        
+        # Point the arrow to the current player
+        curr_player_idx = self.index_dict[self.game_instance.getCurrPlayer()]
+        self.arrow_sprite = ArrowSprite((self.w/2, self.h/2), (self.w/2.5, self.h/2.5), self.arrow_angles[curr_player_idx])
+        self.arrow = pygame.sprite.Group(self.arrow_sprite)
+
+        # COLORS
         red    = pygame.Color("Red")
         yellow = pygame.Color("Yellow")
         green  = pygame.Color("Green")
         blue   = pygame.Color("Blue")
         white  = pygame.Color("White")
-        black = pygame.Color("Black")
+        black  = pygame.Color("Black")
 
-        # Initialize text objects
-        text_font = pygame.font.Font('Resources/Font/OpenSans-ExtraBold.ttf', int(fontSize/2))
-        large_text = pygame.font.Font('Resources/Font/OpenSans-ExtraBold.ttf', int(fontSize * 2))
-        # num_turns_label = Message.Message(game_window, "Turn Number", text_font, black, [100, 100])
-        # num_turns = Message.Message(game_window, "", large_text, black, [100, 200])
-        # current_player_label = Message.Message(game_window, "Current player", text_font, black, [100, 300])
-        # current_player = Message.Message(game_window, "", text_font, black, [100, 400])
-
-        labels = [num_turns_label, num_turns, current_player_label, current_player]
-        num_turns_label = Message.Message(game_window, "Number of turns: ", text_font, black, [100, 100])
-        current_player_label = Message.Message(game_window, "Current player: ", large_text, black, [400, self.h - 550])
-        num_turns = Message.Message(game_window, "0", text_font, black, [200, 100])
-        #current_player = Message.Message(game_window, "0", large_text, black, [1000, self.h - 550])
-        top_label = Message.Message(game_window,"AI 0", text_font, black, [self.w/2,0 + 25])
-        left_label = Message.Message(game_window,"AI 1", text_font, black, [self.w*1/16, self.h*1/2])
-        right_label = Message.Message(game_window,"AI 2", text_font, black, [self.w*15/16 + 25, self.h*1/2])
-        main_player_label = Message.Message(game_window,"Main", text_font, black, [self.w/2, self.h*15/16 + 25])
-        you_win_label = Message.Message(game_window, "YOU WIN", large_text, black, [1000, self.h - 550])
-        you_lose_label = Message.Message(game_window, "YOU LOSE", large_text, black, [1000, self.h - 550])
-        # card_positions.append((self.w/2, self.h*7/8))
-        #     card_positions.append((self.w/8, self.h/2))
-        #     card_positions.append((self.w/2, self.h*1/8))
-        #     card_positions.append((self.w*7/8, self.h/2))
-
-        #Initialize Buttons
+        # BUTTONS!
+        fontSize = self.w // 50 if self.w <= self.h else self.h // 20
         button_font = pygame.font.Font('Resources/Font/OpenSans-Regular.ttf', fontSize)
-        draw_btn = Button.Button(game_window, red, [self.w*7/8, self.h*7/8], [fontSize*4, fontSize*2], button_font, "Draw", red, yellow)
-        skip_btn = Button.Button(game_window, red, [self.w*7/8, self.h*7/8], [fontSize*4, fontSize*2], button_font, "Skip", red, yellow)
 
-        selected_card = None
-        ai_turn = True
-        last_time = time()
-        can_draw = True
-        mouse_down = False
+        self.draw_button = Button.Button(game_window, red, [self.w*7/8, self.h*7/8], [fontSize*4, fontSize*2], button_font, "Draw", red, yellow)
+        self.skip_button = Button.Button(game_window, red, [self.w*7/8, self.h*7/8], [fontSize*4, fontSize*2], button_font, "Skip", red, yellow)
+        
+        color_button_font = pygame.font.Font('Resources/Font/OpenSans-Regular.ttf', fontSize//2)
+        r_button = Button.Button(game_window, red, [self.w*13/32, self.h*3/4], [fontSize*2, fontSize*1], color_button_font, "RED", red, red)
+        y_button = Button.Button(game_window, yellow, [self.w*15/32, self.h*3/4], [fontSize*2, fontSize*1], color_button_font, "YELLOW", yellow, yellow)
+        g_button = Button.Button(game_window, green, [self.w*17/32, self.h*3/4], [fontSize*2, fontSize*1], color_button_font, "GREEN", green, green)
+        b_button = Button.Button(game_window, blue, [self.w*19/32, self.h*3/4], [fontSize*2, fontSize*1], color_button_font, "BLUE", blue, blue)
+        self.choose_color_buttons = [r_button, y_button, g_button, b_button]
 
-        total_players = self.game_instance.total_players
-        card_positions = []
-        if total_players==2:
-            card_positions.append((self.w/2, self.h*7/8))
-            card_positions.append((self.w/2, self.h*1/8))
+        # TEXT LABELS
+        text_font = pygame.font.Font('Resources/Font/OpenSans-ExtraBold.ttf', int(fontSize/2))
+        self.turn_num_label = Message.Message(game_window, "Turn Number: ", text_font, black, [self.w/8, self.h*6/8])
+        self.curr_player_label = Message.Message(game_window, "Current Player: ", text_font, black, [self.w/8, self.h*7/8])
 
-        if total_players==3:
-            card_positions.append((self.w/2, self.h*7/8))
-            card_positions.append((self.w/8, self.h/2))
-            card_positions.append((self.w*7/8, self.h/2))
+        # Main game loop
+        while not self.game_instance.get_winner():
+            mouse_pos = pygame.mouse.get_pos()
+            events = pygame.event.get()
 
-        if total_players==4:
-            card_positions.append((self.w/2, self.h*7/8))
-            card_positions.append((self.w/8, self.h/2))
-            card_positions.append((self.w/2, self.h*1/8))
-            card_positions.append((self.w*7/8, self.h/2))
-
-        index = self.game_instance.players.index(self.game_instance.main_player)
-        player_dict = {}
-        for i in range(total_players):
-            print(i)
-            player_dict[i] = self.game_instance.players[(index+i)%(total_players)]
-            # print(player_dict[i].name)
-            # if player_dict[i].name == "AI 0":
-            #     top_label.changeMessage("AI 0")
-            # if player_dict[i].name == "AI 1":
-            #     left_label.changeMessage("AI 1")
-            # if player_dict[i].name == "AI 2":
-            #     right_label.changeMessage("AI 2")
-            # if player_dict[i].name == "AI 0":
-            #     main_player_label.changeMessage()
-
-        while True: #not self.game_instance.winnerExists():
-            if ai_turn:
-                if time()-last_time > 2:
-                    last_time = time()
-                    if self.game_instance.nextTurn():
-                        ai_turn = False
-                else:
-                    sleep(0.1)
-            # Tries to handle the case where a winner exists
-            if self.game_instance.winnerExists():
-                self.showWinScreen(self.game_instance.getWinner(), game_window, you_win_label)
-                break
-            
-            num_turns.changeMessage(str(self.game_instance.actual_turn))
-            current_player_label.changeMessage(self.game_instance.getCurrPlayer())
-
-            current_player = self.game_instance.getCurrPlayer()
-            top_label.changeColor(yellow if current_player == "AI 0" else black)
-            left_label.changeColor(yellow if current_player == "AI 1" else black)
-            right_label.changeColor(yellow if current_player == "AI 2" else black)
-            main_player_label.changeColor(yellow if current_player != "AI 0" and current_player != "AI 1" and current_player != "AI 2" else black)
-            # pygame.time.delay(3000) # Pauses the game for 3 seconds
-            # current_player_label.displayMessage()
-            # current_player.displayMessage()
-
-            self.card_imgs = []
-            for i in range(total_players):
-                updateCards(self, player_dict[i], card_positions[i], game_window)
-            
-            for event in pygame.event.get():
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    if draw_btn.isHovered() and ai_turn == False and can_draw:
-                        self.game_instance.draw(self.game_instance.main_player, 1)
-                        can_draw = False
-                        mouse_down = True
-                        print("Main player drew")
-                    elif skip_btn.isHovered() and ai_turn == False and not can_draw and not mouse_down:
-                        self.game_instance.skipTurn()
-                        ai_turn = True
-                        can_draw = True
-                        print("Main player skipped turn")
-
+            for event in events:
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
 
-                elif not selected_card and event.type == pygame.MOUSEBUTTONDOWN:
-                    #if draw_button.isHovered:
-
-                    for card in self.card_imgs:
-                        if card.card in self.game_instance.main_player.hand and card.isHovered():
-                            selected_card = card
-                            selected_card.clicked = True
-
                 elif event.type == pygame.MOUSEBUTTONUP:
-                    mouse_down = False
-                    if selected_card:
-                        if selected_card.checkInBounds(self.middle_bound):
-                            #print(type(selected_card.card))
-                            if self.game_instance.ruleset.isValid(card=selected_card.card, topCard=self.game_instance.top_card):
-                                # play_card = mix.Sound('Resources/Sounds/Card-flip-sound-effect.wav')
-                                # play_card.set_volume(0.5)
-                                # play_card.play()
-                                selected_card.updateBasePos((self.middle_bound.centerx, self.middle_bound.centery))
-                                self.top_card.updateCard(self.game_instance.top_card)
-                                self.game_instance.updateTurnHuman(self.game_instance.main_player, selected_card.card)
-                                ai_turn = True
-                                can_draw = True
-                        selected_card.clicked = False
-                        selected_card = None
+                    self.mouse_down = False
 
-            self.top_card.updateCard(self.game_instance.top_card)
+            if not self.selected_card:
+                for card in self.game_instance.main_player.hand:
+                    if card.rect.collidepoint(mouse_pos):
+                        self.selected_card = card
+                        self.selected_card.is_selected = True
+            elif self.selected_card:
+                if not self.selected_card.rect.collidepoint(mouse_pos):
+                    self.selected_card.is_selected = False
+                    self.selected_card = None
 
-            game_window.fill(self.bg_color)
-            pos = pygame.mouse.get_pos()
-            
-            pygame.draw.rect(game_window, pygame.Color("White"), self.middle_bound, 2, 10)
+            if self.paused:
+                if time()-self.last_time > 2:
+                    self.last_time = time()
+                    self.paused = False         
+            elif not self.paused:
+                if self.update_next_turn(events, mouse_pos):
+                    self.choose_color = False
+                    if self.game_instance.getCurrPlayer().isAI:
+                        self.paused = True
+                        self.last_time = time()
 
-            for card in self.card_imgs:
-                card.displayImage()
+            for i in range(self.num_players):
+                self.update_cards(player_dict[i], self.card_positions[i], self.selected_card)
 
-            self.top_card.displayImage()
+            self.update_graphics(game_window)
 
-            if selected_card:
-                selected_card.updatePos(pos)
-                selected_card.displayImage()
-
-            if can_draw:
-                draw_btn.displayButton()
-            else:
-                skip_btn.displayButton()
-
-            for label in labels:
-                label.displayMessage()
-
-            # if current_player.changeMessage:
-            #     pygame.time.delay(300) # Pauses the game
-            #     current_player_label.displayMessage()
-            #     current_player.displayMessage()
-
-            pygame.display.flip()
-            clock.tick(60)
-
+        print(self.game_instance.get_winner().name)
+        end_menu = EndMenu.EndMenu(self.w, self.h)
+        end_menu.display()
+        pygame.display.quit()
+        return

@@ -24,6 +24,7 @@ class ArrowSprite(pygame.sprite.Sprite):
         self.curr_angle = initial_angle
         self.target_angle = initial_angle
         self.image = pygame.transform.rotozoom(self.orig_image, self.curr_angle, 1)
+        self.rect = self.image.get_rect(center=self.rect.center)
         self.clockwise = True
 
         # Spin Arrow Sound

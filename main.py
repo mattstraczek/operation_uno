@@ -1,5 +1,5 @@
 import pygame
-from Screens import MainMenu, GameWindow, GameWindow_test
+from Screens import MainMenu, GameWindow
 from Game import Game
 
 if __name__ == '__main__':
@@ -7,7 +7,7 @@ if __name__ == '__main__':
     info = pygame.display.Info()
     screen_w, screen_h = info.current_w, info.current_h
 
-    main_menu = MainMenu.MainMenu(w=info.current_w, h=info.current_h)
+    main_menu = MainMenu.MainMenu(w=info.current_w, h=info.current_h-25)
     main_menu.display()
 
     # for quick testing of game_window
