@@ -1,6 +1,8 @@
 from Components import Button, Message, Image
 from CardSprite import CardSprite
 from ArrowSprite import ArrowSprite
+from Screens import EndMenu
+from Card import Card
 from Game import Game
 import pygame, sys
 from time import time
@@ -23,7 +25,7 @@ class GameWindow_test:
         if base_card_pos[0] == self.w/2: # top or bottom of screen
             for card in player.hand:
                 if card==selected_card:
-                    selected_card.update_pos((base_card_pos[0]+self.w*card_offsets[i]/32, base_card_pos[1]-self.h/32))
+                    selected_card.update_pos((base_card_pos[0]+self.w*card_offsets[i]/32, base_card_pos[1]-self.h/64))
                 else:
                     card.update_pos((base_card_pos[0]+self.w*card_offsets[i]/32, base_card_pos[1]))
                 i+=1
@@ -60,6 +62,10 @@ class GameWindow_test:
             self.draw_button.displayButton()
         else:
             self.skip_button.displayButton()
+
+        if self.choose_color:
+            for button in self.choose_color_buttons:
+                button.displayButton()
 
         pygame.display.flip()
         self.clock.tick(60)
@@ -98,8 +104,6 @@ class GameWindow_test:
 
         return card_positions, arrow_angles
 
-    
-
     def update_next_turn(self, events, mouse_pos):
         """ Handles updating the next turn if its AI or player """
         curr_player = self.game_instance.getCurrPlayer()
@@ -112,21 +116,38 @@ class GameWindow_test:
 
         for event in events:
             if event.type == pygame.MOUSEBUTTONDOWN:
+                # DRAW BUTTON LOGIC
                 if self.draw_button.isHovered() and self.can_draw:
                     self.game_instance.draw(self.game_instance.main_player, 1)
                     self.can_draw = False
                     self.mouse_down = True
                     # print("Main player drew")
                     return True
-
+                # SKIP BUTTON LOGIC
                 elif self.skip_button.isHovered() and not self.can_draw and not self.mouse_down:
                     self.game_instance.skipTurn()
                     self.can_draw = True
                     # print("Main player skipped turn")
                     return True
 
+                # If needs to choose a color
+                if self.choose_color:
+                    for button in self.choose_color_buttons:
+                        if button.isHovered():
+                            self.temp_wild_card.update_card(Card(button.msg, self.temp_wild_card.card.value), True)
+                            if self.game_instance.update_turn(self.game_instance.main_player, self.temp_wild_card):
+                                self.arrow_sprite.toggle_clockwise()
+                            self.can_draw = True
+                            return True
+
+                # MAIN PLAYER LOGIC
                 if self.selected_card:
-                    if self.game_instance.ruleset.isValid(self.selected_card, self.game_instance.top_card):
+                    # If selected card is a wild card, toggle choosing a color
+                    if self.selected_card.card.color == "WILD":
+                        self.choose_color = True
+                        self.temp_wild_card = self.selected_card
+                        return False
+                    elif self.game_instance.ruleset.isValid(self.selected_card, self.game_instance.top_card):
                         if self.game_instance.update_turn(self.game_instance.main_player, self.selected_card):
                             self.arrow_sprite.toggle_clockwise()
                         self.can_draw = True
@@ -151,7 +172,9 @@ class GameWindow_test:
             self.index_dict[self.game_instance.players[(index+i)%(self.num_players)]] = i
         
         self.selected_card = None
+        self.temp_wild_card = None
         self.paused = True  # initial pause of the game
+        self.choose_color = False   # only True when player needs to choose a color
 
         # Update the positions of the cards to their players' hands
         for i in range(self.num_players):
@@ -160,7 +183,11 @@ class GameWindow_test:
         # Update the position of the top card
         self.game_instance.top_card.toggle_face()
         self.game_instance.top_card.update_pos((self.w/2, self.h/2))
-        self.arrow_sprite = ArrowSprite((self.w/2, self.h/2), (self.w/2.5, self.h/2.5))
+        
+        curr_player = self.game_instance.getCurrPlayer()
+        curr_player_idx = self.index_dict[curr_player]
+
+        self.arrow_sprite = ArrowSprite((self.w/2, self.h/2), (self.w/2.5, self.h/2.5), self.arrow_angles[curr_player_idx])
         self.arrow = pygame.sprite.Group(self.arrow_sprite)
 
         red    = pygame.Color("Red")
@@ -179,10 +206,18 @@ class GameWindow_test:
         self.mouse_down = False
 
         button_font = pygame.font.Font('Resources/Font/OpenSans-Regular.ttf', fontSize)
+
         self.draw_button = Button.Button(game_window, red, [self.w*7/8, self.h*7/8], [fontSize*4, fontSize*2], button_font, "Draw", red, yellow)
         self.skip_button = Button.Button(game_window, red, [self.w*7/8, self.h*7/8], [fontSize*4, fontSize*2], button_font, "Skip", red, yellow)
+        
+        color_button_font = pygame.font.Font('Resources/Font/OpenSans-Regular.ttf', fontSize//2)
+        r_button = Button.Button(game_window, red, [self.w*13/32, self.h*3/4], [fontSize*2, fontSize*1], color_button_font, "RED", red, red)
+        y_button = Button.Button(game_window, yellow, [self.w*15/32, self.h*3/4], [fontSize*2, fontSize*1], color_button_font, "YELLOW", yellow, yellow)
+        g_button = Button.Button(game_window, green, [self.w*17/32, self.h*3/4], [fontSize*2, fontSize*1], color_button_font, "GREEN", green, green)
+        b_button = Button.Button(game_window, blue, [self.w*19/32, self.h*3/4], [fontSize*2, fontSize*1], color_button_font, "BLUE", blue, blue)
+        self.choose_color_buttons = [r_button, y_button, g_button, b_button]
 
-        while True: # no winner
+        while not self.game_instance.get_winner(): # no winner
             mouse_pos = pygame.mouse.get_pos()
             events = pygame.event.get()
 
@@ -210,6 +245,7 @@ class GameWindow_test:
                     self.paused = False         
             elif not self.paused:
                 if self.update_next_turn(events, mouse_pos):
+                    self.choose_color = False
                     if self.game_instance.getCurrPlayer().isAI:
                         self.paused = True
                         self.last_time = time()
@@ -218,3 +254,9 @@ class GameWindow_test:
                 self.update_cards(player_dict[i], self.card_positions[i], self.selected_card)
 
             self.update_graphics(game_window)
+
+        print(self.game_instance.get_winner().name)
+        end_menu = EndMenu.EndMenu(self.w, self.h)
+        end_menu.display()
+        pygame.display.quit()
+        return

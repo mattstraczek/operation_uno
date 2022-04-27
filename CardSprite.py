@@ -63,12 +63,14 @@ class CardSprite(pygame.sprite.Sprite):
         """ Plays the placing card sound effect """
         self.place_sound.play()
 
-    def update_card(self, new_card):
+    def update_card(self, new_card, replace_image):
         """ Updates the current card with a new card and updates the image """ 
         self.card = new_card
         self.front = pygame.image.load("Resources/Cards/" + str(new_card) + ".png")
         self.front = pygame.transform.scale(self.front, self.dim)
-    
+        if replace_image:
+            self.image = self.front
+
     def update_pos(self, new_pos):
         self.pos = new_pos
         # self.rect = self.image.get_rect(center=self.pos)

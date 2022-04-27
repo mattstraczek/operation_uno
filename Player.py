@@ -30,7 +30,7 @@ class Player():
             if Ruleset.isValid(self, card, top_card):
                 # self.hand.remove(card)
                 if card.card.color=="WILD":
-                    card.update_card(Card(self.maxColor(), card.card.value))
+                    card.update_card(Card(self.maxColor(), card.card.value), False)
                 # print(self.name, "is placing", card)
                 return card
 

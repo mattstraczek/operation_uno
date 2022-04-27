@@ -96,14 +96,14 @@ class Game:
         self.actual_turn += 1
         return self.updateGameState(played_card, curr_player)
 
-    def winnerExists(self):
-        """ Checks state of the game for winner. """
-        for player in self.players:
-            if player.isWin():
-                return True
-        return False
+    # def winnerExists(self):
+    #     """ Checks state of the game for winner. """
+    #     for player in self.players:
+    #         if player.isWin():
+    #             return True
+    #     return False
 
-    def getWinner(self):
+    def get_winner(self):
         """ Returns winner (if there is one). """
         for player in self.players:
             if player.isWin():
