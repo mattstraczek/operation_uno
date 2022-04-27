@@ -9,22 +9,16 @@ class MainMenu():
 
         """ Initializes the Main Menu with default size of 800x600 and a purple background """
         self.title = "Main Menu"
-        # full screen dims
-        self.f_w = w #f_w
-        self.f_h = h #f_h
         # displayed screen dims
         self.w = w
         self.h = h
-        # buffer dims
-        self.b_w = 0 #b_w
-        self.b_h = 0 #b_h
         self.bg_color = bg_color
         self.is_sound_on = True
 
     def display(self):
         """ Displays the Main Menu and its components """
         # Initializes the main screen width and title
-        main_menu = pygame.display.set_mode((self.f_w, self.f_h))
+        main_menu = pygame.display.set_mode((self.w, self.h))
         pygame.display.set_caption(self.title)
         
         # Determines the font size based on screen dimensions
@@ -56,7 +50,6 @@ class MainMenu():
         while True:
             # Fills the screen with the background color
             main_menu.fill(black)
-            pygame.draw.rect(main_menu, self.bg_color, [self.b_w, self.b_h, self.w, self.h])
 
             menu_sound = mix.Sound('Resources/Sounds/Menu-theme.wav')
             menu_sound.set_volume(0.4)

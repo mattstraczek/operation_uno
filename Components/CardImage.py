@@ -67,3 +67,13 @@ class CardImage:
         self.png = pygame.image.load("Resources/Cards/" + str(self.card) + ".png")
         self.image = pygame.transform.scale(self.png, self.new_png_dims)
     # def updateSize(self, new_size): not sure if needed
+
+    def animateMove(self, base_pos, new_pos):
+        while base_pos!=new_pos:
+            self.updateBasePos((new_pos-base_pos)/computeDist(base_pos, new_pos))
+            self.displayImage()
+        self.updateBasePos(new_pos)
+        self.displayImage()
+
+    def computeDist(self, pos1, pos2):
+        return (pos1[0]-pos2[0])*(pos1[1]-pos2[1]) + (pos1[1]-pos2[1])*(pos1[1]-pos2[1])

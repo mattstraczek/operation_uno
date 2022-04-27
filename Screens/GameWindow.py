@@ -76,6 +76,12 @@ class GameWindow:
         # Initialize text objects
         text_font = pygame.font.Font('Resources/Font/OpenSans-ExtraBold.ttf', int(fontSize/2))
         large_text = pygame.font.Font('Resources/Font/OpenSans-ExtraBold.ttf', int(fontSize * 2))
+        # num_turns_label = Message.Message(game_window, "Turn Number", text_font, black, [100, 100])
+        # num_turns = Message.Message(game_window, "", large_text, black, [100, 200])
+        # current_player_label = Message.Message(game_window, "Current player", text_font, black, [100, 300])
+        # current_player = Message.Message(game_window, "", text_font, black, [100, 400])
+
+        labels = [num_turns_label, num_turns, current_player_label, current_player]
         num_turns_label = Message.Message(game_window, "Number of turns: ", text_font, black, [100, 100])
         current_player_label = Message.Message(game_window, "Current player: ", large_text, black, [400, self.h - 550])
         num_turns = Message.Message(game_window, "0", text_font, black, [200, 100])
@@ -93,13 +99,14 @@ class GameWindow:
 
         #Initialize Buttons
         button_font = pygame.font.Font('Resources/Font/OpenSans-Regular.ttf', fontSize)
-        draw_btn = Button.Button(game_window, red, [self.w - self.w/10, self.h - self.h/8], [fontSize*5, fontSize*2.5], button_font, "Draw", red, yellow)
-        skip_btn = Button.Button(game_window, red, [self.w - self.w/4, self.h - self.h/8], [fontSize*5, fontSize*2.5], button_font, "Skip", red, yellow)
+        draw_btn = Button.Button(game_window, red, [self.w*7/8, self.h*7/8], [fontSize*4, fontSize*2], button_font, "Draw", red, yellow)
+        skip_btn = Button.Button(game_window, red, [self.w*7/8, self.h*7/8], [fontSize*4, fontSize*2], button_font, "Skip", red, yellow)
 
         selected_card = None
         ai_turn = True
         last_time = time()
         can_draw = True
+        mouse_down = False
 
         total_players = self.game_instance.total_players
         card_positions = []
@@ -167,10 +174,12 @@ class GameWindow:
                     if draw_btn.isHovered() and ai_turn == False and can_draw:
                         self.game_instance.draw(self.game_instance.main_player, 1)
                         can_draw = False
+                        mouse_down = True
                         print("Main player drew")
-                    if skip_btn.isHovered() and ai_turn == False:
+                    elif skip_btn.isHovered() and ai_turn == False and not can_draw and not mouse_down:
                         self.game_instance.skipTurn()
                         ai_turn = True
+                        can_draw = True
                         print("Main player skipped turn")
 
                 if event.type == pygame.QUIT:
@@ -181,18 +190,19 @@ class GameWindow:
                     #if draw_button.isHovered:
 
                     for card in self.card_imgs:
-                        if card.isHovered():
+                        if card.card in self.game_instance.main_player.hand and card.isHovered():
                             selected_card = card
                             selected_card.clicked = True
 
                 elif event.type == pygame.MOUSEBUTTONUP:
+                    mouse_down = False
                     if selected_card:
                         if selected_card.checkInBounds(self.middle_bound):
                             #print(type(selected_card.card))
                             if self.game_instance.ruleset.isValid(card=selected_card.card, topCard=self.game_instance.top_card):
-                                play_card = mix.Sound('Resources/Sounds/Card-flip-sound-effect.wav')
-                                play_card.set_volume(0.5)
-                                play_card.play()
+                                # play_card = mix.Sound('Resources/Sounds/Card-flip-sound-effect.wav')
+                                # play_card.set_volume(0.5)
+                                # play_card.play()
                                 selected_card.updateBasePos((self.middle_bound.centerx, self.middle_bound.centery))
                                 self.top_card.updateCard(self.game_instance.top_card)
                                 self.game_instance.updateTurnHuman(self.game_instance.main_player, selected_card.card)
@@ -205,6 +215,8 @@ class GameWindow:
 
             game_window.fill(self.bg_color)
             pos = pygame.mouse.get_pos()
+            
+            pygame.draw.rect(game_window, pygame.Color("White"), self.middle_bound, 2, 10)
 
             for card in self.card_imgs:
                 card.displayImage()
@@ -215,23 +227,19 @@ class GameWindow:
                 selected_card.updatePos(pos)
                 selected_card.displayImage()
 
-            draw_btn.displayButton()
-            skip_btn.displayButton()
+            if can_draw:
+                draw_btn.displayButton()
+            else:
+                skip_btn.displayButton()
 
-            num_turns_label.displayMessage()
-            #current_player_label.displayMessage()
-            num_turns.displayMessage()
-            # current_player.displayMessage()
+            for label in labels:
+                label.displayMessage()
 
             # if current_player.changeMessage:
             #     pygame.time.delay(300) # Pauses the game
             #     current_player_label.displayMessage()
             #     current_player.displayMessage()
-            top_label.displayMessage()
-            left_label.displayMessage()
-            right_label.displayMessage()
-            main_player_label.displayMessage()
 
-            pygame.draw.rect(game_window, pygame.Color("White"), self.middle_bound, 2, 10)
             pygame.display.flip()
             clock.tick(60)
+
