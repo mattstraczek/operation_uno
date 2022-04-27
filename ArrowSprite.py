@@ -3,7 +3,7 @@ import numpy as np
 from pygame.math import Vector2
 
 class ArrowSprite(pygame.sprite.Sprite):
-    def __init__(self, pos, dim):
+    def __init__(self, pos, dim, initial_angle):
         super().__init__()
         # pos = (center x, center y), dim = (width, height)
 
@@ -20,8 +20,8 @@ class ArrowSprite(pygame.sprite.Sprite):
         # Rectangle that bounds the image
         self.rect = self.image.get_rect(center=pos)
 
-        self.curr_angle = 0
-        self.target_angle = 0
+        self.curr_angle = initial_angle
+        self.target_angle = initial_angle
         self.clockwise = True
 
         # Spin Arrow Sound

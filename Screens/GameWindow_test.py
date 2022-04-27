@@ -40,29 +40,7 @@ class GameWindow_test:
         curr_player = self.game_instance.getCurrPlayer()
         curr_player_idx = self.index_dict[curr_player]
         # Update the arrow to point to the current player
-        if self.num_players==2:
-            if curr_player_idx==0:
-                self.arrow_sprite.update_angle(0)
-            elif curr_player_idx==1:
-                self.arrow_sprite.update_angle(180)
-        # Edge cases with 3 players
-        if self.num_players==3:
-            if curr_player_idx==0:
-                self.arrow_sprite.update_angle(0)
-            elif curr_player_idx==1:
-                self.arrow_sprite.update_angle(-90)
-            elif curr_player_idx==2:
-                self.arrow_sprite.update_angle(90)
-
-        if self.num_players==4:
-            if curr_player_idx==0:
-                self.arrow_sprite.update_angle(0)
-            elif curr_player_idx==1:
-                self.arrow_sprite.update_angle(-90)
-            elif curr_player_idx==2:
-                self.arrow_sprite.update_angle(180)
-            elif curr_player_idx==3:
-                self.arrow_sprite.update_angle(90)
+        self.arrow_sprite.update_angle(self.arrow_angles[curr_player_idx])
 
         # Draws the arrow
         self.arrow.draw(game_window)
@@ -103,7 +81,24 @@ class GameWindow_test:
             card_positions.append(left)
             card_positions.append(top)
             card_positions.append(right)
-        return card_positions
+
+        arrow_angles = []
+        if self.num_players==2:
+            arrow_angles.append(0)
+            arrow_angles.append(180)
+        if self.num_players==3:
+            arrow_angles.append(0)
+            arrow_angles.append(-90)
+            arrow_angles.append(90)
+        if self.num_players==4:
+            arrow_angles.append(0)
+            arrow_angles.append(-90)
+            arrow_angles.append(180)
+            arrow_angles.append(90)
+
+        return card_positions, arrow_angles
+
+    
 
     def update_next_turn(self, events, mouse_pos):
         """ Handles updating the next turn if its AI or player """
@@ -146,7 +141,7 @@ class GameWindow_test:
         game_window = pygame.display.set_mode((self.w, self.h))
 
         self.num_players = self.game_instance.total_players
-        card_positions = self.initialize_player_positions(self.num_players)
+        self.card_positions, self.arrow_angles = self.initialize_player_positions(self.num_players)
 
         index = self.game_instance.players.index(self.game_instance.main_player)
         player_dict = {}
@@ -160,7 +155,7 @@ class GameWindow_test:
 
         # Update the positions of the cards to their players' hands
         for i in range(self.num_players):
-            self.update_cards(player_dict[i], card_positions[i], self.selected_card)
+            self.update_cards(player_dict[i], self.card_positions[i], self.selected_card)
 
         # Update the position of the top card
         self.game_instance.top_card.toggle_face()
@@ -220,6 +215,6 @@ class GameWindow_test:
                         self.last_time = time()
 
             for i in range(self.num_players):
-                self.update_cards(player_dict[i], card_positions[i], self.selected_card)
+                self.update_cards(player_dict[i], self.card_positions[i], self.selected_card)
 
             self.update_graphics(game_window)

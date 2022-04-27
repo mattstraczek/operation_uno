@@ -70,6 +70,7 @@ class CardSprite(pygame.sprite.Sprite):
     
     def update_pos(self, new_pos):
         self.pos = new_pos
+        # self.rect = self.image.get_rect(center=self.pos)
 
     def toggle_face(self):
         """ Toggles between showing the front and back of the card """
