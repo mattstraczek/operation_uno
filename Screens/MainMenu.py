@@ -1,7 +1,7 @@
 import pygame, sys
 from Components import Button, Message, Image
 from Screens import PlayMenu, SettingsMenu
-from pygame import mixer as mix
+# from pygame import mixer as mix
 
 class MainMenu():
     #def __init__(self, f_w, f_h, w, h, b_w, b_h, bg_color=pygame.Color("Purple")): # add sound boolean and variable for every cstr
@@ -44,14 +44,16 @@ class MainMenu():
         settings_button = Button.Button(main_menu, green, [self.w/2,self.h*3/4], [fontSize*7.5, fontSize*2.5], button_font, "Settings", green, yellow)
         quit_button = Button.Button(main_menu, blue, [self.w*3/4,self.h*3/4], [fontSize*5, fontSize*2.5], button_font, "Quit", blue, yellow)
         
+        pygame.mixer.init(48000, -16, 1, 1024)
+
         sound_img = Image.Image(main_menu, [self.w*8/9, self.h*8/9], [self.w/8, self.h/8], "Resources/Icons/SoundOn.png")
         uno_img = Image.Image(main_menu, [self.w/2, self.h/2.5], [self.w, self.h/4], "Resources/Icons/uno.png")
 
         while True:
             # Fills the screen with the background color
-            main_menu.fill(black)
+            main_menu.fill(self.bg_color)
 
-            menu_sound = mix.Sound('Resources/Sounds/Menu-theme.wav')
+            menu_sound = pygame.mixer.Sound('Resources/Sounds/Menu-theme.wav')
             menu_sound.set_volume(0.4)
             menu_sound.play()
             # if self.is_sound_on == True:
@@ -69,13 +71,13 @@ class MainMenu():
                         play_menu = PlayMenu.PlayMenu(self.w, self.h)
                         play_menu.display()
                         print("Play button pressed")
-                        button_sound = mix.Sound('Resources/Sounds/button-3.wav')
+                        button_sound = pygame.mixer.Sound('Resources/Sounds/button-3.wav')
                         button_sound.play()
                         # pygame.display.quit() # Does this close window? --> Yes
                         # return
                     if settings_button.isHovered():
                         print("Settings button pressed")
-                        button_sound = mix.Sound('Resources/Sounds/button-3.wav')
+                        button_sound = pygame.mixer.Sound('Resources/Sounds/button-3.wav')
                         button_sound.play()
                         settings_menu = SettingsMenu.Settings(self.w, self.h)
                         settings_menu.display()
@@ -85,15 +87,15 @@ class MainMenu():
                         # Logic for on/off with boolean
                         if self.is_sound_on == True:
                             sound_img.updateImage("Resources/Icons/SoundOff.png")
-                            mix.pause()
+                            pygame.mixer.pause()
                         elif self.is_sound_on == False:
                             sound_img.updateImage("Resources/Icons/SoundOn.png")
-                            mix.unpause()
-                        button_sound = mix.Sound('Resources/Sounds/button-3.wav')
+                            pygame.mixer.unpause()
+                        button_sound = pygame.mixer.Sound('Resources/Sounds/button-3.wav')
                         button_sound.play()
                         self.is_sound_on = not self.is_sound_on
                     if quit_button.isHovered():
-                        button_sound = mix.Sound('Resources/Sounds/button-3.wav')
+                        button_sound = pygame.mixer.Sound('Resources/Sounds/button-3.wav')
                         button_sound.play()
                         print("Thanks for playing")
                         pygame.quit()
