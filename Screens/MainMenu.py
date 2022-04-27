@@ -77,8 +77,8 @@ class MainMenu():
                         print("Settings button pressed")
                         button_sound = mix.Sound('Resources/Sounds/button-3.wav')
                         button_sound.play()
-                        # settings_menu = SettingsMenu.SettingsMenu(self.w, self.h)
-                        # play_menu.display()
+                        settings_menu = SettingsMenu.Settings(self.w, self.h)
+                        settings_menu.display()
                         # pygame.display.quit()
                         # return
                     if sound_img.isHovered():
