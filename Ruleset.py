@@ -1,4 +1,5 @@
 from Card import Card
+
 class Ruleset():
     # cardSet      -> unshuffled set of cards to include when generating deck
     # dealQuantity -> number of cards each player starts with, default=7

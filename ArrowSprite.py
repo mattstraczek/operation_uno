@@ -3,7 +3,7 @@ import numpy as np
 from pygame.math import Vector2
 
 class ArrowSprite(pygame.sprite.Sprite):
-    def __init__(self, pos, dim):
+    def __init__(self, pos, dim, initial_angle):
         super().__init__()
         # pos = (center x, center y), dim = (width, height)
 
@@ -15,13 +15,16 @@ class ArrowSprite(pygame.sprite.Sprite):
         image_scale = min(dim[0]/image_dim[0], dim[1]/image_dim[1])
         self.dim = tuple(i*image_scale for i in image_dim)
         self.image = pygame.transform.scale(self.image, self.dim)
+
         self.orig_image = self.image
 
         # Rectangle that bounds the image
         self.rect = self.image.get_rect(center=pos)
 
-        self.curr_angle = 0
-        self.target_angle = 0
+        self.curr_angle = initial_angle
+        self.target_angle = initial_angle
+        self.image = pygame.transform.rotozoom(self.orig_image, self.curr_angle, 1)
+        self.rect = self.image.get_rect(center=self.rect.center)
         self.clockwise = True
 
         # Spin Arrow Sound
@@ -32,15 +35,11 @@ class ArrowSprite(pygame.sprite.Sprite):
         diff = (self.target_angle-self.curr_angle+180) % 360 - 180
         diff = diff+360 if diff<-180 else diff
         if abs(diff)>2:
-            self.curr_angle = self.curr_angle-3 if self.clockwise else self.curr_angle+3
+            self.curr_angle = self.curr_angle-5 if self.clockwise else self.curr_angle+5
             if self.curr_angle < 0:
                 self.curr_angle+=360
             self.curr_angle = self.curr_angle%360
-
-            if self.clockwise:
-                self.image = pygame.transform.rotozoom(self.orig_image, self.curr_angle, 1)
-            else:
-                self.image = pygame.transform.rotozoom(self.orig_image, self.curr_angle, 1)
+            self.image = pygame.transform.rotozoom(self.orig_image, self.curr_angle, 1)
             self.rect = self.image.get_rect(center=self.rect.center)
 
     # def spin(self):

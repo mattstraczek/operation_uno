@@ -24,13 +24,13 @@ class Player():
         self.hand.remove(card)
 
     def playCardAI(self, top_card):
-        """ AI plays a card depending on difficulty level. """
+        """ AI plays a card dependping on difficulty level. """
         # Add different difficulties
         for card in self.hand:
             if Ruleset.isValid(self, card, top_card):
                 # self.hand.remove(card)
                 if card.card.color=="WILD":
-                    card.update_card(Card(self.maxColor(), card.card.value))
+                    card.update_card(Card(self.maxColor(), card.card.value), False)
                 # print(self.name, "is placing", card)
                 return card
 
