@@ -7,23 +7,26 @@ import Deck
 
 class EndMenu():
     def __init__(self, width=800, height=600, bg_color=pygame.Color("Purple")):
-        """ Initializes the Main Menu with default size of 800x600 and a purple background """
+        """ Initializes the End Menu with default size of 800x600 and a purple background """
         self.title = "End Menu"
         self.w = width
         self.h = height
         self.bg_color = bg_color
 
     def display(self):
-        """ Displays the Main Menu and its components """
+        """ Displays the End Menu and its components """
         # Initializes the main screen width and title
         end_menu = pygame.display.set_mode((self.w, self.h))
         pygame.display.set_caption(self.title)
-        
+
         # Determines the font size based on screen dimensions
         if self.w <= self.h:
             fontSize = self.w // 50
         else:
             fontSize = self.h // 20
+
+        text_font = pygame.font.Font('Resources/Font/OpenSans-ExtraBold.ttf', fontSize*2)
+        end_msg = Message.Message(end_menu, "GAME OVER", text_font, pygame.Color("White"), [self.w/2, self.h/8])
 
         # Initialize colors
         red    = pygame.Color("Red")
@@ -60,5 +63,8 @@ class EndMenu():
             # Displays the components of main menu
             back_button.displayButton()
             
+            # Displays end_msg
+            end_msg.displayMessage()
+
             # Refreshes the screen to update the changes
             pygame.display.update()

@@ -270,5 +270,6 @@ class GameWindow:
         print(self.game_instance.get_winner().name)
         end_menu = EndMenu.EndMenu(self.w, self.h)
         end_menu.display()
+
         pygame.display.quit()
         return
