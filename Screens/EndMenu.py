@@ -6,12 +6,13 @@ import Ruleset
 import Deck
 
 class EndMenu():
-    def __init__(self, width=800, height=600, bg_color=pygame.Color("Purple")):
+    def __init__(self, winner, width=800, height=600, bg_color=pygame.Color("Purple")):
         """ Initializes the End Menu with default size of 800x600 and a purple background """
         self.title = "End Menu"
         self.w = width
         self.h = height
         self.bg_color = bg_color
+        self.winner = winner
 
     def display(self):
         """ Displays the End Menu and its components """
@@ -26,7 +27,9 @@ class EndMenu():
             fontSize = self.h // 20
 
         text_font = pygame.font.Font('Resources/Font/OpenSans-ExtraBold.ttf', fontSize*2)
-        end_msg = Message.Message(end_menu, "GAME OVER", text_font, pygame.Color("White"), [self.w/2, self.h/8])
+        end_msg = Message.Message(end_menu, "GAME OVER", text_font, pygame.Color("Blue"), [self.w/2, self.h/4])
+        win_msg = Message.Message(end_menu, winner + " WINS!", text_font, pygame.Color("Green"), [self.w/2, self.h/5])
+        # loss_msg = Message.Message(end_menu, "YOU LOSE!", text_font, pygame.Color("Red"), [self.w/2, self.h/5])
 
         # Initialize colors
         red    = pygame.Color("Red")
@@ -60,6 +63,11 @@ class EndMenu():
                         pygame.display.quit()
                         return
 
+            if(self.winner == player):
+                win_msg.displayMessage()
+            # else:
+            #     loss_msg.displayMessage()
+            
             # Displays the components of main menu
             back_button.displayButton()
             
