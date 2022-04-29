@@ -268,7 +268,7 @@ class GameWindow:
             self.update_graphics(game_window)
 
         print(self.game_instance.get_winner().name)
-        end_menu = EndMenu.EndMenu(self.w, self.h)
+        end_menu = EndMenu.EndMenu(self.game_instance.get_winner().name, self.w, self.h)
         end_menu.display()
 
         pygame.display.quit()

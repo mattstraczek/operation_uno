@@ -13,7 +13,6 @@ class Game:
     # prototype parameters: please ask Jacob if there are issues
     # ruleset       -> current game ruleset, leave empty for default ruleset 
     # deckSeed      -> random seed for deck generation, default=random
-    # runGame       -> removed [depreciated]
 
     def __init__(self, w, h, isMultiplayer, num_players=1, difficulty="Easy", playerNames=[], ruleset=Ruleset(), deckSeed=None):
         """ Constructs a Game object with players and AI, deals cards, and starts a game. """

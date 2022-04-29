@@ -11,7 +11,7 @@ if __name__ == '__main__':
     main_menu.display()
 
     # for quick testing of game_window
-    # game_instance = Game(screen_w, screen_h-50, False, 3, 'easy')
+    # game_instance = Game(screen_w, screen_h-50, False, 3, 'Easy')
     # game_window = GameWindow_test.GameWindow_test(game_instance, screen_w, screen_h-50)
     # game_window.display()
 

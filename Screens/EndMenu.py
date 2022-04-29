@@ -28,8 +28,8 @@ class EndMenu():
 
         text_font = pygame.font.Font('Resources/Font/OpenSans-ExtraBold.ttf', fontSize*2)
         end_msg = Message.Message(end_menu, "GAME OVER", text_font, pygame.Color("Blue"), [self.w/2, self.h/4])
-        win_msg = Message.Message(end_menu, winner + " WINS!", text_font, pygame.Color("Green"), [self.w/2, self.h/5])
-        # loss_msg = Message.Message(end_menu, "YOU LOSE!", text_font, pygame.Color("Red"), [self.w/2, self.h/5])
+        win_msg = Message.Message(end_menu, self.winner + " WINS!", text_font, pygame.Color("Green"), [self.w/2, self.h/5])
+        loss_msg = Message.Message(end_menu, "YOU LOSE!", text_font, pygame.Color("Red"), [self.w/2, self.h/5])
 
         # Initialize colors
         red    = pygame.Color("Red")
@@ -63,10 +63,10 @@ class EndMenu():
                         pygame.display.quit()
                         return
 
-            if(self.winner == player):
+            if(self.winner[0:3] != "AI"):
                 win_msg.displayMessage()
-            # else:
-            #     loss_msg.displayMessage()
+            else:
+                loss_msg.displayMessage()
             
             # Displays the components of main menu
             back_button.displayButton()
