@@ -38,7 +38,7 @@ class PlayMenu():
         # Initializes buttons
         button_font = pygame.font.Font('Resources/Font/OpenSans-Regular.ttf', fontSize)
 
-        singleplayer_button = Button.Button(play_menu, blue, [self.w/2,self.h/2], [self.w/2, fontSize*2.5], button_font, "Singleplayer", white, yellow)
+        singleplayer_button = Button.Button(play_menu, blue, [self.w/2,self.h/2], [self.w/1.5, fontSize*2.5], button_font, "Singleplayer", white, yellow)
         # multiplayer_button = Button.Button(play_menu, blue, [self.w/2,self.h*3/4], [self.w/2, fontSize*2.5], button_font, "Multiplayer", white, yellow)
         back_button = Button.Button(play_menu, blue, [self.w*7/8,self.h*7/8], [fontSize*5, fontSize*2.5], button_font, "Back", white, yellow)
 
