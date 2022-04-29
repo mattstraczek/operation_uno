@@ -27,9 +27,9 @@ class EndMenu():
             fontSize = self.h // 20
 
         text_font = pygame.font.Font('Resources/Font/OpenSans-ExtraBold.ttf', fontSize*2)
-        end_msg = Message.Message(end_menu, "GAME OVER", text_font, pygame.Color("Blue"), [self.w/2, self.h/4])
-        win_msg = Message.Message(end_menu, self.winner + " WINS!", text_font, pygame.Color("Green"), [self.w/2, self.h/5])
-        loss_msg = Message.Message(end_menu, "YOU LOSE!", text_font, pygame.Color("Red"), [self.w/2, self.h/5])
+        end_msg = Message.Message(end_menu, "GAME OVER", text_font, pygame.Color("Red"), [self.w/2, self.h/4])
+        win_msg = Message.Message(end_menu, self.winner + " WINS!", text_font, pygame.Color("Green"), [self.w/2, self.h/2])
+        loss_msg = Message.Message(end_menu, "YOU LOSE!", text_font, pygame.Color("Red"), [self.w/2, self.h/2])
 
         # Initialize colors
         red    = pygame.Color("Red")
