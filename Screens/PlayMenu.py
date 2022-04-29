@@ -39,7 +39,7 @@ class PlayMenu():
         button_font = pygame.font.Font('Resources/Font/OpenSans-Regular.ttf', fontSize)
 
         singleplayer_button = Button.Button(play_menu, blue, [self.w/2,self.h/2], [self.w/2, fontSize*2.5], button_font, "Singleplayer", white, yellow)
-        multiplayer_button = Button.Button(play_menu, blue, [self.w/2,self.h*3/4], [self.w/2, fontSize*2.5], button_font, "Multiplayer", white, yellow)
+        # multiplayer_button = Button.Button(play_menu, blue, [self.w/2,self.h*3/4], [self.w/2, fontSize*2.5], button_font, "Multiplayer", white, yellow)
         back_button = Button.Button(play_menu, blue, [self.w*7/8,self.h*7/8], [fontSize*5, fontSize*2.5], button_font, "Back", white, yellow)
 
         while True:
@@ -58,11 +58,11 @@ class PlayMenu():
                         pygame.display.quit()
                         return
 
-                    if multiplayer_button.isHovered():
-                        multiplayer_menu = MultiplayerMenu.MultiplayerMenu(self.w, self.h)
-                        multiplayer_menu.display()
-                        pygame.display.quit()
-                        return
+                    # if multiplayer_button.isHovered():
+                    #     multiplayer_menu = MultiplayerMenu.MultiplayerMenu(self.w, self.h)
+                    #     multiplayer_menu.display()
+                    #     pygame.display.quit()
+                    #     return
 
                     elif back_button.isHovered():
                         main_menu = MainMenu.MainMenu(self.w, self.h)
@@ -74,7 +74,7 @@ class PlayMenu():
             player_mode.displayMessage()
 
             singleplayer_button.displayButton()
-            multiplayer_button.displayButton()
+            # multiplayer_button.displayButton()
             back_button.displayButton()
             
             # Refreshes the screen to update the changes
