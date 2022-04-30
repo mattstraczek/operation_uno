@@ -24,6 +24,7 @@ class Game:
         self.h = h
         self.deck = Deck(self.w, self.h, self.ruleset, deckSeed)
         self.played_cards = pygame.sprite.Group()
+        self.player_name = "Player Name"
 
         # Initialize players
         self.players = []
@@ -46,6 +47,15 @@ class Game:
         # Initializes turn orders
         self.turn = 1
         self.actual_turn = 1
+
+    def setMainPlayerName(self, name):
+        self.player_name = name
+        for player in self.players:
+            if player.getName() == "Player Name":
+                player.changeName(self.player_name)
+    
+    def getMainPlayerName(self):
+        return self.player_name
 
     def deal(self):
         """ Deals cards to each player (including AI). """
