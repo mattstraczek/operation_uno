@@ -71,6 +71,7 @@ class PlayMenu():
 
                     elif back_button.isHovered():
                         main_menu = MainMenu.MainMenu(self.w, self.h)
+                        main_menu.setPlayerName(self.player_name)
                         main_menu.display()
                         pygame.display.quit()
                         return
