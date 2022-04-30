@@ -75,16 +75,19 @@ class SingleplayerMenu():
                     # Number of Players buttons
                     for button in player_buttons:
                         if button.isHovered():
+                            button.play_sound()
                             self.num_players = int(button.msg)
                             num_players_text.changeMessage("NUMBER OF AI: " + str(self.num_players))
                     
                     # Difficulty buttons
                     for button in difficulty_buttons:
                         if button.isHovered():
+                            button.play_sound()
                             self.difficulty = button.msg
                             difficulty_text.changeMessage("DIFFICULTY: " + self.difficulty)
 
                     if start_game_button.isHovered():
+                        start_game_button.play_sound()
                         game_instance = Game.Game(self.w, self.h, False, self.num_players, self.difficulty)
                         game_window = GameWindow.GameWindow(game_instance, self.w, self.h)
                         game_window.display()
@@ -92,6 +95,7 @@ class SingleplayerMenu():
                         return
                         
                     if back_button.isHovered():
+                        back_button.play_sound()
                         play_menu = PlayMenu.PlayMenu(self.w, self.h)
                         play_menu.display()
                         pygame.display.quit()

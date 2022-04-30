@@ -21,6 +21,10 @@ class Button:
         self.text_rect = self.base_text_rect
         self.button_rect = self.base_button_rect
 
+        pygame.mixer.init()
+        self.click_sound = pygame.mixer.Sound("Resources/Sounds/ButtonClick.wav")
+
+
     def displayButton(self):
         """ Handles displaying the button on the screen """
         if self.isHovered():
@@ -35,9 +39,12 @@ class Button:
             pygame.draw.rect(self.window, self.base_color, self.button_rect, 2, 10)
         
         self.window.blit(self.text, self.text_rect)
-
+    
     def isHovered(self):
         """ Returns whether or not the cursor is hovering the button """
         # Gets the mouse position
         mouse_pos = pygame.mouse.get_pos()
         return mouse_pos[0] in range(self.button_rect.left, self.button_rect.right) and mouse_pos[1] in range(self.button_rect.top, self.button_rect.bottom)
+
+    def play_sound(self):
+        self.click_sound.play()

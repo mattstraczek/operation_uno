@@ -53,6 +53,7 @@ class PlayMenu():
                     sys.exit()
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if singleplayer_button.isHovered():
+                        singleplayer_button.play_sound()
                         singleplayer_menu = SingleplayerMenu.SingleplayerMenu(self.w, self.h)
                         singleplayer_menu.display()
                         pygame.display.quit()
@@ -65,6 +66,7 @@ class PlayMenu():
                     #     return
 
                     elif back_button.isHovered():
+                        back_button.play_sound()
                         main_menu = MainMenu.MainMenu(self.w, self.h)
                         main_menu.display()
                         pygame.display.quit()

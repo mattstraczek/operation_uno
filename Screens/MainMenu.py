@@ -44,7 +44,7 @@ class MainMenu():
         settings_button = Button.Button(main_menu, green, [self.w/2,self.h*3/4], [fontSize*7.5, fontSize*2.5], button_font, "Settings", green, yellow)
         quit_button = Button.Button(main_menu, blue, [self.w*3/4,self.h*3/4], [fontSize*5, fontSize*2.5], button_font, "Quit", blue, yellow)
         
-        pygame.mixer.init(48000, -16, 1, 1024)
+        # pygame.mixer.init(48000, -16, 1, 1024)
 
         sound_img = Image.Image(main_menu, [self.w*8/9, self.h*8/9], [self.w/8, self.h/8], "Resources/Icons/SoundOn.png")
         uno_img = Image.Image(main_menu, [self.w/2, self.h/2.5], [self.w, self.h/4], "Resources/Icons/uno.png")
@@ -53,9 +53,6 @@ class MainMenu():
             # Fills the screen with the background color
             main_menu.fill(self.bg_color)
 
-            menu_sound = pygame.mixer.Sound('Resources/Sounds/Menu-theme.wav')
-            menu_sound.set_volume(0.4)
-            menu_sound.play()
             # if self.is_sound_on == True:
             #     menu_sound.play()
             # elif self.is_sound_on == False:
@@ -69,17 +66,20 @@ class MainMenu():
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if play_button.isHovered():
                         play_menu = PlayMenu.PlayMenu(self.w, self.h)
+                        play_button.play_sound()
                         play_menu.display()
-                        print("Play button pressed")
-                        button_sound = pygame.mixer.Sound('Resources/Sounds/button-3.wav')
-                        button_sound.play()
+                        # print("Play button pressed")
+                        # button_sound = pygame.mixer.Sound('Resources/Sounds/button-3.wav')
+                        # button_sound.play()
+                        # pygame.mixer.Channel(1).play(button_sound)
                         # pygame.display.quit() # Does this close window? --> Yes
                         # return
                     if settings_button.isHovered():
                         print("Settings button pressed")
-                        button_sound = pygame.mixer.Sound('Resources/Sounds/button-3.wav')
-                        button_sound.play()
+                        # button_sound = pygame.mixer.Sound('Resources/Sounds/button-3.wav')
+                        # button_sound.play()
                         settings_menu = SettingsMenu.Settings(self.w, self.h)
+                        settings_button.play_sound()
                         settings_menu.display()
                         # pygame.display.quit()
                         # return
@@ -87,17 +87,21 @@ class MainMenu():
                         # Logic for on/off with boolean
                         if self.is_sound_on == True:
                             sound_img.updateImage("Resources/Icons/SoundOff.png")
+                            pygame.mixer.music.pause()
                             pygame.mixer.pause()
                         elif self.is_sound_on == False:
                             sound_img.updateImage("Resources/Icons/SoundOn.png")
+                            pygame.mixer.music.unpause()
                             pygame.mixer.unpause()
-                        button_sound = pygame.mixer.Sound('Resources/Sounds/button-3.wav')
-                        button_sound.play()
+                        # button_sound = pygame.mixer.Sound('Resources/Sounds/button-3.wav')
+                        # pygame.mixer.Channel(2).play(button_sound)
+                        # button_sound.play()
                         self.is_sound_on = not self.is_sound_on
                     if quit_button.isHovered():
-                        button_sound = pygame.mixer.Sound('Resources/Sounds/button-3.wav')
-                        button_sound.play()
+                        # button_sound = pygame.mixer.Sound('Resources/Sounds/button-3.wav')
+                        # pygame.mixer.Channel(2).play(button_sound)
                         print("Thanks for playing")
+                        quit_button.play_sound()
                         pygame.quit()
                         sys.exit()
 

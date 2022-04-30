@@ -89,7 +89,7 @@ class GameWindow:
             card_positions.append(top)
         if num_players==3:
             card_positions.append(left)
-            card_positions.append(top)
+            card_positions.append(right)
         if num_players==4:
             card_positions.append(left)
             card_positions.append(top)
@@ -126,6 +126,7 @@ class GameWindow:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 # DRAW BUTTON LOGIC
                 if self.draw_button.isHovered() and self.can_draw:
+                    self.draw_button.play_sound()
                     self.game_instance.draw(self.game_instance.main_player, 1)
                     self.can_draw = False
                     self.mouse_down = True
@@ -133,6 +134,7 @@ class GameWindow:
                     return True
                 # SKIP BUTTON LOGIC
                 elif self.skip_button.isHovered() and not self.can_draw and not self.mouse_down:
+                    self.skip_button.play_sound()
                     self.game_instance.skipTurn()
                     self.can_draw = True
                     # print("Main player skipped turn")
@@ -142,6 +144,7 @@ class GameWindow:
                 if self.choose_color:
                     for button in self.choose_color_buttons:
                         if button.isHovered():
+                            button.play_sound()
                             self.temp_wild_card.update_card(Card(button.msg, self.temp_wild_card.card.value), True)
                             if self.game_instance.update_turn(self.game_instance.main_player, self.temp_wild_card):
                                 self.arrow_sprite.toggle_clockwise()
