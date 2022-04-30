@@ -15,6 +15,7 @@ class Settings():
         self.account_map = {}
         self.loadAccounts()
         self.parseAccounts()
+        self.player_name = "Player Name"
         #testing
         # for account in self.lines:
         #     print(account)
@@ -66,10 +67,14 @@ class Settings():
         """ Handles login logic of an account. Returns true if successful, false otherwise """
         if username in self.account_map and self.account_map[username] == password:
             #login as player name **********TODO******************
+            self.player_name = username
             return True
         else:
             return False
 
+    def getPlayerName(self):
+        return self.player_name
+        
     def display(self):
         """ Displays the Settings Menu and its components """
         # Initializes the main screen width and title

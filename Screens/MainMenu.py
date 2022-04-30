@@ -49,6 +49,8 @@ class MainMenu():
         sound_img = Image.Image(main_menu, [self.w*8/9, self.h*8/9], [self.w/8, self.h/8], "Resources/Icons/SoundOn.png")
         uno_img = Image.Image(main_menu, [self.w/2, self.h/2.5], [self.w, self.h/4], "Resources/Icons/uno.png")
 
+        player_name = "Player Name"
+
         while True:
             # Fills the screen with the background color
             main_menu.fill(self.bg_color)
@@ -69,6 +71,7 @@ class MainMenu():
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if play_button.isHovered():
                         play_menu = PlayMenu.PlayMenu(self.w, self.h)
+                        play_menu.setPlayerName(player_name)
                         play_menu.display()
                         print("Play button pressed")
                         button_sound = pygame.mixer.Sound('Resources/Sounds/button-3.wav')
@@ -81,6 +84,7 @@ class MainMenu():
                         button_sound.play()
                         settings_menu = SettingsMenu.Settings(self.w, self.h)
                         settings_menu.display()
+                        player_name = settings_menu.getPlayerName()
                         # pygame.display.quit()
                         # return
                     if sound_img.isHovered():

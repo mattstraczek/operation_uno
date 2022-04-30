@@ -6,13 +6,14 @@ import Ruleset
 import Deck
 
 class EndMenu():
-    def __init__(self, winner, width=800, height=600, bg_color=pygame.Color("Purple")):
+    def __init__(self, main_player, winner, width=800, height=600, bg_color=pygame.Color("Purple")):
         """ Initializes the End Menu with default size of 800x600 and a purple background """
         self.title = "End Menu"
         self.w = width
         self.h = height
         self.bg_color = bg_color
         self.winner = winner
+        self.main_player = main_player
 
     def display(self):
         """ Displays the End Menu and its components """
@@ -59,6 +60,7 @@ class EndMenu():
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if back_button.isHovered():
                         play_menu = PlayMenu.PlayMenu(self.w, self.h)
+                        play_menu.setPlayerName(self.main_player)
                         play_menu.display()
                         pygame.display.quit()
                         return

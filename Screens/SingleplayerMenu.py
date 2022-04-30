@@ -14,6 +14,10 @@ class SingleplayerMenu():
         self.bg_color = bg_color
         self.num_players = 1
         self.difficulty = "Easy"
+        self.player_name = "Player Name"
+
+    def setPlayerName(self, name):
+        self.player_name = name
 
     def display(self):
         """ Displays the Main Menu and its components """
@@ -86,6 +90,7 @@ class SingleplayerMenu():
 
                     if start_game_button.isHovered():
                         game_instance = Game.Game(self.w, self.h, False, self.num_players, self.difficulty)
+                        game_instance.setMainPlayerName(self.player_name)
                         game_window = GameWindow.GameWindow(game_instance, self.w, self.h)
                         game_window.display()
                         pygame.display.quit()

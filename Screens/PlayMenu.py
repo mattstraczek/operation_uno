@@ -9,6 +9,10 @@ class PlayMenu():
         self.w = width
         self.h = height
         self.bg_color = bg_color
+        self.player_name = "Player Name"
+
+    def setPlayerName(self, name):
+        self.player_name = name
 
     def display(self):
         """ Displays the Main Menu and its components """
@@ -54,6 +58,7 @@ class PlayMenu():
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if singleplayer_button.isHovered():
                         singleplayer_menu = SingleplayerMenu.SingleplayerMenu(self.w, self.h)
+                        singleplayer_menu.setPlayerName(self.player_name)
                         singleplayer_menu.display()
                         pygame.display.quit()
                         return
