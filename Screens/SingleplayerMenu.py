@@ -102,6 +102,7 @@ class SingleplayerMenu():
                     if back_button.isHovered():
                         back_button.play_sound()
                         play_menu = PlayMenu.PlayMenu(self.w, self.h)
+                        play_menu.setPlayerName(self.player_name)
                         play_menu.display()
                         pygame.display.quit()
                         return
