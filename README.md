@@ -42,7 +42,6 @@
 
 ### Components
 
-#### Main Game Components
 - Card    –> basic UNO card that contains color and value attributes​
 - Deck    –> contains multiple Card objects​
 - Player  –> represents a player of the game (both human and AI), contains information of their hand, handles placing a card​
