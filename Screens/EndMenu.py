@@ -40,8 +40,8 @@ class EndMenu():
 
         # Initializes buttons
         button_font = pygame.font.Font('Resources/Font/OpenSans-Regular.ttf', fontSize)
-        back_button = Button.Button(end_menu, blue, [self.w*7/8,self.h*7/8], [fontSize*5, fontSize*2.5], button_font, "Back", white, yellow)
-
+        back_button = Button.Button(end_menu, blue, [self.w*3/4,self.h*7/8], [fontSize*5, fontSize*2.5], button_font, "Back", white, yellow)
+        exit_button = Button.Button(end_menu, red, [self.w*1/4,self.h*7/8], [fontSize*5, fontSize*2.5], button_font, "Quit", white, yellow)
         # Initialize Ruleset/Cardset
         # cardset = Deck.Deck()
         # ruleset = Ruleset.Ruleset()
@@ -62,15 +62,22 @@ class EndMenu():
                         play_menu.display()
                         pygame.display.quit()
                         return
+                    if exit_button.isHovered():
+                        pygame.quit()
+                        sys.exit()
 
             if(self.winner[0:3] != "AI"):
                 win_msg.displayMessage()
             # else:
             #     loss_msg.displayMessage()
             
-            # Displays the components of main menu
+            # Displays the components of end menu
+            # Displays button to go back to play menu
             back_button.displayButton()
             
+            # Displays button to exit game
+            exit_button.displayButton()
+
             # Displays end_msg
             end_msg.displayMessage()
 
