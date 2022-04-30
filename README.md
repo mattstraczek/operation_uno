@@ -35,24 +35,24 @@
 
 ## Technical Architecture
 
-### Libraries
-- Pygame     -> game functionality
-- numpy      -> data handling, game logic
-- unit-tests -> testing
+- ### Libraries
+    - Pygame     -> game functionality
+    - numpy      -> data handling, game logic
+    - unit-tests -> testing
 
-### Components
+- ### Components
 
-- Card    –> basic UNO card that contains color and value attributes​
-- Deck    –> contains multiple Card objects​
-- Player  –> represents a player of the game (both human and AI), contains information of their hand, handles placing a card​
-- AI      –> contains logic for different difficulties (governs the ai player's next move)​
-- Game    –> manages the Player objects, the Deck, and the current state of the game​
-- Ruleset –> tells Deck and Game how to initialize and run, and determines what is considered a valid move
+    - Card    –> basic UNO card that contains color and value attributes​
+    - Deck    –> contains multiple Card objects​
+    - Player  –> represents a player of the game (both human and AI), contains information of their hand, handles placing a card​
+    - AI      –> contains logic for different difficulties (governs the ai player's next move)​
+    - Game    –> manages the Player objects, the Deck, and the current state of the game​
+    - Ruleset –> tells Deck and Game how to initialize and run, and determines what is considered a valid move
 
-### Menus
-- Main Menu          –> The home screen of the game​
-- Play Menu          –> Asks the user to choose between single player and multiplayer​
-- Settings Menu      –> Registration and login profiles​
-- Single player Menu –> User chooses how many bots and the difficulty​
-- Game Window        –> The game screen with all the animations and gameplay​
-- End Menu           –> Displays the winner and allows user to play again or quit game
+- ### Menus
+    - Main Menu          –> The home screen of the game​
+    - Play Menu          –> Asks the user to choose between single player and multiplayer​
+    - Settings Menu      –> Registration and login profiles​
+    - Single player Menu –> User chooses how many bots and the difficulty​
+    - Game Window        –> The game screen with all the animations and gameplay​
+    - End Menu           –> Displays the winner and allows user to play again or quit game
