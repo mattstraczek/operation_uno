@@ -44,21 +44,21 @@ class SingleplayerMenu():
         # Initializes buttons
         button_font = pygame.font.Font('Resources/Font/OpenSans-Regular.ttf', fontSize)
 
-        players_2 = Button.Button(singleplayer_menu, red, [self.w/4,self.h/4], [fontSize*2.5, fontSize*2.5], button_font, "1", red, yellow)
-        players_3 = Button.Button(singleplayer_menu, green, [self.w/2,self.h/4], [fontSize*2.5, fontSize*2.5], button_font, "2", green, yellow)
-        players_4 = Button.Button(singleplayer_menu, blue, [self.w*3/4,self.h/4], [fontSize*2.5, fontSize*2.5], button_font, "3", blue, yellow)
+        players_2 = Button.Button(singleplayer_menu, red, [self.w*1/4,self.h*5/16], [fontSize*2.5, fontSize*2.5], button_font, "1", red, yellow)
+        players_3 = Button.Button(singleplayer_menu, green, [self.w*1/2,self.h*5/16], [fontSize*2.5, fontSize*2.5], button_font, "2", green, yellow)
+        players_4 = Button.Button(singleplayer_menu, blue, [self.w*3/4,self.h*5/16], [fontSize*2.5, fontSize*2.5], button_font, "3", blue, yellow)
         player_buttons = [players_2, players_3, players_4]
 
-        easy = Button.Button(singleplayer_menu, red, [self.w/4,self.h*5/8], [fontSize*5, fontSize*2.5], button_font, "Easy", red, yellow)
-        medium = Button.Button(singleplayer_menu, green, [self.w/2,self.h*5/8], [fontSize*5, fontSize*2.5], button_font, "Medium", green, yellow)
-        hard = Button.Button(singleplayer_menu, blue, [self.w*3/4,self.h*5/8], [fontSize*5, fontSize*2.5], button_font, "Hard", blue, yellow)
+        easy = Button.Button(singleplayer_menu, red, [self.w/4,self.h*11/16], [fontSize*5, fontSize*2.5], button_font, "Easy", red, yellow)
+        medium = Button.Button(singleplayer_menu, green, [self.w/2,self.h*11/16], [fontSize*5, fontSize*2.5], button_font, "Medium", green, yellow)
+        hard = Button.Button(singleplayer_menu, blue, [self.w*3/4,self.h*11/16], [fontSize*5, fontSize*2.5], button_font, "Hard", blue, yellow)
         difficulty_buttons = [easy, medium, hard]
 
         start_game_button = Button.Button(singleplayer_menu, blue, [self.w/2,self.h*7/8], [self.w/2, fontSize*2.5], button_font, "START", white, yellow)
         back_button = Button.Button(singleplayer_menu, blue, [self.w*7/8,self.h*7/8], [fontSize*5, fontSize*2.5], button_font, "Back", white, yellow)
 
         # Initialize Ruleset/Cardset
-        # cardset = Deck.Deck()
+        # cardset = Deck.Deck/()
         # ruleset = Ruleset.Ruleset()
         
         current = True
