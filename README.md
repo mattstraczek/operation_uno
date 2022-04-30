@@ -49,7 +49,7 @@
 - Game    –> manages the Player objects, the Deck, and the current state of the game​
 - Ruleset –> tells Deck and Game how to initialize and run, and determines what is considered a valid move
 
-#### Menus
+### Menus
 - Main Menu          –> The home screen of the game​
 - Play Menu          –> Asks the user to choose between single player and multiplayer​
 - Settings Menu      –> Registration and login profiles​
