@@ -1,6 +1,6 @@
 from Components import Button, Message, Image
-from CardSprite import CardSprite
-from ArrowSprite import ArrowSprite
+from Sprites.CardSprite import CardSprite
+from Sprites.ArrowSprite import ArrowSprite
 from Screens import EndMenu
 from Card import Card
 from Game import Game

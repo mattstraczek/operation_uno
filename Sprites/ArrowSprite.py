@@ -10,7 +10,7 @@ class ArrowSprite(pygame.sprite.Sprite):
         self.pos = pos      # saves the position of the card
 
         # Loads in the image and scales the image to fit dim accordingly
-        self.image = pygame.image.load("Arrow.png")
+        self.image = pygame.image.load("./Resources/Icons/Arrow.png")
         image_dim = self.image.get_size()
         image_scale = min(dim[0]/image_dim[0], dim[1]/image_dim[1])
         self.dim = tuple(i*image_scale for i in image_dim)

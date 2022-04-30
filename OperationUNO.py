@@ -14,7 +14,6 @@ if __name__ == '__main__':
     pygame.mixer.music.load('Resources/Sounds/Menu-theme.wav')
     pygame.mixer.music.play(-1)
 
-
     main_menu = MainMenu.MainMenu(w=info.current_w, h=info.current_h-25)
     main_menu.display()
 

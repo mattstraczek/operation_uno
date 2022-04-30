@@ -80,7 +80,6 @@ class MainMenu():
                         # pygame.display.quit() # Does this close window? --> Yes
                         # return
                     if settings_button.isHovered():
-                        print("Settings button pressed")
                         # button_sound = pygame.mixer.Sound('Resources/Sounds/button-3.wav')
                         # button_sound.play()
                         settings_menu = SettingsMenu.Settings(self.w, self.h)

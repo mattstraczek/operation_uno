@@ -2,7 +2,7 @@ from Card import Card
 import numpy as np
 import random
 from Ruleset import Ruleset
-from CardSprite import CardSprite
+from Sprites.CardSprite import CardSprite
 import pygame
 
 class Deck():
