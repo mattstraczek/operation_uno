@@ -2,6 +2,8 @@
 ## by Adnan Noorullah​, Alex Kwandou​, Matt Straczek, Jacob Stolker​
 ### adnann2, kwandou2, mstrac4, stolker2
 ---
+Link for presentation used in video submission: https://uillinoisedu-my.sharepoint.com/:p:/g/personal/adnann2_illinois_edu/EUIPRkAbYCNJmROwqOoqURYBiZ2W_OPmtK0FoZwf7xEOAQ?e=W3Vloo
+---
 ## Overview 
 ### Users can play UNO with
 - Single Player mode ​
