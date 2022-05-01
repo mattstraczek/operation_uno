@@ -56,3 +56,5 @@
     - Single player Menu –> User chooses how many bots and the difficulty​
     - Game Window        –> The game screen with all the animations and gameplay​
     - End Menu           –> Displays the winner and allows user to play again or quit game
+ 
+ ![image](https://user-images.githubusercontent.com/82806112/166127080-0448a3a9-6747-40ee-8e61-fd999bcb1769.png)
