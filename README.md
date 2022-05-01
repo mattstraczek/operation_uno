@@ -17,6 +17,9 @@
 - We wanted to create a recognizable game we all enjoy playing​
 - We wanted to put our own spin on the game​
     - Custom rulesets, cards, mechanics are possible
+- We were all interested in game development​
+    - Adnan is also currently enrolled in CS 498 GD, which is the game dev course here at UIUC using UE4
+- Wanted to develop a game which could potentially just be played for fun or as a stress-reliever (especially with finals coming up soon!)
 
 ### Roles
 - Adnan Noorullah​ -> Graphics/Win Condition/UX
