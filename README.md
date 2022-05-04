@@ -33,8 +33,17 @@ Link for presentation used in video submission: https://uillinoisedu-my.sharepoi
 
 ## How to Install
 - The program requires python3 and the Pygame library to run.
-- You can find directions to install at https://www.pygame.org/wiki/GettingStarted
-- To run the actual game, type "python3 OperationUNO.py" or "python OperationUNO.py"
+- You can find directions to install Pygame at https://www.pygame.org/wiki/GettingStarted
+- To pull our repository, clone into VS Code and cd into the repository using:
+```
+git clone https://github.com/CS222SP22/course-project-dh-a
+cd course-project-dh-a
+```
+- To run the actual game, type: 
+```python3 OperationUNO.py``` 
+or 
+```python OperationUNO.py``` 
+in the terminal.
 
 ---
 
